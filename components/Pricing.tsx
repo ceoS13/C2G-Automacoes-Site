@@ -8,7 +8,7 @@ const PricingCard: React.FC<{
   highlight?: boolean;
   delay?: string;
 }> = React.memo(({ title, price, features, highlight, delay }) => (
-  <div 
+  <article 
     className={`relative p-8 rounded-3xl flex flex-col h-full border transition-all duration-300 hover:scale-[1.02] ${highlight ? 'bg-[#0a0a0a] border-cyan-500/30 shadow-2xl shadow-cyan-900/20' : 'bg-transparent border-white/10 hover:border-white/20'}`}
     data-aos="fade-up"
     data-aos-delay={delay}
@@ -28,13 +28,14 @@ const PricingCard: React.FC<{
       ))}
     </ul>
     <button 
+        type="button"
         onClick={() => window.open('https://wa.me/', '_blank')}
         className={`w-full py-3 rounded-xl transition-all font-medium ${highlight ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' : 'border border-white/20 hover:bg-white hover:text-black text-white'}`}
         aria-label={`Escolher plano ${title}`}
     >
       Começar
     </button>
-  </div>
+  </article>
 ));
 
 export const Pricing: React.FC = () => {
@@ -76,8 +77,7 @@ export const Pricing: React.FC = () => {
               />
             </div>
 
-            {/* Enterprise "Black Card" */}
-            <div 
+            <article 
               data-aos="zoom-in-up"
               className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#111] to-[#000] border border-white/10 p-8 md:p-12 shadow-2xl hover:border-cyan-500/20 transition-colors"
             >
@@ -93,6 +93,7 @@ export const Pricing: React.FC = () => {
                             </p>
                     </div>
                     <button 
+                        type="button"
                         onClick={() => window.open('https://wa.me/', '_blank')}
                         className="w-full md:w-auto group flex items-center justify-center gap-3 text-white text-lg font-medium bg-white/5 hover:bg-white/10 px-8 py-4 rounded-full border border-white/10 transition-all hover:border-cyan-500/30 whitespace-nowrap"
                         rel="noopener noreferrer"
@@ -100,7 +101,7 @@ export const Pricing: React.FC = () => {
                         Falar com Consultor <ArrowRight className="group-hover:text-cyan-400 transition-colors" />
                     </button>
                 </div>
-            </div>
+            </article>
 
         </div>
       </div>

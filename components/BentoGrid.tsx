@@ -9,7 +9,7 @@ const BentoCard: React.FC<{
   children?: React.ReactNode;
   delay?: string;
 }> = React.memo(({ title, subtitle, icon, className, children, delay }) => (
-  <div 
+  <article 
     className={`group relative p-6 rounded-3xl glass-panel overflow-hidden transition-all duration-500 hover:border-cyan-500/30 hover:scale-[1.02] flex flex-col justify-between ${className}`}
     data-aos="fade-up"
     data-aos-delay={delay}
@@ -30,17 +30,17 @@ const BentoCard: React.FC<{
     <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     
     {children}
-  </div>
+  </article>
 ));
 
 const AvaTerminal = () => {
   const [step, setStep] = useState(0);
   const logs = [
     { text: "Iniciando A.V.A v2...", color: "text-zinc-500" },
-    { text: "Carregando histórico (Supabase)...", color: "text-blue-400" },
+    { text: "Conectando Supabase...", color: "text-blue-400" },
     { text: "Analisando Fidelidade...", color: "text-yellow-400" },
     { text: "Verificando Tom de Voz...", color: "text-purple-400" },
-    { text: "Score calculado: 98/100", color: "text-cyan-400" },
+    { text: "Score: 98/100", color: "text-cyan-400" },
     { text: "STATUS: APROVADO ✅", color: "text-emerald-400 font-bold" }
   ];
 
@@ -71,7 +71,7 @@ const AvaTerminal = () => {
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="solutions" className="py-16 md:py-24 bg-[#050505]">
+    <section id="solutions" className="py-20 md:py-32 bg-[#050505]">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="mb-16" data-aos="fade-up">
           <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 mb-6">
@@ -80,10 +80,8 @@ export const BentoGrid: React.FC = () => {
           </h2>
         </div>
 
-        {/* Improved Grid: Removed fixed heights, using min-h and auto-rows for responsiveness */}
         <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[minmax(280px,auto)] gap-6">
           
-          {/* Main Feature - Large */}
           <BentoCard 
             title="Ísis - Atendimento & Vendas"
             subtitle="A IA que substitui o SDR. Qualifica leads, acessa o estoque e agenda reuniões automaticamente."
@@ -106,7 +104,6 @@ export const BentoGrid: React.FC = () => {
              </div>
           </BentoCard>
 
-          {/* Secondary Feature - Tall */}
           <BentoCard 
             title="Growth Autônomo"
             subtitle="Fábrica de Leads que prospecta no LinkedIn e E-mail, gerando pipeline 24/7."
@@ -127,7 +124,6 @@ export const BentoGrid: React.FC = () => {
             </div>
           </BentoCard>
 
-          {/* Third Feature - A.V.A Terminal */}
           <BentoCard 
             title="Governança (A.V.A.)"
             subtitle='Auditoria em tempo real de todas as conversas para garantir segurança e compliance.'
@@ -138,7 +134,6 @@ export const BentoGrid: React.FC = () => {
             <AvaTerminal />
           </BentoCard>
 
-          {/* Fourth Feature - Square */}
           <BentoCard 
             title="Stack de Elite"
             subtitle="Arquitetura robusta com n8n, Memória Redis, Evolution API e Supabase Vector."
@@ -147,7 +142,6 @@ export const BentoGrid: React.FC = () => {
             delay="250"
           />
 
-          {/* Wide Feature */}
           <BentoCard 
             title="Multi-Agentes"
             subtitle="Crie times inteiros de IAs (SDR + Closer + Suporte) trabalhando em conjunto."
@@ -162,7 +156,6 @@ export const BentoGrid: React.FC = () => {
              </div>
           </BentoCard>
 
-          {/* Last Feature - Wide */}
           <BentoCard 
             title="Analytics em Tempo Real"
             subtitle="Dashboards completos de performance e conversão."

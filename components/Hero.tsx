@@ -31,16 +31,17 @@ export const Hero: React.FC = () => {
   const yButtons = useTransform(scrollY, [0, 500], [0, 150]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       
       {/* Dynamic Cursor Spotlight - Optimized */}
       <motion.div 
         className="fixed top-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-screen"
         style={{ x, y }}
+        aria-hidden="true"
       />
 
       {/* Neural Network / Grid Background - Cyan Tint */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
         
@@ -83,6 +84,7 @@ export const Hero: React.FC = () => {
             style={{ y: yButtons }}
           >
             <button 
+              type="button"
               className="group relative px-8 py-4 bg-zinc-100 text-black font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
               onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -93,6 +95,7 @@ export const Hero: React.FC = () => {
             </button>
             
             <button 
+                type="button"
                 onClick={() => document.getElementById('tech')?.scrollIntoView({ behavior: 'smooth' })}
                 className="flex items-center gap-2 text-zinc-500 hover:text-cyan-400 transition-colors uppercase text-sm tracking-widest font-mono py-2"
             >
@@ -103,7 +106,7 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Abstract Footer Decoration */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
-    </section>
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" aria-hidden="true" />
+    </header>
   );
 };

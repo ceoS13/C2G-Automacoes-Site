@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
       {/* Background Glow */}
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-900/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           
           {/* Brand Column */}
@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Product Column */}
-          <div>
+          <nav>
             <h4 className="text-zinc-100 font-semibold mb-6">Produto</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#solutions" className="hover:text-white transition-colors">Ísis (Atendimento)</a></li>
@@ -36,30 +36,30 @@ export const Footer: React.FC = () => {
               <li><a href="#tech" className="hover:text-white transition-colors">Integrações (n8n)</a></li>
               <li><a href="#pricing" className="hover:text-white transition-colors">Preços</a></li>
             </ul>
-          </div>
+          </nav>
 
           {/* Company Column */}
-          <div>
+          <nav>
             <h4 className="text-zinc-100 font-semibold mb-6">Empresa</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              <li><a href="#" className="hover:text-white transition-colors">Sobre Nós</a></li>
-              <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Hiring</span></a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Blog Tech</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Imprensa</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Sobre Nós</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Hiring</span></a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Blog Tech</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Imprensa</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
             </ul>
-          </div>
+          </nav>
 
           {/* Legal Column */}
-          <div>
+          <nav>
             <h4 className="text-zinc-100 font-semibold mb-6">Legal</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              <li><a href="#" className="hover:text-white transition-colors">Termos de Uso</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Política de Privacidade</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Compliance</a></li>
-              <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> System Status</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Termos de Uso</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Política de Privacidade</a></li>
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Compliance</a></li>
+              <li><a href="#" rel="noopener noreferrer" target="_blank" className="hover:text-white transition-colors flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> System Status</a></li>
             </ul>
-          </div>
+          </nav>
 
         </div>
         

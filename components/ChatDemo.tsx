@@ -42,12 +42,10 @@ export const ChatDemo: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   
-  // Refs to manage execution state and cleanup strictly
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // Auto-scroll logic scoped ONLY to the chat container
   useEffect(() => {
     if (scrollAreaRef.current) {
         const scrollContainer = scrollAreaRef.current;
@@ -58,37 +56,28 @@ export const ChatDemo: React.FC = () => {
     }
   }, [messages, isTyping]);
 
-  // Function to run a specific scenario
   const runScenario = (scenario: ScenarioKey) => {
-    // 1. Clear everything
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
     setMessages([]);
     setIsTyping(false);
 
-    // 2. Queue new messages
     const script = SCENARIOS[scenario];
     
     script.forEach((msg) => {
         const t1 = setTimeout(() => {
             if (msg.role === 'ai') setIsTyping(true);
-            
             const typingDelay = msg.role === 'ai' ? 1000 : 0;
-            
             const t2 = setTimeout(() => {
                 setIsTyping(false);
                 setMessages((prev) => [...prev, msg]);
             }, typingDelay);
-            
             timeoutsRef.current.push(t2);
-
         }, msg.delay);
-        
         timeoutsRef.current.push(t1);
     });
   };
 
-  // Run on mount or when scenario changes
   useEffect(() => {
     runScenario(activeScenario);
     return () => {
@@ -101,9 +90,7 @@ export const ChatDemo: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* Text Content */}
           <div ref={containerRef} data-aos="fade-right" className="relative z-10">
-            {/* Added stronger backdrop for better readability on mobile */}
             <div className="bg-black/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border border-white/10 md:border-none p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none">
                 <h2 className="text-4xl md:text-6xl font-bold text-zinc-100 mb-6 tracking-tight leading-tight">
                 Muito além do <br/>
@@ -115,34 +102,31 @@ export const ChatDemo: React.FC = () => {
                 Enquanto o mercado vende 'chatbots', nós entregamos Força de Trabalho Digital. Nossos agentes não apenas conversam: eles operam seu ERP, prospectam no LinkedIn, gerenciam e-mails e auditam processos internos com autonomia de Nível 4.
                 </p>
                 
-                <div className="space-y-4">
-                <div className="flex items-center gap-4 text-zinc-300">
-                    <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0"><Database size={24} /></div>
-                    <div>
-                    <h4 className="font-bold">Conexão Real</h4>
-                    <p className="text-sm text-zinc-500">Centralizamos dados de WhatsApp, E-mail, LinkedIn e Bancos em um único cérebro.</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4 text-zinc-300">
-                    <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 shrink-0"><CheckCircle2 size={24} /></div>
-                    <div>
-                    <h4 className="font-bold">Raciocínio Lógico</h4>
-                    <p className="text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
-                    </div>
-                </div>
-                </div>
+                <ul className="space-y-4">
+                    <li className="flex items-center gap-4 text-zinc-300">
+                        <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0"><Database size={24} /></div>
+                        <div>
+                        <h4 className="font-bold">Conexão Real</h4>
+                        <p className="text-sm text-zinc-500">Centralizamos dados de WhatsApp, E-mail, LinkedIn e Bancos em um único cérebro.</p>
+                        </div>
+                    </li>
+                    <li className="flex items-center gap-4 text-zinc-300">
+                        <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 shrink-0"><CheckCircle2 size={24} /></div>
+                        <div>
+                        <h4 className="font-bold">Raciocínio Lógico</h4>
+                        <p className="text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
           </div>
 
-          {/* Interactive Demo Interface */}
-          <div className="relative w-full mt-12 lg:mt-0" data-aos="fade-left">
-            {/* Glow Effect behind phone */}
+          <article className="relative w-full mt-12 lg:mt-0" data-aos="fade-left">
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-500/20 rounded-[3rem] blur-xl transform rotate-3" />
             
             <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-4 md:p-6 h-[550px] md:h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">
               
-              {/* Header with Scenario Tabs */}
-              <div className="border-b border-white/5 pb-4 mb-4 space-y-4">
+              <header className="border-b border-white/5 pb-4 mb-4 space-y-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
@@ -157,9 +141,9 @@ export const ChatDemo: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Scenario Selector Tabs */}
                 <div className="flex p-1 bg-white/5 rounded-xl border border-white/5 overflow-x-auto no-scrollbar">
                     <button 
+                        type="button"
                         onClick={() => setActiveScenario('scheduling')}
                         className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'scheduling' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário de Agendamento"
@@ -167,6 +151,7 @@ export const ChatDemo: React.FC = () => {
                         <Calendar size={12} className="shrink-0" /> <span>Agendamento</span>
                     </button>
                     <button 
+                        type="button"
                         onClick={() => setActiveScenario('support')}
                         className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'support' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário de Suporte"
@@ -174,6 +159,7 @@ export const ChatDemo: React.FC = () => {
                         <Headphones size={12} className="shrink-0" /> <span>Suporte</span>
                     </button>
                     <button 
+                        type="button"
                         onClick={() => setActiveScenario('finance')}
                         className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'finance' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário Financeiro"
@@ -181,9 +167,8 @@ export const ChatDemo: React.FC = () => {
                         <DollarSign size={12} className="shrink-0" /> <span>Financeiro</span>
                     </button>
                 </div>
-              </div>
+              </header>
 
-              {/* Messages Area */}
               <div 
                 ref={scrollAreaRef}
                 className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar relative pb-4"
@@ -196,7 +181,7 @@ export const ChatDemo: React.FC = () => {
 
                     return (
                     <motion.div
-                      key={`${activeScenario}-${msg.id}`} // Unique key forces re-render on scenario change
+                      key={`${activeScenario}-${msg.id}`}
                       initial={{ opacity: 0, y: 10, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{ duration: 0.3 }}
@@ -232,7 +217,6 @@ export const ChatDemo: React.FC = () => {
                   )})}
                 </AnimatePresence>
                 
-                {/* Typing Indicator */}
                 {isTyping && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }} 
@@ -250,14 +234,13 @@ export const ChatDemo: React.FC = () => {
                 
               </div>
 
-              {/* Input Area (Visual Only) */}
               <div className="pt-4 border-t border-white/5 mt-auto shrink-0">
                 <div className="bg-white/5 rounded-full h-12 flex items-center px-4 border border-white/5 opacity-50">
                     <span className="text-zinc-500 text-sm">Digite uma mensagem...</span>
                 </div>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>
