@@ -57,19 +57,19 @@ export const Pricing: React.FC = () => {
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <PricingCard 
                 title="Standard" 
-                price="R$ 497" 
+                price="R$ 687" 
                 features={['Atendimento 24/7', 'Tira-Dúvidas (RAG Básico)', 'Até 1.000 mensagens']} 
                 delay="0"
               />
               <PricingCard 
                 title="Plus" 
-                price="R$ 897" 
+                price="R$ 997" 
                 features={['Tudo do Standard', 'Follow-up Ativo (Recuperação)', 'Envio de Áudio e Imagem']} 
                 delay="100"
               />
               <PricingCard 
                 title="Pro" 
-                price="R$ 1.250" 
+                price="R$ 1.497" 
                 features={['Agendamento Automático (Google Agenda)', 'Integração com CRM', 'Memória de Longo Prazo']} 
                 highlight
                 delay="200"
