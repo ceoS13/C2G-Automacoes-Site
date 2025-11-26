@@ -145,7 +145,7 @@ export const ChatDemo: React.FC = () => {
                     <button 
                         type="button"
                         onClick={() => setActiveScenario('scheduling')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'scheduling' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${activeScenario === 'scheduling' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário de Agendamento"
                     >
                         <Calendar size={12} className="shrink-0" /> <span>Agendamento</span>
@@ -153,7 +153,7 @@ export const ChatDemo: React.FC = () => {
                     <button 
                         type="button"
                         onClick={() => setActiveScenario('support')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'support' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${activeScenario === 'support' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário de Suporte"
                     >
                         <Headphones size={12} className="shrink-0" /> <span>Suporte</span>
@@ -161,7 +161,7 @@ export const ChatDemo: React.FC = () => {
                     <button 
                         type="button"
                         onClick={() => setActiveScenario('finance')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'finance' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${activeScenario === 'finance' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário Financeiro"
                     >
                         <DollarSign size={12} className="shrink-0" /> <span>Financeiro</span>

@@ -1,23 +1,20 @@
 import React, { useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   
   // Mouse Follower Logic (Optimized with MotionValues for 60fps performance)
-  const mouseX = useMotionValue(-100);
-  const mouseY = useMotionValue(-100);
-  
-  // Smooth spring animation for the cursor lag effect
-  const springConfig = { damping: 25, stiffness: 150 };
-  const x = useSpring(mouseX, springConfig);
-  const y = useSpring(mouseY, springConfig);
+  // Removed useSpring to eliminate delay/lag as requested
+  const mouseX = useMotionValue(-500);
+  const mouseY = useMotionValue(-500);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       // Direct update avoids React Re-renders
-      mouseX.set(e.clientX - 250); // -250 to center the 500px blob
+      // -250 to center the 500px blob relative to the cursor
+      mouseX.set(e.clientX - 250); 
       mouseY.set(e.clientY - 250);
     };
 
@@ -33,10 +30,10 @@ export const Hero: React.FC = () => {
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       
-      {/* Dynamic Cursor Spotlight - Optimized */}
+      {/* Dynamic Cursor Spotlight - Instant Tracking */}
       <motion.div 
         className="fixed top-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-screen"
-        style={{ x, y }}
+        style={{ x: mouseX, y: mouseY }}
         aria-hidden="true"
       />
 

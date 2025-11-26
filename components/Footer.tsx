@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Product Column */}
-          <nav>
+          <nav aria-label="Links de Produtos">
             <h4 className="text-zinc-100 font-semibold mb-6">Produto</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#solutions" className="hover:text-white transition-colors">Ísis (Atendimento)</a></li>
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
           </nav>
 
           {/* Company Column */}
-          <nav>
+          <nav aria-label="Links da Empresa">
             <h4 className="text-zinc-100 font-semibold mb-6">Empresa</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Sobre Nós</a></li>
@@ -51,7 +51,7 @@ export const Footer: React.FC = () => {
           </nav>
 
           {/* Legal Column */}
-          <nav>
+          <nav aria-label="Links Legais">
             <h4 className="text-zinc-100 font-semibold mb-6">Legal</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Termos de Uso</a></li>

@@ -20,7 +20,7 @@ const App: React.FC = () => {
         // @ts-ignore
         window.AOS.init({
           duration: 1000,
-          once: true,
+          once: true, // Optimization: Only animate once to save resources
           easing: 'ease-out-cubic',
           offset: 50,
         });

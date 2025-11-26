@@ -73,14 +73,14 @@ export const TechSpecs: React.FC = () => {
               Não somos apenas integradores de API. Somos engenheiros de software construindo a infraestrutura para operações autônomas.
             </p>
             
-            <div className="space-y-6">
+            <ul className="space-y-6">
               {[
                 { icon: <Workflow size={24} />, title: "Engenharia, não 'Prompt'", text: "Fluxos complexos em n8n com tratamento de erros e redundância (Fallbacks)." },
                 { icon: <Server size={24} />, title: "Memória Híbrida", text: "Redis para velocidade instantânea e Supabase para histórico vitalício." },
                 { icon: <Database size={24} />, title: "Multicanal Real", text: "Integração total: Web, CRM e Sistemas Internos via Webhooks." },
                 { icon: <Shield size={24} />, title: "Segurança Total", text: "Seus dados não treinam a IA pública. Ambiente isolado e seguro." }
               ].map((item, i) => (
-                <div key={i} className="flex gap-4" data-aos="fade-up" data-aos-delay={i * 100}>
+                <li key={i} className="flex gap-4" data-aos="fade-up" data-aos-delay={i * 100}>
                   <div className="w-12 h-12 rounded-lg bg-[#111] border border-white/5 flex items-center justify-center text-cyan-400 shrink-0">
                     {item.icon}
                   </div>
@@ -88,9 +88,9 @@ export const TechSpecs: React.FC = () => {
                     <h4 className="text-zinc-100 font-semibold text-lg">{item.title}</h4>
                     <p className="text-sm text-zinc-500">{item.text}</p>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
           
           {/* n8n Workflow Simulation - INTERACTIVE */}
@@ -113,9 +113,11 @@ export const TechSpecs: React.FC = () => {
                         <React.Fragment key={node.id}>
                           {/* Node Item */}
                           <div 
-                            className="flex flex-col items-center gap-3 w-32 group shrink-0 cursor-pointer"
+                            className="flex flex-col items-center gap-3 w-32 group shrink-0 cursor-pointer focus:outline-none"
                             onClick={() => setActiveNodeId(node.id)}
+                            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setActiveNodeId(node.id)}
                             role="button"
+                            tabIndex={0}
                             aria-label={`Ver detalhes de ${node.title}`}
                           >
                               <div 

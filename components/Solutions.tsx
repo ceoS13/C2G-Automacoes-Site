@@ -12,7 +12,7 @@ const ProductCard: React.FC<{
   iconColor: string;
   delay?: string;
 }> = React.memo(({ title, description, icon, features, gradient, iconColor, delay }) => (
-  <div 
+  <article 
     className="group relative bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:bg-[#111] hover:border-cyan-500/20 transition-all duration-500 overflow-hidden hover:scale-[1.02]"
     data-aos="fade-up"
     data-aos-delay={delay}
@@ -43,7 +43,7 @@ const ProductCard: React.FC<{
     >
       Saiba mais <ArrowUpRight size={16} />
     </Button>
-  </div>
+  </article>
 ));
 
 export const Solutions: React.FC = () => {

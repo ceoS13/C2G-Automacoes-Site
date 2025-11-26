@@ -35,7 +35,6 @@ export const Navbar: React.FC = () => {
     if (!target) return;
 
     const startPosition = window.scrollY;
-    // Calculate distance. Subtracting a small offset (e.g., 20px) for visual breathing room
     const targetPosition = target.getBoundingClientRect().top + window.scrollY - 20; 
     const distance = targetPosition - startPosition;
     let startTime: number | null = null;
@@ -58,7 +57,7 @@ export const Navbar: React.FC = () => {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
-    smoothScrollTo(targetId, 1200); // 1.2s duration for a smooth glide
+    smoothScrollTo(targetId, 1200);
     setIsOpen(false);
   };
 
@@ -72,7 +71,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <motion.nav 
+      <motion.header 
         initial={{ x: "-50%", y: 0, opacity: 1 }}
         animate={{ 
           x: "-50%",
@@ -82,20 +81,18 @@ export const Navbar: React.FC = () => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="fixed top-6 left-1/2 w-[95%] md:w-full max-w-5xl z-50"
       >
-        <div className="relative bg-[#050505]/80 backdrop-blur-md border border-white/5 rounded-full px-4 md:px-6 py-3 shadow-2xl shadow-black/80 transition-all duration-300 flex items-center justify-between">
+        <nav className="relative bg-[#050505]/80 backdrop-blur-md border border-white/5 rounded-full px-4 md:px-6 py-3 shadow-2xl shadow-black/80 transition-all duration-300 flex items-center justify-between">
           
           {/* Logo - Left Align */}
           <div className="flex-1 flex justify-start">
-            <div 
-              className="cursor-pointer group" 
+            <button 
+              type="button"
+              className="cursor-pointer group focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded-lg" 
               onClick={() => smoothScrollTo('root', 1000)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && smoothScrollTo('root', 1000)}
-              aria-label="Voltar ao topo"
+              aria-label="Voltar ao topo - C2G Automações"
             >
               <Logo className="w-5 h-5" />
-            </div>
+            </button>
           </div>
 
           {/* Desktop Nav Links - Absolute Center */}
@@ -105,7 +102,7 @@ export const Navbar: React.FC = () => {
                 key={link.name} 
                 href={link.href}
                 onClick={(e) => handleScroll(e, link.href)}
-                className="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap"
+                className="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
               >
                 {link.name}
               </a>
@@ -114,25 +111,27 @@ export const Navbar: React.FC = () => {
 
           {/* CTA Button & Mobile Toggle - Right Align */}
           <div className="flex-1 flex justify-end items-center gap-4">
-            <button 
-              onClick={() => window.open('https://wa.me/', '_blank')}
-              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 border border-white/5 text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 whitespace-nowrap"
+            <a 
+              href="https://wa.me/"
+              target="_blank"
               rel="noopener noreferrer"
+              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 border border-white/5 text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-cyan-500"
             >
               Falar com Ísis ✨
-            </button>
+            </a>
 
             {/* Mobile Menu Button */}
             <button 
+              type="button"
               onClick={() => setIsOpen(!isOpen)} 
-              className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+              className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
               aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={isOpen}
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-        </div>
+        </nav>
 
         {/* Mobile Menu Dropdown */}
         <AnimatePresence>
@@ -156,18 +155,19 @@ export const Navbar: React.FC = () => {
                   </a>
                 ))}
                 <div className="h-px bg-white/5 my-2" />
-                <button 
-                  onClick={() => window.open('https://wa.me/', '_blank')}
-                  className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
+                <a 
+                  href="https://wa.me/"
+                  target="_blank"
                   rel="noopener noreferrer"
+                  className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
                 >
                   Falar com Ísis ✨
-                </button>
+                </a>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+      </motion.header>
     </>
   );
 };
