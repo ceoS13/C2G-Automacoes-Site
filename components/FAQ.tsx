@@ -10,13 +10,13 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
         className="w-full py-6 flex justify-between items-center text-left focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-lg font-medium text-zinc-100">{question}</span>
-        {isOpen ? <ChevronUp className="text-zinc-500" /> : <ChevronDown className="text-zinc-500" />}
+        <span className="text-lg font-medium text-zinc-100 pr-4">{question}</span>
+        {isOpen ? <ChevronUp className="text-zinc-500 shrink-0" /> : <ChevronDown className="text-zinc-500 shrink-0" />}
       </button>
       <div 
         className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 pb-6' : 'max-h-0'}`}
       >
-        <p className="text-zinc-400 leading-relaxed">{answer}</p>
+        <p className="text-zinc-400 leading-relaxed text-base">{answer}</p>
       </div>
     </div>
   );
@@ -24,8 +24,8 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
 
 export const FAQ: React.FC = () => {
   return (
-    <section id="faq" className="py-24 bg-[#080808]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+    <section id="faq" className="py-16 md:py-24 bg-[#080808]">
+      <div className="max-w-3xl mx-auto px-6 md:px-8" data-aos="fade-up">
         <h2 className="text-3xl font-bold text-zinc-100 mb-12 text-center">
           Perguntas Frequentes
         </h2>

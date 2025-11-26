@@ -3,22 +3,22 @@ import { AlertTriangle, TrendingUp, XCircle, CheckCircle } from 'lucide-react';
 
 export const ProblemSection: React.FC = () => {
   return (
-    <section className="py-24 bg-[#080808] border-y border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 md:py-24 bg-[#080808] border-y border-white/5">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-3xl md:text-5xl font-bold text-zinc-100 mb-4">
             O Abismo entre Ter um Chatbot e <span className="text-cyan-400">Ter Resultado</span>
           </h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed">
             A maioria das empresas aposta em bots "papagaios" que apenas respondem dúvidas básicas e travam na primeira complexidade.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           
           {/* The Old Way */}
           <div 
-            className="bg-[#0f0f0f] border border-red-500/10 rounded-2xl p-8 relative overflow-hidden"
+            className="bg-[#0f0f0f] border border-red-500/10 rounded-2xl p-6 md:p-8 relative overflow-hidden"
             data-aos="fade-right"
             data-aos-delay="0"
           >
@@ -47,7 +47,7 @@ export const ProblemSection: React.FC = () => {
 
           {/* The C2G Way */}
           <div 
-            className="bg-[#0f0f0f] border border-cyan-500/20 rounded-2xl p-8 relative overflow-hidden shadow-[0_0_50px_-20px_rgba(6,182,212,0.1)]"
+            className="bg-[#0f0f0f] border border-cyan-500/20 rounded-2xl p-6 md:p-8 relative overflow-hidden shadow-[0_0_50px_-20px_rgba(6,182,212,0.1)]"
             data-aos="fade-left"
             data-aos-delay="200"
           >

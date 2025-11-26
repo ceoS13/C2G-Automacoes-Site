@@ -2,6 +2,7 @@ import React from 'react';
 import { MessageSquare, Rocket, Lock, ArrowUpRight } from 'lucide-react';
 import { Button } from './ui/Button';
 
+// Memoized card component to prevent re-renders on parent state changes
 const ProductCard: React.FC<{
   title: string;
   description: string;
@@ -10,7 +11,7 @@ const ProductCard: React.FC<{
   gradient: string;
   iconColor: string;
   delay?: string;
-}> = ({ title, description, icon, features, gradient, iconColor, delay }) => (
+}> = React.memo(({ title, description, icon, features, gradient, iconColor, delay }) => (
   <div 
     className="group relative bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:bg-[#111] hover:border-cyan-500/20 transition-all duration-500 overflow-hidden hover:scale-[1.02]"
     data-aos="fade-up"
@@ -34,21 +35,26 @@ const ProductCard: React.FC<{
       ))}
     </ul>
 
-    <Button variant="ghost" className="!p-0 hover:!bg-transparent group-hover:text-cyan-400 group-hover:gap-4 transition-all" onClick={() => window.open('https://wa.me/', '_blank')}>
+    <Button 
+      variant="ghost" 
+      className="!p-0 hover:!bg-transparent group-hover:text-cyan-400 group-hover:gap-4 transition-all" 
+      onClick={() => window.open('https://wa.me/', '_blank')}
+      title={`Saiba mais sobre ${title}`}
+    >
       Saiba mais <ArrowUpRight size={16} />
     </Button>
   </div>
-);
+));
 
 export const Solutions: React.FC = () => {
   return (
-    <section id="solutions" className="py-24 bg-[#050505] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="solutions" className="py-16 md:py-24 bg-[#050505] relative">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="text-center mb-20" data-aos="fade-up">
           <h2 className="text-3xl md:text-5xl font-bold text-zinc-100 mb-6">
             Nossos Agentes
           </h2>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Ecossistemas completos de inteligência artificial projetados para funções críticas de negócio.
           </p>
         </div>

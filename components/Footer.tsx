@@ -1,5 +1,6 @@
 import React from 'react';
-import { Cpu, Linkedin, Instagram, Mail, Twitter, Globe } from 'lucide-react';
+import { Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
+import { Logo } from './ui/Logo';
 
 export const Footer: React.FC = () => {
   return (
@@ -12,19 +13,16 @@ export const Footer: React.FC = () => {
           
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/10">
-                  <Cpu className="text-white w-6 h-6" />
-                </div>
-                <span className="font-bold text-2xl text-zinc-100 tracking-tight">C2G <span className="text-zinc-600 font-normal">Automações</span></span>
+            <div className="flex items-center gap-3 mb-6">
+                <Logo className="w-6 h-6" />
             </div>
             <p className="text-zinc-500 max-w-sm mb-6 leading-relaxed">
               Engenharia de software aplicada a inteligência artificial. Criamos o futuro do trabalho autônomo para empresas que lideram seus setores.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
-              <a href="#" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
-              <a href="#" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Twitter size={18} /></a>
+              <a href="#" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
+              <a href="#" aria-label="Instagram" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
+              <a href="#" aria-label="Twitter" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Twitter size={18} /></a>
             </div>
           </div>
 

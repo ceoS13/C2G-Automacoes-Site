@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { Menu, X, Cpu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { Logo } from './ui/Logo';
+
+// Easing function defined outside component to avoid recreation on render
+const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
+  t /= d / 2;
+  if (t < 1) return c / 2 * t * t * t + b;
+  t -= 2;
+  return c / 2 * (t * t * t + 2) + b;
+};
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,15 +39,6 @@ export const Navbar: React.FC = () => {
     const targetPosition = target.getBoundingClientRect().top + window.scrollY - 20; 
     const distance = targetPosition - startPosition;
     let startTime: number | null = null;
-
-    // Easing function: easeInOutCubic
-    // t: current time, b: start value, c: change in value, d: duration
-    const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
-      t /= d / 2;
-      if (t < 1) return c / 2 * t * t * t + b;
-      t -= 2;
-      return c / 2 * (t * t * t + 2) + b;
-    };
 
     const animation = (currentTime: number) => {
       if (startTime === null) startTime = currentTime;
@@ -80,26 +80,25 @@ export const Navbar: React.FC = () => {
           opacity: isVisible ? 1 : 0 
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-6 left-1/2 w-[95%] max-w-5xl z-50"
+        className="fixed top-6 left-1/2 w-[95%] md:w-full max-w-5xl z-50"
       >
-        <div className="relative bg-[#050505]/80 backdrop-blur-md border border-white/5 rounded-full px-6 py-3 shadow-2xl shadow-black/80 transition-all duration-300 flex items-center justify-between">
+        <div className="relative bg-[#050505]/80 backdrop-blur-md border border-white/5 rounded-full px-4 md:px-6 py-3 shadow-2xl shadow-black/80 transition-all duration-300 flex items-center justify-between">
           
-          {/* Logo - Left Align (Flex-1 ensures it pushes from left) */}
+          {/* Logo - Left Align */}
           <div className="flex-1 flex justify-start">
             <div 
-              className="flex items-center gap-2 cursor-pointer group" 
-              onClick={() => smoothScrollTo('root', 1000)} // Scroll to top if logo clicked
+              className="cursor-pointer group" 
+              onClick={() => smoothScrollTo('root', 1000)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && smoothScrollTo('root', 1000)}
+              aria-label="Voltar ao topo"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                <Cpu className="text-white w-5 h-5" />
-              </div>
-              <span className="font-bold text-lg tracking-tight text-zinc-100 group-hover:text-white transition-colors">
-                C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400">Automações</span>
-              </span>
+              <Logo className="w-5 h-5" />
             </div>
           </div>
 
-          {/* Desktop Nav Links - Absolute Center for Perfect Symmetry */}
+          {/* Desktop Nav Links - Absolute Center */}
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1">
             {navLinks.map((link) => (
               <a 
@@ -113,11 +112,12 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* CTA Button & Mobile Toggle - Right Align (Flex-1 ensures it pushes from right) */}
+          {/* CTA Button & Mobile Toggle - Right Align */}
           <div className="flex-1 flex justify-end items-center gap-4">
             <button 
               onClick={() => window.open('https://wa.me/', '_blank')}
               className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 border border-white/5 text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 whitespace-nowrap"
+              rel="noopener noreferrer"
             >
               Falar com Ísis ✨
             </button>
@@ -126,13 +126,15 @@ export const Navbar: React.FC = () => {
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+              aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+              aria-expanded={isOpen}
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown (Detached Island) */}
+        {/* Mobile Menu Dropdown */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -157,6 +159,7 @@ export const Navbar: React.FC = () => {
                 <button 
                   onClick={() => window.open('https://wa.me/', '_blank')}
                   className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
+                  rel="noopener noreferrer"
                 >
                   Falar com Ísis ✨
                 </button>

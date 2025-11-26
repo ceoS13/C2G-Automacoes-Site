@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Loader2, Database, CheckCircle2, Check, Calendar } from 'lucide-react';
+import { Bot, Loader2, Database, CheckCircle2, Check, DollarSign, Headphones, Calendar } from 'lucide-react';
 
 type Message = {
   id: number;
@@ -9,27 +9,42 @@ type Message = {
   delay: number;
 };
 
-// Expanded Script showing Scheduling, Negotiation, Enrichment, CRM Integration, and Proactivity
-const DEMO_SCRIPT: Message[] = [
-  { id: 1, role: 'user', content: "Gostaria de agendar uma demonstração.", delay: 500 },
-  { id: 2, role: 'system', content: "Checking Google Calendar availability...", delay: 1500 },
-  { id: 3, role: 'ai', content: "Amanhã a agenda está lotada, mas tenho disponibilidade na Quinta às 14h ou Sexta às 10h. Qual prefere?", delay: 3000 },
-  { id: 4, role: 'user', content: "Pode ser na Quinta às 14h.", delay: 4500 },
-  { id: 5, role: 'ai', content: "Perfeito. Qual seu melhor e-mail corporativo para o convite?", delay: 5500 },
-  { id: 6, role: 'user', content: "joao.silva@vertex.com.br", delay: 7000 },
-  { id: 7, role: 'system', content: "Enriching Lead Data (Clearbit API)...", delay: 8000 },
-  { id: 8, role: 'system', content: "Creating Deal in HubSpot CRM...", delay: 9500 },
-  { id: 9, role: 'ai', content: "Agendado, João! Convite enviado. Como vi que você é CTO, aproveitei e anexei nossa documentação técnica no e-mail.", delay: 11000 },
-];
+type ScenarioKey = 'scheduling' | 'support' | 'finance';
+
+const SCENARIOS: Record<ScenarioKey, Message[]> = {
+  scheduling: [
+    { id: 1, role: 'user', content: "Gostaria de agendar uma demonstração.", delay: 500 },
+    { id: 2, role: 'system', content: "Verificando disponibilidade no Google Agenda...", delay: 1500 },
+    { id: 3, role: 'ai', content: "Amanhã a agenda está lotada, mas tenho disponibilidade na Quinta às 14h. Qual prefere?", delay: 3000 },
+    { id: 4, role: 'user', content: "Quinta às 14h.", delay: 4500 },
+    { id: 5, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 5500 },
+    { id: 6, role: 'ai', content: "Agendado! Vi que você é CTO na Vertex. Enviei o convite e nossa documentação técnica no seu e-mail.", delay: 7000 },
+  ],
+  support: [
+    { id: 1, role: 'user', content: "Meu pedido #4920 ainda não chegou.", delay: 500 },
+    { id: 2, role: 'system', content: "Consultando API de Logística/ERP...", delay: 1500 },
+    { id: 3, role: 'ai', content: "Consultei aqui. O pedido #4920 teve um atraso na transportadora, mas saiu para entrega hoje às 08:30.", delay: 3500 },
+    { id: 4, role: 'user', content: "Ah, entendi. Conseguem entregar até as 18h?", delay: 5000 },
+    { id: 5, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista priorizar sua rota.", delay: 7000 },
+  ],
+  finance: [
+    { id: 1, role: 'user', content: "Preciso da 2ª via do boleto de Janeiro.", delay: 500 },
+    { id: 2, role: 'system', content: "Autenticando Usuário e Acessando Banco...", delay: 1500 },
+    { id: 3, role: 'ai', content: "Localizei. O boleto vencia dia 15/01. Deseja que eu gere um novo com data para hoje sem juros?", delay: 3500 },
+    { id: 4, role: 'user', content: "Sim, por favor.", delay: 5000 },
+    { id: 5, role: 'system', content: "Gerando PDF e Enviando para WhatsApp...", delay: 6000 },
+    { id: 6, role: 'ai', content: "Prontinho! Acabei de enviar o PDF aqui e no seu e-mail financeiro.", delay: 7500 },
+  ]
+};
 
 export const ChatDemo: React.FC = () => {
+  const [activeScenario, setActiveScenario] = useState<ScenarioKey>('scheduling');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   
   // Refs to manage execution state and cleanup strictly
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref specifically for the scrollable message area
-  const hasStartedRef = useRef(false);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   // Auto-scroll logic scoped ONLY to the chat container
@@ -43,26 +58,26 @@ export const ChatDemo: React.FC = () => {
     }
   }, [messages, isTyping]);
 
-  useEffect(() => {
-    const runDemo = () => {
-      if (hasStartedRef.current) return;
-      hasStartedRef.current = true;
-      setMessages([]); // Ensure clear state start
+  // Function to run a specific scenario
+  const runScenario = (scenario: ScenarioKey) => {
+    // 1. Clear everything
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+    setMessages([]);
+    setIsTyping(false);
 
-      DEMO_SCRIPT.forEach((msg) => {
-        // Outer timeout for message arrival
+    // 2. Queue new messages
+    const script = SCENARIOS[scenario];
+    
+    script.forEach((msg) => {
         const t1 = setTimeout(() => {
             if (msg.role === 'ai') setIsTyping(true);
             
-            // Inner timeout for typing delay (if AI)
-            const typingDelay = msg.role === 'ai' ? 1200 : 0; // Slightly longer typing for realism
+            const typingDelay = msg.role === 'ai' ? 1000 : 0;
+            
             const t2 = setTimeout(() => {
                 setIsTyping(false);
-                setMessages((prev) => {
-                    // Double check to prevent duplicates if something went wrong
-                    if (prev.some(m => m.id === msg.id)) return prev;
-                    return [...prev, msg];
-                });
+                setMessages((prev) => [...prev, msg]);
             }, typingDelay);
             
             timeoutsRef.current.push(t2);
@@ -70,101 +85,118 @@ export const ChatDemo: React.FC = () => {
         }, msg.delay);
         
         timeoutsRef.current.push(t1);
-      });
-    };
+    });
+  };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasStartedRef.current) {
-          runDemo();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    // Strict Cleanup
+  // Run on mount or when scenario changes
+  useEffect(() => {
+    runScenario(activeScenario);
     return () => {
-      observer.disconnect();
-      timeoutsRef.current.forEach(clearTimeout);
-      timeoutsRef.current = [];
-      hasStartedRef.current = false; // Reset on unmount
+        timeoutsRef.current.forEach(clearTimeout);
     };
-  }, []);
+  }, [activeScenario]);
 
   return (
-    <section id="chat-demo" className="py-32 relative bg-[#050505]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+    <section id="chat-demo" className="py-20 md:py-32 relative bg-[#050505] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           {/* Text Content */}
-          <div ref={containerRef} data-aos="fade-right">
-            <h2 className="text-4xl md:text-6xl font-bold text-zinc-100 mb-6 tracking-tight leading-tight">
-              Menos "Bom dia", <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
-                Mais Resultado.
-              </span>
-            </h2>
-            <p className="text-xl text-zinc-400 mb-8 leading-relaxed">
-              Chatbots comuns travam quando o cliente sai do roteiro. A Ísis entende áudio, contexto e intenção. Ela não é um robô de menu, é uma funcionária digital que pensa.
-            </p>
-            
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 text-zinc-300">
-                <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400"><Database size={24} /></div>
-                <div>
-                  <h4 className="font-bold">Conexão Real</h4>
-                  <p className="text-sm text-zinc-500">Integração nativa com Google Calendar, RD Station e seu ERP.</p>
+          <div ref={containerRef} data-aos="fade-right" className="relative z-10">
+            {/* Added stronger backdrop for better readability on mobile */}
+            <div className="bg-black/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border border-white/10 md:border-none p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none">
+                <h2 className="text-4xl md:text-6xl font-bold text-zinc-100 mb-6 tracking-tight leading-tight">
+                Muito além do <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
+                    WhatsApp.
+                </span>
+                </h2>
+                <p className="text-lg md:text-xl text-zinc-400 mb-8 leading-relaxed">
+                Enquanto o mercado vende 'chatbots', nós entregamos Força de Trabalho Digital. Nossos agentes não apenas conversam: eles operam seu ERP, prospectam no LinkedIn, gerenciam e-mails e auditam processos internos com autonomia de Nível 4.
+                </p>
+                
+                <div className="space-y-4">
+                <div className="flex items-center gap-4 text-zinc-300">
+                    <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0"><Database size={24} /></div>
+                    <div>
+                    <h4 className="font-bold">Conexão Real</h4>
+                    <p className="text-sm text-zinc-500">Centralizamos dados de WhatsApp, E-mail, LinkedIn e Bancos em um único cérebro.</p>
+                    </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 text-zinc-300">
-                <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400"><CheckCircle2 size={24} /></div>
-                <div>
-                  <h4 className="font-bold">Raciocínio Lógico</h4>
-                  <p className="text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
+                <div className="flex items-center gap-4 text-zinc-300">
+                    <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 shrink-0"><CheckCircle2 size={24} /></div>
+                    <div>
+                    <h4 className="font-bold">Raciocínio Lógico</h4>
+                    <p className="text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
+                    </div>
                 </div>
-              </div>
+                </div>
             </div>
           </div>
 
           {/* Interactive Demo Interface */}
-          <div className="relative" data-aos="fade-left">
+          <div className="relative w-full mt-12 lg:mt-0" data-aos="fade-left">
             {/* Glow Effect behind phone */}
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-500/20 rounded-[3rem] blur-xl transform rotate-3" />
             
-            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-6 h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">
+            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-4 md:p-6 h-[550px] md:h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">
               
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-                    <Bot size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white">Ísis AI</h3>
-                    <p className="text-xs text-emerald-400 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Online
-                    </p>
-                  </div>
+              {/* Header with Scenario Tabs */}
+              <div className="border-b border-white/5 pb-4 mb-4 space-y-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
+                        <Bot size={20} className="text-white" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-white">Ísis AI</h3>
+                        <p className="text-xs text-emerald-400 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Online
+                        </p>
+                    </div>
+                    </div>
+                </div>
+
+                {/* Scenario Selector Tabs */}
+                <div className="flex p-1 bg-white/5 rounded-xl border border-white/5 overflow-x-auto no-scrollbar">
+                    <button 
+                        onClick={() => setActiveScenario('scheduling')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'scheduling' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        aria-label="Ativar cenário de Agendamento"
+                    >
+                        <Calendar size={12} className="shrink-0" /> <span>Agendamento</span>
+                    </button>
+                    <button 
+                        onClick={() => setActiveScenario('support')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'support' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        aria-label="Ativar cenário de Suporte"
+                    >
+                        <Headphones size={12} className="shrink-0" /> <span>Suporte</span>
+                    </button>
+                    <button 
+                        onClick={() => setActiveScenario('finance')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${activeScenario === 'finance' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        aria-label="Ativar cenário Financeiro"
+                    >
+                        <DollarSign size={12} className="shrink-0" /> <span>Financeiro</span>
+                    </button>
                 </div>
               </div>
 
-              {/* Messages Area - Now with ref for scoped scrolling */}
+              {/* Messages Area */}
               <div 
                 ref={scrollAreaRef}
                 className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar relative pb-4"
+                aria-live="polite"
               >
-                <AnimatePresence mode="popLayout">
+                <AnimatePresence mode="wait">
                   {messages.map((msg, index) => {
                     const isLast = index === messages.length - 1;
                     const isSystemLoading = isLast && !isTyping;
 
                     return (
                     <motion.div
-                      key={msg.id}
+                      key={`${activeScenario}-${msg.id}`} // Unique key forces re-render on scenario change
                       initial={{ opacity: 0, y: 10, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{ duration: 0.3 }}
