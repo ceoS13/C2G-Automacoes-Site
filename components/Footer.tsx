@@ -1,0 +1,77 @@
+import React from 'react';
+import { Cpu, Linkedin, Instagram, Mail, Twitter, Globe } from 'lucide-react';
+
+export const Footer: React.FC = () => {
+  return (
+    <footer className="bg-[#050505] border-t border-gray-900 pt-20 pb-10 relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-900/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+          
+          {/* Brand Column */}
+          <div className="col-span-2 lg:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/10">
+                  <Cpu className="text-white w-6 h-6" />
+                </div>
+                <span className="font-bold text-2xl text-zinc-100 tracking-tight">C2G <span className="text-zinc-600 font-normal">Automações</span></span>
+            </div>
+            <p className="text-zinc-500 max-w-sm mb-6 leading-relaxed">
+              Engenharia de software aplicada a inteligência artificial. Criamos o futuro do trabalho autônomo para empresas que lideram seus setores.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
+              <a href="#" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
+              <a href="#" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Twitter size={18} /></a>
+            </div>
+          </div>
+
+          {/* Product Column */}
+          <div>
+            <h4 className="text-zinc-100 font-semibold mb-6">Produto</h4>
+            <ul className="space-y-3 text-sm text-zinc-500">
+              <li><a href="#solutions" className="hover:text-white transition-colors">Ísis (Atendimento)</a></li>
+              <li><a href="#solutions" className="hover:text-white transition-colors">Growth Autônomo</a></li>
+              <li><a href="#solutions" className="hover:text-white transition-colors">Governança AI</a></li>
+              <li><a href="#tech" className="hover:text-white transition-colors">Integrações (n8n)</a></li>
+              <li><a href="#pricing" className="hover:text-white transition-colors">Preços</a></li>
+            </ul>
+          </div>
+
+          {/* Company Column */}
+          <div>
+            <h4 className="text-zinc-100 font-semibold mb-6">Empresa</h4>
+            <ul className="space-y-3 text-sm text-zinc-500">
+              <li><a href="#" className="hover:text-white transition-colors">Sobre Nós</a></li>
+              <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Hiring</span></a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Blog Tech</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Imprensa</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
+            </ul>
+          </div>
+
+          {/* Legal Column */}
+          <div>
+            <h4 className="text-zinc-100 font-semibold mb-6">Legal</h4>
+            <ul className="space-y-3 text-sm text-zinc-500">
+              <li><a href="#" className="hover:text-white transition-colors">Termos de Uso</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Política de Privacidade</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Compliance</a></li>
+              <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> System Status</a></li>
+            </ul>
+          </div>
+
+        </div>
+        
+        <div className="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 gap-4">
+          <p>&copy; {new Date().getFullYear()} C2G Automações Ltda. Todos os direitos reservados.</p>
+          <div className="flex gap-6 items-center">
+            <span className="flex items-center gap-2 text-zinc-700"><Globe size={14} /> Brasil (PT-BR)</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
