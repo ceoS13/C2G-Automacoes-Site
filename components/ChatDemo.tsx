@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Bot, Loader2, Database, CheckCircle2, Check, DollarSign, Headphones, Calendar } from 'lucide-react';
 
 type Message = {
@@ -42,6 +42,10 @@ export const ChatDemo: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   
+  // Modified to track the specific chat container instead of the whole section
+  const chatRef = useRef<HTMLElement>(null);
+  const isInView = useInView(chatRef, { once: true, amount: 0.4 });
+  
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -79,11 +83,13 @@ export const ChatDemo: React.FC = () => {
   };
 
   useEffect(() => {
-    runScenario(activeScenario);
+    if (isInView) {
+      runScenario(activeScenario);
+    }
     return () => {
         timeoutsRef.current.forEach(clearTimeout);
     };
-  }, [activeScenario]);
+  }, [activeScenario, isInView]);
 
   return (
     <section id="chat-demo" className="py-20 md:py-32 relative bg-[#050505] overflow-hidden">
@@ -121,7 +127,7 @@ export const ChatDemo: React.FC = () => {
             </div>
           </div>
 
-          <article className="relative w-full mt-12 lg:mt-0" data-aos="fade-left">
+          <article ref={chatRef} className="relative w-full mt-12 lg:mt-0" data-aos="fade-left">
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-500/20 rounded-[3rem] blur-xl transform rotate-3" />
             
             <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-4 md:p-6 h-[550px] md:h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">

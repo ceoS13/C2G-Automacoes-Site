@@ -1,97 +1,92 @@
 import React from 'react';
-import { Terminal, TrendingUp, Settings2 } from 'lucide-react';
 
 const TeamCard: React.FC<{
   name: string;
-  role: string;
-  subRole: string;
   description: string;
-  icon: React.ReactNode;
+  imageSrc: string;
   delay: string;
-}> = ({ name, role, subRole, description, icon, delay }) => (
-  <div 
-    className="bg-zinc-900/50 border border-white/10 backdrop-blur-sm rounded-2xl p-8 hover:border-cyan-500/30 transition-all duration-300 group hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/5"
+}> = ({ name, description, imageSrc, delay }) => (
+  <article 
+    className="relative group" 
     data-aos="fade-up"
     data-aos-delay={delay}
   >
-    <div className="flex items-center justify-between mb-6">
-        <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 group-hover:bg-blue-500/20 transition-all duration-300 border border-blue-500/10">
-            {icon}
-        </div>
-        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-white/5 px-2 py-1 rounded bg-black/20">
-            {subRole}
-        </span>
+    <div className="h-full bg-black border border-zinc-800 rounded-[2.5rem] px-6 md:px-8 pb-10 pt-20 text-center hover:border-zinc-600 transition-colors duration-500 relative mt-12 md:mt-0">
+       {/* Image Overlay - Absolute on top border */}
+       <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-black p-2 z-10">
+          <img 
+            src={imageSrc} 
+            alt={name} 
+            className="w-full h-full rounded-full object-cover border border-zinc-800 grayscale group-hover:grayscale-0 transition-all duration-500 bg-zinc-900"
+            loading="lazy"
+          />
+       </div>
+
+       <h3 className="text-3xl font-bold text-white mb-6 tracking-tight">{name}</h3>
+       <p className="text-zinc-400 text-sm leading-relaxed font-light">
+         {description}
+       </p>
     </div>
-    
-    <h3 className="text-xl font-bold text-blue-400 mb-1 group-hover:text-cyan-400 transition-colors">{name}</h3>
-    <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-4">{role}</div>
-    <p className="text-zinc-300 leading-relaxed text-sm">
-      {description}
-    </p>
-  </div>
+  </article>
 );
 
 export const About: React.FC = () => {
   return (
-    <section id="sobre" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden border-t border-white/5">
-      {/* Subtle Background Effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-blue-900/5 via-[#050505] to-[#050505] pointer-events-none" />
+    <section id="about" className="py-24 md:py-40 bg-[#050505] relative border-t border-white/5 overflow-visible">
+      {/* Decorative Grid Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
-        {/* Manifesto Header */}
-        <div className="text-center mb-10" data-aos="fade-up">
-          <span className="block text-cyan-500 text-sm font-semibold tracking-widest uppercase mb-4">
+        {/* Manifesto Section */}
+        <div className="max-w-4xl mx-auto text-center mb-24" data-aos="fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-mono mb-6 uppercase tracking-widest">
             Sobre Nós
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">
-            A Engenharia por trás da <span className="text-cyan-400">Autonomia.</span>
-          </h2>
+          </div>
           
-          <div className="max-w-4xl mx-auto space-y-6 text-lg md:text-xl leading-relaxed">
-            <p className="text-white">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 tracking-tight">
+            A Engenharia por trás da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Autonomia</span>.
+          </h2>
+
+          <div className="space-y-6 text-lg md:text-xl text-zinc-300 font-light leading-relaxed">
+            <p>
               A C2G nasceu de uma inconformidade. Olhamos para o mercado e vimos um abismo: de um lado, o hype da Inteligência Artificial prometendo milagres. Do outro, empresas reais travadas com ferramentas que não se conversam e chatbots que não resolvem problemas.
             </p>
-            <p className="text-white">
-              Decidimos construir a ponte. Não vendemos 'prompts'. Construímos Infraestrutura de Automação. Nossa missão é fechar o Execution Gap — a distância entre saber que a IA existe e fazê-la gerar receita no seu caixa.
+            <p>
+              Decidimos construir a ponte. Não vendemos "prompts". Construímos <span className="font-semibold text-white">Infraestrutura de Automação</span>. Nossa missão é fechar o Execution Gap — a distância entre saber que a IA existe e fazê-la gerar receita no seu caixa.
             </p>
-            <p className="text-white font-bold mt-4">
+            <p className="font-medium text-white">
               Nós codificamos o futuro do trabalho autônomo.
             </p>
           </div>
         </div>
 
-        {/* Team Title Separator */}
-        <div data-aos="fade-up" className="text-center">
-            <h3 className="text-2xl font-bold text-white mt-20 mb-8">
+        {/* Leadership Grid Title */}
+        <div id="team" className="text-center pt-8 mb-16" data-aos="fade-up">
+             <h3 className="text-3xl md:text-4xl font-bold text-white inline-block relative">
                 Nossa Equipe
-            </h3>
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-1 bg-cyan-500 rounded-full"></div>
+             </h3>
         </div>
 
-        {/* Team Grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {/* Leadership Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-24 gap-x-8 max-w-6xl mx-auto pt-10">
           <TeamCard 
-            name="Guilherme Cruz"
-            role="CTO"
-            subRole="Tech"
-            description="Arquiteto de sistemas cognitivos e lógica de Nível 4."
-            icon={<Terminal size={24} />}
+            name="Guilherme C."
+            description="Mente por trás da engenharia, Guilherme C. é o arquiteto de soluções de IA. Especialista em construir as robustas e inovadoras arquiteturas multiagente que são o coração da C2G."
+            imageSrc="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=250&h=250&auto=format&fit=crop"
             delay="0"
           />
           <TeamCard 
-            name="Caique Rufino"
-            role="Growth"
-            subRole="Business"
-            description="Estrategista de receita e expansão de ecossistemas."
-            icon={<TrendingUp size={24} />}
+            name="Caíque R."
+            description="Com um olhar estratégico afiado para negócios e parcerias, Caique R é o motor que impulsiona a C2G para novos horizontes, traduzindo a visão em oportunidades concretas."
+            imageSrc="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=250&h=250&auto=format&fit=crop"
             delay="100"
           />
           <TeamCard 
             name="Guilherme R."
-            role="Ops"
-            subRole="Infrastructure"
-            description="Engenharia de confiabilidade e escala de infraestrutura."
-            icon={<Settings2 size={24} />}
+            description="Especialista em engenharia de software, com foco em LLMs e visão estratégica. Responsável por garantir entregas eficientes e transformar tecnologia em resultados práticos."
+            imageSrc="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=250&h=250&auto=format&fit=crop"
             delay="200"
           />
         </div>

@@ -16,7 +16,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, id }) => {
     <div className="border-b border-gray-800">
       <button 
         id={headerId}
-        className="w-full py-6 flex justify-between items-center text-left focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded"
+        className="w-full py-6 flex justify-between items-center text-left focus:outline-none rounded"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-controls={panelId}

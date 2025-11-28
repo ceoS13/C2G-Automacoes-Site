@@ -64,9 +64,9 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Soluções', href: '#solutions' },
     { name: 'Tecnologia', href: '#tech' },
-    { name: 'Cases', href: '#cases' },
     { name: 'Preços', href: '#pricing' },
-    { name: 'Sobre Nós', href: '#sobre' },
+    { name: 'Sobre Nós', href: '#about' },
+    { name: 'Equipe', href: '#team' },
     { name: 'FAQ', href: '#faq' },
   ];
 
@@ -103,7 +103,7 @@ export const Navbar: React.FC = () => {
                 key={link.name} 
                 href={link.href}
                 onClick={(e) => handleScroll(e, link.href)}
-                className="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                className="text-xs lg:text-sm font-medium text-zinc-400 hover:text-white px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
               >
                 {link.name}
               </a>
@@ -118,7 +118,7 @@ export const Navbar: React.FC = () => {
               rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 border border-white/5 text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-cyan-500"
             >
-              Falar com Ísis ✨
+              Falar com Ísis
             </a>
 
             {/* Mobile Menu Button */}
@@ -162,7 +162,7 @@ export const Navbar: React.FC = () => {
                   rel="noopener noreferrer"
                   className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
                 >
-                  Falar com Ísis ✨
+                  Falar com Ísis
                 </a>
               </div>
             </motion.div>

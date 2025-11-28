@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrainCircuit, Lock, Zap, Code2, Users, ArrowUpRight, ShieldCheck, Terminal } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { BrainCircuit, Zap, Code2, Users, ArrowUpRight, ShieldCheck } from 'lucide-react';
 
 const BentoCard: React.FC<{
   title: string;
@@ -8,30 +8,73 @@ const BentoCard: React.FC<{
   className?: string;
   children?: React.ReactNode;
   delay?: string;
-}> = React.memo(({ title, subtitle, icon, className, children, delay }) => (
-  <article 
-    className={`group relative p-6 rounded-3xl glass-panel overflow-hidden transition-all duration-500 hover:border-cyan-500/30 hover:scale-[1.02] flex flex-col justify-between ${className}`}
-    data-aos="fade-up"
-    data-aos-delay={delay}
-  >
-    <div className="relative z-10">
-      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300 group-hover:bg-cyan-600 group-hover:text-white">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-      <p className="text-zinc-400 text-sm leading-relaxed">{subtitle}</p>
-    </div>
-    
-    <div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity">
-        <ArrowUpRight className="text-white" size={20} />
-    </div>
+}> = ({ title, subtitle, icon, className, children, delay }) => {
+  const divRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [opacity, setOpacity] = useState(0);
 
-    {/* Background Gradient on Hover */}
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-    
-    {children}
-  </article>
-));
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!divRef.current) return;
+
+    const div = divRef.current;
+    const rect = div.getBoundingClientRect();
+
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  const handleMouseEnter = () => {
+    setOpacity(1);
+  };
+
+  const handleMouseLeave = () => {
+    setOpacity(0);
+  };
+
+  return (
+    <article 
+      ref={divRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`group relative p-6 rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden transition-transform duration-300 hover:scale-[1.01] flex flex-col justify-between ${className}`}
+      data-aos="fade-up"
+      data-aos-delay={delay}
+    >
+      {/* Spotlight Effect - Increased Opacity for better visibility */}
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(6,182,212,0.25), transparent 40%)`,
+        }}
+      />
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 rounded-3xl"
+        style={{
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(6,182,212,0.4), transparent 40%)`,
+          maskImage: `linear-gradient(black, black)`,
+          WebkitMaskImage: `linear-gradient(black, black)`,
+          maskComposite: 'exclude',
+          WebkitMaskComposite: 'xor',
+          padding: '1px', // Border width
+        }}
+      />
+
+      <div className="relative z-10">
+        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300 group-hover:bg-cyan-600 group-hover:text-white border border-white/5">
+          {icon}
+        </div>
+        <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+        <p className="text-zinc-400 text-sm leading-relaxed">{subtitle}</p>
+      </div>
+      
+      <div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 duration-300">
+          <ArrowUpRight className="text-cyan-400" size={20} />
+      </div>
+
+      {children}
+    </article>
+  );
+};
 
 const AvaTerminal = () => {
   const [step, setStep] = useState(0);
@@ -71,8 +114,14 @@ const AvaTerminal = () => {
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="solutions" className="py-20 md:py-32 bg-[#050505]">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+    <section id="solutions" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
+       {/* Background Noise/Gradient */}
+       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl opacity-20 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px]" />
+       </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="mb-16" data-aos="fade-up">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             O Sistema Operacional <br/>
@@ -89,7 +138,7 @@ export const BentoGrid: React.FC = () => {
             className="md:col-span-2 md:row-span-2 bg-gradient-to-br from-blue-900/10 to-transparent min-h-[400px]"
             delay="0"
           >
-             <div className="mt-8 relative h-full w-full rounded-xl bg-black/40 border border-white/10 p-4 font-mono text-xs text-zinc-400 overflow-hidden">
+             <div className="mt-8 relative h-full w-full rounded-xl bg-black/40 border border-white/10 p-4 font-mono text-xs text-zinc-400 overflow-hidden group-hover:border-cyan-500/30 transition-colors">
                 <div className="text-emerald-400 mb-1">$ inicializando_contexto...</div>
                 <div className="text-cyan-400 mb-2">$ carregando_historico_usuario...</div>
                 <div className="opacity-70 bg-white/5 p-2 rounded border border-white/5 text-[10px] leading-relaxed">
@@ -112,7 +161,7 @@ export const BentoGrid: React.FC = () => {
             delay="100"
           >
             <div className="mt-auto pt-8 flex items-end justify-center">
-                <div className="w-full bg-white/5 rounded-lg p-3 space-y-2 border border-white/5">
+                <div className="w-full bg-white/5 rounded-lg p-3 space-y-2 border border-white/5 group-hover:border-white/20 transition-colors">
                     <div className="flex items-center gap-2 mb-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                         <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Disparo Ativo</span>
@@ -150,9 +199,9 @@ export const BentoGrid: React.FC = () => {
             delay="300"
           >
              <div className="absolute bottom-4 right-4 flex -space-x-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 border-2 border-[#050505] shadow-lg" title="SDR" />
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-[#050505] shadow-lg" title="Suporte" />
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-green-500 border-2 border-[#050505] shadow-lg" title="Closer" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 border-2 border-[#050505] shadow-lg transform group-hover:translate-x-1 transition-transform" title="SDR" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-[#050505] shadow-lg z-10 transform group-hover:-translate-y-1 transition-transform" title="Suporte" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-green-500 border-2 border-[#050505] shadow-lg transform group-hover:-translate-x-1 transition-transform" title="Closer" />
              </div>
           </BentoCard>
 

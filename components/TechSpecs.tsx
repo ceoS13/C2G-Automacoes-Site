@@ -113,7 +113,8 @@ export const TechSpecs: React.FC = () => {
                         <React.Fragment key={node.id}>
                           {/* Node Item */}
                           <div 
-                            className="flex flex-col items-center gap-3 w-32 group shrink-0 cursor-pointer focus:outline-none"
+                            className="flex flex-col items-center gap-3 w-32 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none"
+                            style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}
                             onClick={() => setActiveNodeId(node.id)}
                             onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setActiveNodeId(node.id)}
                             role="button"
@@ -122,9 +123,9 @@ export const TechSpecs: React.FC = () => {
                           >
                               <div 
                                 className={`
-                                  w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-[#111] border-2 flex items-center justify-center z-10 relative 
-                                  transition-all duration-300 group-hover:scale-105
-                                  ${isActive ? `${node.borderColor} ${node.shadowColor} scale-105 bg-opacity-100` : 'border-white/10 hover:border-white/30 bg-opacity-80 backdrop-blur-sm'}
+                                  w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-[#111] flex items-center justify-center z-10 relative 
+                                  transition-all duration-300 group-hover:scale-105 pointer-events-none
+                                  ${isActive ? `${node.shadowColor} scale-105 bg-opacity-100` : 'bg-opacity-80 backdrop-blur-sm'}
                                 `}
                               >
                                   <Icon 
@@ -135,12 +136,12 @@ export const TechSpecs: React.FC = () => {
                                     <div className={`absolute -top-1 -right-1 w-3 h-3 ${node.bgColor} rounded-full animate-pulse`} />
                                   )}
                               </div>
-                              <div className="text-center">
+                              <div className="text-center pointer-events-none">
                                   <span className={`
-                                    block text-xs font-mono px-2 py-1 rounded border transition-colors duration-300
+                                    block text-xs font-mono px-2 py-1 rounded transition-colors duration-300
                                     ${isActive 
-                                      ? `${node.textColor} bg-black/50 ${node.borderColor.replace('border-', 'border-opacity-30 ')}` 
-                                      : 'text-zinc-500 border-white/5 bg-black/30'
+                                      ? `${node.textColor} bg-black/50` 
+                                      : 'text-zinc-500 bg-black/30'
                                     }
                                   `}>
                                     {node.title}
