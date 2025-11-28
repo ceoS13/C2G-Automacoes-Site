@@ -23,7 +23,7 @@ const ProductCard: React.FC<{
       {icon}
     </div>
     
-    <h3 className="text-2xl font-bold text-zinc-100 mb-2">{title}</h3>
+    <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
     <p className="text-zinc-400 mb-6 h-20">{description}</p>
     
     <ul className="space-y-3 mb-8">
@@ -51,7 +51,7 @@ export const Solutions: React.FC = () => {
     <section id="solutions" className="py-16 md:py-24 bg-[#050505] relative">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="text-center mb-20" data-aos="fade-up">
-          <h2 className="text-3xl md:text-5xl font-bold text-zinc-100 mb-6">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
             Nossos Agentes
           </h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">

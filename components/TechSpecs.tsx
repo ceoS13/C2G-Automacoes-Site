@@ -66,7 +66,7 @@ export const TechSpecs: React.FC = () => {
         {/* Why C2G */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16 md:mb-24">
           <div data-aos="fade-right" className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-bold text-zinc-100 mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
               Por que a <span className="text-cyan-400">C2G</span>?
             </h2>
             <p className="text-zinc-400 mb-8 text-lg leading-relaxed">
@@ -85,7 +85,7 @@ export const TechSpecs: React.FC = () => {
                     {item.icon}
                   </div>
                   <div>
-                    <h4 className="text-zinc-100 font-semibold text-lg">{item.title}</h4>
+                    <h4 className="text-white font-semibold text-lg">{item.title}</h4>
                     <p className="text-sm text-zinc-500">{item.text}</p>
                   </div>
                 </li>

@@ -21,7 +21,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, id }) => {
         aria-expanded={isOpen}
         aria-controls={panelId}
       >
-        <span className="text-lg font-medium text-zinc-100 pr-4">{question}</span>
+        <span className="text-lg font-medium text-white pr-4">{question}</span>
         <ChevronDown 
             className={`text-zinc-500 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} 
             aria-hidden="true" 
@@ -68,7 +68,7 @@ export const FAQ: React.FC = () => {
   return (
     <section id="faq" className="py-20 md:py-32 bg-[#080808]">
       <div className="max-w-3xl mx-auto px-6 md:px-8" data-aos="fade-up">
-        <h2 className="text-4xl font-bold text-zinc-100 mb-12 text-center">
+        <h2 className="text-4xl font-bold text-white mb-12 text-center">
           Perguntas Frequentes
         </h2>
         

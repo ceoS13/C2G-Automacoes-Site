@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
 
           {/* Product Column */}
           <nav aria-label="Links de Produtos">
-            <h4 className="text-zinc-100 font-semibold mb-6">Produto</h4>
+            <h4 className="text-white font-semibold mb-6">Produto</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#solutions" className="hover:text-white transition-colors">Ísis (Atendimento)</a></li>
               <li><a href="#solutions" className="hover:text-white transition-colors">Growth Autônomo</a></li>
@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
 
           {/* Company Column */}
           <nav aria-label="Links da Empresa">
-            <h4 className="text-zinc-100 font-semibold mb-6">Empresa</h4>
+            <h4 className="text-white font-semibold mb-6">Empresa</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Sobre Nós</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Hiring</span></a></li>
@@ -52,7 +52,7 @@ export const Footer: React.FC = () => {
 
           {/* Legal Column */}
           <nav aria-label="Links Legais">
-            <h4 className="text-zinc-100 font-semibold mb-6">Legal</h4>
+            <h4 className="text-white font-semibold mb-6">Legal</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Termos de Uso</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Política de Privacidade</a></li>

@@ -30,6 +30,11 @@ export const Hero: React.FC = () => {
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       
+      {/* Aurora Background Effect */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-900/30 rounded-full mix-blend-screen filter blur-[100px] animate-blob" />
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-900/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000" />
+      <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-cyan-900/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-4000" />
+
       {/* Dynamic Cursor Spotlight - Instant Tracking */}
       <motion.div 
         className="fixed top-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-screen"
@@ -53,10 +58,10 @@ export const Hero: React.FC = () => {
 
         <div data-aos="fade-up" data-aos-duration="1000">
           <motion.h1 
-            className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-zinc-100 mb-8 leading-[1.1] md:leading-[0.9]"
+            className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-8 leading-[1.1] md:leading-[0.9]"
             style={{ y: yTitle }}
           >
-            <span className="block text-transparent bg-clip-text bg-gradient-to-b from-zinc-100 to-zinc-500 uppercase">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 uppercase">
               IA PARA
             </span>
             <span className="block relative uppercase mt-2 md:mt-0">
@@ -71,7 +76,7 @@ export const Hero: React.FC = () => {
             className="max-w-3xl mx-auto text-lg md:text-xl text-zinc-400 mb-12 font-light leading-relaxed px-4"
             style={{ y: yText }}
           >
-            Saia da micro-gestão. Desenvolvemos <span className="text-zinc-100 font-medium">Ecossistemas de IA</span> que conectam Vendas, Financeiro, Processos e Atendimento em um fluxo único e autônomo. Sua empresa rodando sozinha, de ponta a ponta.
+            Saia da micro-gestão. Desenvolvemos <span className="text-white font-medium">Ecossistemas de IA</span> que conectam Vendas, Financeiro, Processos e Atendimento em um fluxo único e autônomo. Sua empresa rodando sozinha, de ponta a ponta.
           </motion.p>
         </div>
 

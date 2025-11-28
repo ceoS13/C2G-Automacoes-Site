@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { TechMarquee } from './components/TechMarquee';
 import { ChatDemo } from './components/ChatDemo';
 import { BentoGrid } from './components/BentoGrid';
 import { TechSpecs } from './components/TechSpecs';
 import { Pricing } from './components/Pricing';
 import { FAQ } from './components/FAQ';
+import { About } from './components/About';
+import { Stats } from './components/Stats';
 import { Footer } from './components/Footer';
 
 const App: React.FC = () => {
@@ -46,15 +49,18 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-zinc-100 overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
+    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       <main>
         <Hero />
+        <TechMarquee />
         <ChatDemo />
         <BentoGrid />
         <TechSpecs />
         <Pricing />
         <FAQ />
+        <About />
+        <Stats />
       </main>
       <Footer />
     </div>

@@ -18,7 +18,7 @@ const BentoCard: React.FC<{
       <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300 group-hover:bg-cyan-600 group-hover:text-white">
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-zinc-100 mb-2">{title}</h3>
+      <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
       <p className="text-zinc-400 text-sm leading-relaxed">{subtitle}</p>
     </div>
     
@@ -74,7 +74,7 @@ export const BentoGrid: React.FC = () => {
     <section id="solutions" className="py-20 md:py-32 bg-[#050505]">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="mb-16" data-aos="fade-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             O Sistema Operacional <br/>
             <span className="text-zinc-500">da sua Empresa.</span>
           </h2>

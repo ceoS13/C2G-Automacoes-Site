@@ -92,7 +92,7 @@ export const ChatDemo: React.FC = () => {
           
           <div ref={containerRef} data-aos="fade-right" className="relative z-10">
             <div className="bg-black/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border border-white/10 md:border-none p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none">
-                <h2 className="text-4xl md:text-6xl font-bold text-zinc-100 mb-6 tracking-tight leading-tight">
+                <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
                 Muito além do <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
                     WhatsApp.
@@ -207,7 +207,7 @@ export const ChatDemo: React.FC = () => {
                           className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${
                             msg.role === 'user'
                               ? 'bg-zinc-100 text-black rounded-br-none'
-                              : 'bg-white/5 text-zinc-100 border border-white/5 rounded-bl-none'
+                              : 'bg-white/5 text-white border border-white/5 rounded-bl-none'
                           }`}
                         >
                           {msg.content}

@@ -6,7 +6,7 @@ export const ProblemSection: React.FC = () => {
     <section className="py-20 md:py-32 bg-[#080808] border-y border-white/5">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             O Abismo entre Ter um Chatbot e <span className="text-cyan-400">Ter Resultado</span>
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -64,7 +64,7 @@ export const ProblemSection: React.FC = () => {
                 "Integrado ao ERP, CRM e APIs bancárias",
                 "Auditoria e Governança anti-erro"
               ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-zinc-200">
+                <li key={i} className="flex items-start gap-3 text-white">
                   <CheckCircle size={18} className="text-cyan-500 mt-1 shrink-0" />
                   <span>{item}</span>
                 </li>

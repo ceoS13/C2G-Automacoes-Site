@@ -18,8 +18,8 @@ const PricingCard: React.FC<{
         Mais Popular
       </div>
     )}
-    <h3 className={`text-xl font-bold mb-2 ${highlight ? 'text-cyan-400' : 'text-zinc-100'}`}>{title}</h3>
-    <div className="text-3xl font-bold text-zinc-100 mb-6">{price}<span className="text-sm text-zinc-500 font-normal">/mês</span></div>
+    <h3 className={`text-xl font-bold mb-2 ${highlight ? 'text-cyan-400' : 'text-white'}`}>{title}</h3>
+    <div className="text-3xl font-bold text-white mb-6">{price}<span className="text-sm text-zinc-500 font-normal">/mês</span></div>
     <ul className="space-y-4 mb-8 flex-1">
       {features.map((item, i) => (
         <li key={i} className="flex items-start gap-3 text-zinc-400 text-sm">
@@ -47,7 +47,7 @@ export const Pricing: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             A Realidade <span className="text-cyan-500">Comercial</span>
           </h2>
           <p className="text-zinc-400 text-lg leading-relaxed">Escolha o plano ideal para escalar sua operação.</p>
@@ -87,7 +87,7 @@ export const Pricing: React.FC = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
                     <div>
                             <div className="uppercase tracking-widest text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">C2G Enterprise</div>
-                            <h3 className="text-3xl font-bold text-zinc-100 mb-2">Plano Enterprise</h3>
+                            <h3 className="text-3xl font-bold text-white mb-2">Plano Enterprise</h3>
                             <p className="text-zinc-400 max-w-xl text-sm leading-relaxed">
                             Para organizações que precisam de orquestração complexa. Inclui Integração com Estoque/ERP, API de Tribunais e Gestor Dedicado.
                             </p>
