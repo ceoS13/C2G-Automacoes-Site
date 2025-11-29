@@ -2,14 +2,8 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Logo } from './ui/Logo';
-
-// Easing function defined outside component to avoid recreation on render
-const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
-  t /= d / 2;
-  if (t < 1) return c / 2 * t * t * t + b;
-  t -= 2;
-  return c / 2 * (t * t * t + 2) + b;
-};
+import { NAV_LINKS, WHATSAPP_LINK } from '../lib/constants';
+import { smoothScrollTo } from '../lib/utils';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,46 +23,12 @@ export const Navbar: React.FC = () => {
     }
   });
 
-  // Custom Smooth Scroll Function
-  const smoothScrollTo = (targetId: string, duration: number = 1500) => {
-    const target = document.getElementById(targetId);
-    if (!target) return;
-
-    const startPosition = window.scrollY;
-    const targetPosition = target.getBoundingClientRect().top + window.scrollY - 20; 
-    const distance = targetPosition - startPosition;
-    let startTime: number | null = null;
-
-    const animation = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      
-      const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
-      window.scrollTo(0, run);
-
-      if (timeElapsed < duration) {
-        requestAnimationFrame(animation);
-      }
-    };
-
-    requestAnimationFrame(animation);
-  };
-
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
     smoothScrollTo(targetId, 1200);
     setIsOpen(false);
   };
-
-  const navLinks = [
-    { name: 'Soluções', href: '#solutions' },
-    { name: 'Tecnologia', href: '#tech' },
-    { name: 'Preços', href: '#pricing' },
-    { name: 'Sobre Nós', href: '#about' },
-    { name: 'Equipe', href: '#team' },
-    { name: 'FAQ', href: '#faq' },
-  ];
 
   return (
     <>
@@ -98,7 +58,7 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Nav Links - Absolute Center */}
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1">
-            {navLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
@@ -113,7 +73,7 @@ export const Navbar: React.FC = () => {
           {/* CTA Button & Mobile Toggle - Right Align */}
           <div className="flex-1 flex justify-end items-center gap-4">
             <a 
-              href="https://wa.me/"
+              href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 border border-white/5 text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-cyan-500"
@@ -145,7 +105,7 @@ export const Navbar: React.FC = () => {
               className="absolute top-full left-0 w-full mt-2 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl p-4 md:hidden"
             >
               <div className="flex flex-col space-y-1">
-                {navLinks.map((link) => (
+                {NAV_LINKS.map((link) => (
                   <a
                     key={link.name}
                     href={link.href}
@@ -157,7 +117,7 @@ export const Navbar: React.FC = () => {
                 ))}
                 <div className="h-px bg-white/5 my-2" />
                 <a 
-                  href="https://wa.me/"
+                  href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"

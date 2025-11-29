@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
+import { smoothScrollTo } from '../lib/utils';
 
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
@@ -82,7 +83,7 @@ export const Hero: React.FC = () => {
             <button 
               type="button"
               className="group relative px-8 py-4 bg-zinc-100 text-black font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
-              onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => smoothScrollTo('solutions')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-200 to-blue-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center justify-center gap-2">
@@ -92,7 +93,7 @@ export const Hero: React.FC = () => {
             
             <button 
                 type="button"
-                onClick={() => document.getElementById('tech')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => smoothScrollTo('tech')}
                 className="flex items-center gap-2 text-zinc-500 hover:text-cyan-400 transition-colors uppercase text-sm tracking-widest font-mono py-2"
             >
               <Cpu size={16} /> Ver Stack Técnica

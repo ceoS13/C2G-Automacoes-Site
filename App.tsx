@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Partners } from './components/Partners';
 import { ChatDemo } from './components/ChatDemo';
+import { Solutions } from './components/Solutions';
 import { BentoGrid } from './components/BentoGrid';
 import { TechSpecs } from './components/TechSpecs';
 import { Pricing } from './components/Pricing';
@@ -11,31 +12,38 @@ import { FAQ } from './components/FAQ';
 import { About } from './components/About';
 import { Footer } from './components/Footer';
 
+// Define AOS type to avoid @ts-ignore
+declare global {
+  interface Window {
+    AOS: {
+      init: (options: any) => void;
+      refresh: () => void;
+    };
+  }
+}
+
 const App: React.FC = () => {
   // Smooth scroll behavior and AOS Initialization
   useEffect(() => {
-    document.documentElement.style.scrollBehavior = 'smooth';
+    // Determine if we want native smooth scroll or JS controlled. 
+    // Setting it to auto here allows our custom smoothScrollTo to work without fighting native behavior.
+    document.documentElement.style.scrollBehavior = 'auto';
     
-    // Initialize AOS after React has mounted the component tree
     const initAOS = () => {
-      // @ts-ignore
       if (window.AOS) {
-        // @ts-ignore
         window.AOS.init({
           duration: 1000,
-          once: true, // Optimization: Only animate once to save resources
+          once: true,
           easing: 'ease-out-cubic',
           offset: 50,
         });
         // Force refresh to detect elements rendered by React
         setTimeout(() => {
-          // @ts-ignore
           window.AOS.refresh();
         }, 100);
       }
     };
 
-    // Check if AOS is loaded, if not wait for it
     if (document.readyState === 'complete') {
       initAOS();
     } else {
@@ -43,7 +51,6 @@ const App: React.FC = () => {
     }
     
     return () => {
-      document.documentElement.style.scrollBehavior = 'auto';
       window.removeEventListener('load', initAOS);
     };
   }, []);
@@ -55,6 +62,7 @@ const App: React.FC = () => {
         <Hero />
         <Partners />
         <ChatDemo />
+        <Solutions />
         <BentoGrid />
         <TechSpecs />
         <Pricing />

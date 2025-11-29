@@ -1,6 +1,7 @@
 import React from 'react';
 import { Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
 import { Logo } from './ui/Logo';
+import { NAV_LINKS, SOCIAL_LINKS } from '../lib/constants';
 
 export const Footer: React.FC = () => {
   return (
@@ -20,9 +21,9 @@ export const Footer: React.FC = () => {
               Engenharia de software aplicada a inteligência artificial. Criamos o futuro do trabalho autônomo para empresas que lideram seus setores.
             </p>
             <div className="flex gap-4">
-              <a href="#" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
-              <a href="#" aria-label="Instagram" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
-              <a href="#" aria-label="Twitter" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Twitter size={18} /></a>
+              <a href={SOCIAL_LINKS.linkedin} aria-label="LinkedIn" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
+              <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
+              <a href={SOCIAL_LINKS.twitter} aria-label="Twitter" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Twitter size={18} /></a>
             </div>
           </div>
 
@@ -42,8 +43,10 @@ export const Footer: React.FC = () => {
           <nav aria-label="Links da Empresa">
             <h4 className="text-white font-semibold mb-6">Empresa</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Sobre Nós</a></li>
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Hiring</span></a></li>
+              {NAV_LINKS.filter(l => l.name === 'Sobre Nós' || l.name === 'Equipe').map(link => (
+                  <li key={link.name}><a href={link.href} className="hover:text-white transition-colors">{link.name}</a></li>
+              ))}
+              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Contratando</span></a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Blog Tech</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Imprensa</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
@@ -57,7 +60,7 @@ export const Footer: React.FC = () => {
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Termos de Uso</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Política de Privacidade</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Compliance</a></li>
-              <li><a href="#" rel="noopener noreferrer" target="_blank" className="hover:text-white transition-colors flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> System Status</a></li>
+              <li><a href="#" rel="noopener noreferrer" target="_blank" className="hover:text-white transition-colors flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Status do Sistema</a></li>
             </ul>
           </nav>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageSquare, Rocket, Lock, ArrowUpRight } from 'lucide-react';
 import { Button } from './ui/Button';
+import { WHATSAPP_LINK } from '../lib/constants';
 
 // Memoized card component to prevent re-renders on parent state changes
 const ProductCard: React.FC<{
@@ -38,7 +39,7 @@ const ProductCard: React.FC<{
     <Button 
       variant="ghost" 
       className="!p-0 hover:!bg-transparent group-hover:text-cyan-400 group-hover:gap-4 transition-all" 
-      onClick={() => window.open('https://wa.me/', '_blank')}
+      onClick={() => window.open(WHATSAPP_LINK, '_blank')}
       title={`Saiba mais sobre ${title}`}
     >
       Saiba mais <ArrowUpRight size={16} />

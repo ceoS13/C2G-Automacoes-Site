@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, Building2, ArrowRight, Activity, ScanLine } from 'lucide-react';
+import { WHATSAPP_LINK } from '../lib/constants';
 
 // HyperText Component for the Decoder Effect
 const HyperText: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
@@ -89,7 +90,7 @@ const PricingCard: React.FC<{
         </ul>
         <button 
             type="button"
-            onClick={() => window.open('https://wa.me/', '_blank')}
+            onClick={() => window.open(WHATSAPP_LINK, '_blank')}
             className={`w-full py-3 rounded-xl transition-all font-medium relative overflow-hidden group ${
                 highlight 
                 ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' 
@@ -192,7 +193,7 @@ export const Pricing: React.FC = () => {
                         </div>
                         <button 
                             type="button"
-                            onClick={() => window.open('https://wa.me/', '_blank')}
+                            onClick={() => window.open(WHATSAPP_LINK, '_blank')}
                             className="bg-white text-black hover:bg-zinc-200 px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-105 active:scale-95 whitespace-nowrap"
                         >
                             Falar com Consultor <ArrowRight size={18} />

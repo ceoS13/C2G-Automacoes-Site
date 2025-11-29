@@ -42,7 +42,7 @@ const WORKFLOW_NODES = [
   },
   { 
     id: 'tools',
-    title: 'Tools & ERP',
+    title: 'Ferramentas & ERP',
     short: 'Ação',
     description: 'Execução real: Consulta Google Calendar, cria registros no CRM/Supabase e dispara Webhooks para seu ERP.',
     icon: Database,
@@ -204,7 +204,7 @@ export const TechSpecs: React.FC = () => {
                 {/* Floating Tags */}
                 <div className="absolute top-4 right-4 flex gap-2 z-20">
                     <div className="px-2 py-1 bg-white/5 rounded text-[10px] text-zinc-500 font-mono border border-white/5">Execução: 450ms</div>
-                    <div className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-mono border border-emerald-500/20">Status: Success</div>
+                    <div className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-mono border border-emerald-500/20">Status: Sucesso</div>
                 </div>
 
                 {/* Disclaimer Caption - Aligned to bottom LEFT with parent padding */}

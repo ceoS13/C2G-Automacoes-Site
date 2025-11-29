@@ -101,7 +101,7 @@ const IsisAnalysisWidget = () => {
              className="flex items-center gap-1.5 text-emerald-400 font-bold tracking-wider"
            >
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_#34d399]" />
-              LIVE ANALYSIS
+              ANÁLISE AO VIVO
            </motion.div>
         </div>
 
@@ -120,7 +120,7 @@ const IsisAnalysisWidget = () => {
                     <div className="p-1.5 bg-blue-500/10 rounded text-blue-400">
                         <User size={14} />
                     </div>
-                    <span className="text-[10px] uppercase tracking-wide">Prospect</span>
+                    <span className="text-[10px] uppercase tracking-wide">Lead</span>
                 </div>
                 <div>
                     <div className="text-white font-bold text-sm">Carlos Mendes</div>
@@ -144,14 +144,14 @@ const IsisAnalysisWidget = () => {
                 {/* Intent */}
                 <div>
                     <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1">
-                        <Target size={10} /> Intent
+                        <Target size={10} /> Intenção
                     </div>
                     <div className="text-white font-bold">Agendamento</div>
                 </div>
                 {/* Sentiment */}
                 <div>
                     <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1">
-                        <Smile size={10} /> Sentiment
+                        <Smile size={10} /> Sentimento
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="h-1.5 flex-1 bg-zinc-800 rounded-full overflow-hidden">
@@ -175,7 +175,7 @@ const IsisAnalysisWidget = () => {
                 transition={{ delay: 0.3 }}
                 className="bg-white/5 border border-white/5 rounded-xl p-2 flex flex-col items-center justify-center relative hover:bg-white/10 transition-colors group"
             >
-                <div className="absolute top-2 left-2 text-[10px] text-zinc-500 uppercase tracking-wide">Score</div>
+                <div className="absolute top-2 left-2 text-[10px] text-zinc-500 uppercase tracking-wide">Nota</div>
                 
                 <div className="relative w-20 h-20 flex items-center justify-center mt-2">
                     {/* SVG Donut */}
@@ -211,7 +211,7 @@ const IsisAnalysisWidget = () => {
                         <span className="text-xl font-bold text-white">92</span>
                     </div>
                 </div>
-                <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">Hot Lead</span>
+                <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">Lead Quente</span>
             </motion.div>
 
         </div>
@@ -242,7 +242,7 @@ const IsisAnalysisWidget = () => {
                     >
                         <div className="flex items-center gap-2">
                             <Code2 size={12} className="text-cyan-600"/>
-                            <span className="font-mono tracking-tight text-[11px] font-bold">{`> Trigger: Calendar_API.exec()`}</span>
+                            <span className="font-mono tracking-tight text-[11px] font-bold">{`> Trigger: Agenda_API.exec()`}</span>
                         </div>
                         <Zap size={14} className="fill-cyan-500/20 animate-pulse group-hover:fill-cyan-400 transition-colors" />
                     </motion.div>
@@ -255,7 +255,7 @@ const IsisAnalysisWidget = () => {
                         className="flex items-center justify-center w-full gap-2"
                     >
                         <Loader2 size={14} className="animate-spin" />
-                        <span className="font-mono text-[11px]">Processing Request...</span>
+                        <span className="font-mono text-[11px]">Processando requisição...</span>
                     </motion.div>
                 )}
 
@@ -266,7 +266,7 @@ const IsisAnalysisWidget = () => {
                         className="flex items-center justify-center w-full gap-2"
                     >
                         <Check size={14} className="stroke-[3]" />
-                        <span className="font-mono text-[11px] font-bold">Calendar Invite Sent!</span>
+                        <span className="font-mono text-[11px] font-bold">Convite Enviado!</span>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -517,13 +517,13 @@ const SecurityWidget = () => {
     
     useEffect(() => {
         const allLogs = [
-          "Init AVA_Protocol v2.4...",
-          "Scanning message intent...",
-          "Analyzing sentiment...",
-          "Checking PII patterns...",
-          "Validating business rules...",
-          "Encryption verified (AES-256)",
-          "Access granted."
+          "Iniciando Protocolo AVA v2.4...",
+          "Escaneando intenção da mensagem...",
+          "Analisando sentimento...",
+          "Verificando padrões PII...",
+          "Validando regras de negócio...",
+          "Criptografia verificada (AES-256)",
+          "Acesso permitido."
         ];
         
         let currentIndex = 0;
@@ -558,7 +558,7 @@ const SecurityWidget = () => {
                       className="flex gap-2"
                     >
                         <span className="text-zinc-600">{`>`}</span>
-                        <span className={line && line.includes("granted") ? "text-emerald-400 font-bold" : "text-zinc-400"}>
+                        <span className={line && line.includes("permitido") ? "text-emerald-400 font-bold" : "text-zinc-400"}>
                           {line}
                         </span>
                     </motion.div>
@@ -573,14 +573,14 @@ const SecurityWidget = () => {
              <div className="h-8 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between px-3">
                  <div className="flex items-center gap-2">
                      <Lock size={10} className="text-emerald-500" />
-                     <span className="text-[10px] font-bold text-emerald-400 tracking-wider">SECURITY CHECK</span>
+                     <span className="text-[10px] font-bold text-emerald-400 tracking-wider">VERIFICAÇÃO DE SEGURANÇA</span>
                  </div>
                  <motion.div 
                     animate={{ opacity: [0.6, 1, 0.6], boxShadow: ["0 0 0px rgba(16,185,129,0)", "0 0 10px rgba(16,185,129,0.5)", "0 0 0px rgba(16,185,129,0)"] }}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20"
                  >
-                     PASS
+                     APROVADO
                  </motion.div>
              </div>
         </div>
@@ -594,8 +594,8 @@ const ServerWidget = () => {
              {/* CPU */}
              <div>
                  <div className="flex justify-between text-xs mb-1.5">
-                     <span className="text-zinc-500 flex items-center gap-1"><Terminal size={10}/> n8n WORKERS</span>
-                     <span className="text-cyan-400 font-mono text-[10px] bg-cyan-900/20 px-1 rounded">OPERATIONAL</span>
+                     <span className="text-zinc-500 flex items-center gap-1"><Terminal size={10}/> WORKERS n8n</span>
+                     <span className="text-cyan-400 font-mono text-[10px] bg-cyan-900/20 px-1 rounded">OPERACIONAL</span>
                  </div>
                  <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
                      <motion.div 
@@ -608,8 +608,8 @@ const ServerWidget = () => {
              {/* RAM */}
              <div>
                  <div className="flex justify-between text-xs mb-1.5">
-                     <span className="text-zinc-500 flex items-center gap-1"><Server size={10}/> REDIS MEMORY</span>
-                     <span className="text-blue-400 font-mono text-[10px] bg-blue-900/20 px-1 rounded">OPTIMIZED</span>
+                     <span className="text-zinc-500 flex items-center gap-1"><Server size={10}/> MEMÓRIA REDIS</span>
+                     <span className="text-blue-400 font-mono text-[10px] bg-blue-900/20 px-1 rounded">OTIMIZADO</span>
                  </div>
                  <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
                      <motion.div 
@@ -622,7 +622,7 @@ const ServerWidget = () => {
              {/* Latency */}
              <div>
                  <div className="flex justify-between text-xs mb-1.5">
-                     <span className="text-zinc-500 flex items-center gap-1"><Activity size={10}/> API LATENCY</span>
+                     <span className="text-zinc-500 flex items-center gap-1"><Activity size={10}/> LATÊNCIA API</span>
                      <span className="text-emerald-400 font-mono text-[10px]">24ms</span>
                  </div>
                  <div className="flex gap-0.5 mt-1">
@@ -643,9 +643,9 @@ const ServerWidget = () => {
 // --- WIDGET 6: Connected Team (Multi-Agent) ---
 const TeamWidget = () => {
     const roles = [
-        { name: "SDR Agent", status: "Active", color: "bg-orange-400", shadowColor: "rgba(251,146,60,0.6)" },
-        { name: "Closer Agent", status: "Active", color: "bg-emerald-400", shadowColor: "rgba(52,211,153,0.6)" },
-        { name: "Support Bot", status: "Idle", color: "bg-blue-400", shadowColor: "rgba(96,165,250,0.6)" }
+        { name: "Agente SDR", status: "Ativo", color: "bg-orange-400", shadowColor: "rgba(251,146,60,0.6)" },
+        { name: "Agente Closer", status: "Ativo", color: "bg-emerald-400", shadowColor: "rgba(52,211,153,0.6)" },
+        { name: "Bot Suporte", status: "Ocioso", color: "bg-blue-400", shadowColor: "rgba(96,165,250,0.6)" }
     ];
     return (
         <div className="p-5 flex flex-col justify-center h-full relative z-10">
@@ -667,7 +667,7 @@ const TeamWidget = () => {
                             />
                             <span className="text-xs font-medium text-zinc-300">{role.name}</span>
                         </div>
-                        <span className={`text-[10px] font-mono ${role.status === 'Active' ? 'text-zinc-400' : 'text-zinc-600'}`}>{role.status}</span>
+                        <span className={`text-[10px] font-mono ${role.status === 'Ativo' ? 'text-zinc-400' : 'text-zinc-600'}`}>{role.status}</span>
                     </div>
                 ))}
             </div>
@@ -697,10 +697,10 @@ const UptimeWidget = () => {
 
     return (
         <div className="border-l border-white/5 p-5 flex flex-col justify-center relative z-10 h-full">
-            <div className="text-zinc-500 text-xs mb-2">UPTIME</div>
+            <div className="text-zinc-500 text-xs mb-2">DISPONIBILIDADE</div>
             <div className="text-2xl font-mono text-white flex items-center gap-2">
                 {percent}%
-                <span className="text-[10px] text-emerald-400 bg-emerald-900/20 px-1 rounded border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.3)]">STABLE</span>
+                <span className="text-[10px] text-emerald-400 bg-emerald-900/20 px-1 rounded border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.3)]">ESTÁVEL</span>
             </div>
         </div>
     );
@@ -725,7 +725,7 @@ export const BentoGrid: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-white/10 rounded-full text-xs font-mono text-zinc-400">
              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
-             SYSTEM ONLINE
+             SISTEMA ONLINE
           </div>
         </div>
 
@@ -734,7 +734,7 @@ export const BentoGrid: React.FC = () => {
           
           {/* 1. Ísis Analysis HUD (Redesigned Modular) */}
           <DashboardCard 
-            title="Ísis Lead Profiler" 
+            title="Analisador de Leads Ísis" 
             icon={<BrainCircuit size={16}/>} 
             className="md:col-span-2 md:row-span-2"
             delay="0"
@@ -744,7 +744,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 2. Growth (Vertical) */}
           <DashboardCard 
-            title="Growth Engine" 
+            title="Motor de Crescimento" 
             icon={<Zap size={16}/>} 
             className="md:col-span-1 md:row-span-2"
             delay="100"
@@ -754,7 +754,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 3. Governance (Pequeno) */}
           <DashboardCard 
-            title="A.V.A Protocol" 
+            title="Protocolo A.V.A" 
             icon={<ShieldCheck size={16}/>} 
             className="md:col-span-1 md:row-span-1"
             headerAction={<div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />}
@@ -765,7 +765,7 @@ export const BentoGrid: React.FC = () => {
           
            {/* 4. Server Health (Pequeno) */}
            <DashboardCard 
-            title="Infrastructure" 
+            title="Infraestrutura" 
             icon={<Server size={16}/>} 
             className="md:col-span-1 md:row-span-1"
             delay="300"
@@ -775,7 +775,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 5. Team Nodes (Largo) */}
           <DashboardCard 
-            title="Active Agents" 
+            title="Agentes Ativos" 
             icon={<Users size={16}/>} 
             className="md:col-span-2 md:row-span-1"
             delay="400"
@@ -788,7 +788,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 6. Analytics (Largo) */}
           <DashboardCard 
-            title="Real-Time Analytics" 
+            title="Métricas em Tempo Real" 
             icon={<Activity size={16}/>} 
             className="md:col-span-2 md:row-span-1"
             delay="500"
