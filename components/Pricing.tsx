@@ -1,5 +1,50 @@
-import React from 'react';
-import { Check, Building2, ArrowRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Check, Building2, ArrowRight, Activity, ScanLine } from 'lucide-react';
+
+// HyperText Component for the Decoder Effect
+const HyperText: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
+  const [displayText, setDisplayText] = useState(text);
+  const [isScrambling, setIsScrambling] = useState(false);
+  const iterations = useRef(0);
+
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#%&";
+
+  const scramble = () => {
+    if (isScrambling) return;
+    setIsScrambling(true);
+    iterations.current = 0;
+
+    const interval = setInterval(() => {
+      setDisplayText((prev) =>
+        text
+          .split("")
+          .map((letter, index) => {
+            if (index < iterations.current) {
+              return text[index];
+            }
+            return letters[Math.floor(Math.random() * letters.length)];
+          })
+          .join("")
+      );
+
+      if (iterations.current >= text.length) {
+        clearInterval(interval);
+        setIsScrambling(false);
+      }
+
+      iterations.current += 1 / 3;
+    }, 30);
+  };
+
+  return (
+    <span 
+      onMouseEnter={scramble} 
+      className={`inline-block cursor-default ${className}`}
+    >
+      {displayText}
+    </span>
+  );
+};
 
 const PricingCard: React.FC<{
   title: string;
@@ -66,12 +111,32 @@ export const Pricing: React.FC = () => {
       {/* Background Gradient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
 
+      {/* Grid Pattern Overlay for Scanner Effect */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" />
+
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            A Realidade <span className="text-cyan-500">Comercial</span>
-          </h2>
-          <p className="text-zinc-400 text-lg leading-relaxed">Escolha o plano ideal para escalar sua operação.</p>
+        
+        {/* Terminal Header */}
+        <div className="text-center mb-16 relative" data-aos="fade-up">
+            
+            {/* Live Status Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded border border-cyan-500/30 bg-cyan-950/20 backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                <span className="text-[10px] font-mono text-cyan-400 tracking-widest uppercase">Análise de Custos: Online</span>
+            </div>
+
+            {/* Scanner Beam Background */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-32 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent blur-xl animate-[pulse_4s_ease-in-out_infinite] -z-10" />
+
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                A Realidade <HyperText text="Comercial" className="text-cyan-500 font-mono" />
+            </h2>
+            <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl mx-auto">
+                Escolha o plano ideal para escalar sua operação com infraestrutura de nível militar.
+            </p>
         </div>
 
         <div className="max-w-6xl mx-auto">
@@ -98,7 +163,7 @@ export const Pricing: React.FC = () => {
               />
             </div>
 
-            {/* Enterprise Card (Restored) */}
+            {/* Enterprise Card */}
             <article 
               data-aos="zoom-in-up"
               className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#111] to-[#000] border border-white/10 p-8 md:p-12 shadow-2xl hover:border-cyan-500/20 transition-all group"
@@ -109,10 +174,10 @@ export const Pricing: React.FC = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
                     <div className="flex-1">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="p-2 bg-white/5 rounded-lg text-zinc-400 border border-white/5">
+                            <div className="p-2 bg-white/5 rounded-lg text-zinc-400 border border-white/5 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all">
                                 <Building2 size={24} />
                             </div>
-                            <div className="uppercase tracking-widest text-xs font-bold text-zinc-500">Para Grandes Volumes</div>
+                            <div className="uppercase tracking-widest text-xs font-bold text-zinc-500 font-mono">Para Grandes Volumes</div>
                         </div>
                         <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Enterprise</h3>
                         <p className="text-zinc-400 text-lg leading-relaxed max-w-xl">
@@ -122,8 +187,8 @@ export const Pricing: React.FC = () => {
 
                     <div className="flex flex-col sm:flex-row items-center gap-6">
                         <div className="flex flex-col gap-2 text-sm text-zinc-500">
-                             <span className="flex items-center gap-2"><Check size={14} className="text-emerald-500"/> API Dedicada</span>
-                             <span className="flex items-center gap-2"><Check size={14} className="text-emerald-500"/> Deploy On-Premise</span>
+                             <span className="flex items-center gap-2"><Activity size={14} className="text-emerald-500"/> API Dedicada</span>
+                             <span className="flex items-center gap-2"><ScanLine size={14} className="text-emerald-500"/> Deploy On-Premise</span>
                         </div>
                         <button 
                             type="button"

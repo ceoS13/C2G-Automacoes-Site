@@ -2,32 +2,6 @@ import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
 
-// Meteors Component
-const Meteors = ({ number = 20 }: { number?: number }) => {
-  const meteors = new Array(number).fill(true);
-  return (
-    <>
-      {meteors.map((_, idx) => (
-        <span
-          key={"meteor" + idx}
-          className={
-            "animate-meteor absolute top-1/2 left-1/2 h-0.5 w-0.5 rounded-[9999px] bg-cyan-200 shadow-[0_0_0_1px_rgba(255,255,255,0.1)] rotate-[215deg]"
-          }
-          style={{
-            top: 0,
-            left: Math.floor(Math.random() * (400 - -400) + -400) + "px",
-            animationDelay: Math.random() * (0.8 - 0.2) + 0.2 + "s",
-            animationDuration: Math.floor(Math.random() * (10 - 2) + 2) + "s",
-          }}
-        >
-          {/* Meteor Tail - Brighter tail */}
-          <div className="pointer-events-none absolute top-1/2 -z-10 h-[1px] w-[50px] -translate-y-1/2 bg-gradient-to-r from-cyan-400 to-transparent" />
-        </span>
-      ))}
-    </>
-  );
-};
-
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   
@@ -61,11 +35,6 @@ export const Hero: React.FC = () => {
         style={{ x: mouseX, y: mouseY }}
         aria-hidden="true"
       />
-
-      {/* Meteors Effect - Increased visibility */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-70">
-          <Meteors number={20} />
-      </div>
 
       {/* Neural Network / Grid Background - Cyan Tint */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />

@@ -103,7 +103,7 @@ export const Navbar: React.FC = () => {
                 key={link.name} 
                 href={link.href}
                 onClick={(e) => handleScroll(e, link.href)}
-                className="text-xs lg:text-sm font-medium text-zinc-400 hover:text-white px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                className="text-xs lg:text-sm font-medium text-zinc-400 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
               >
                 {link.name}
               </a>
@@ -150,7 +150,7 @@ export const Navbar: React.FC = () => {
                     key={link.name}
                     href={link.href}
                     onClick={(e) => handleScroll(e, link.href)}
-                    className="block px-4 py-3 rounded-xl text-base font-medium text-zinc-300 hover:text-white hover:bg-white/5 transition-all"
+                    className="block px-4 py-3 rounded-xl text-base font-medium text-zinc-300 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] hover:bg-white/5 transition-all"
                   >
                     {link.name}
                   </a>

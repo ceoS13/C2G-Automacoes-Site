@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { Partners } from './components/Partners';
 import { ChatDemo } from './components/ChatDemo';
 import { BentoGrid } from './components/BentoGrid';
 import { TechSpecs } from './components/TechSpecs';
 import { Pricing } from './components/Pricing';
+import { ImplementationJourney } from './components/ImplementationJourney';
 import { FAQ } from './components/FAQ';
 import { About } from './components/About';
 import { Footer } from './components/Footer';
@@ -51,10 +53,12 @@ const App: React.FC = () => {
       <Navbar />
       <main>
         <Hero />
+        <Partners />
         <ChatDemo />
         <BentoGrid />
         <TechSpecs />
         <Pricing />
+        <ImplementationJourney />
         <About />
         <FAQ />
       </main>
