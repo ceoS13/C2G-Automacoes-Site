@@ -33,6 +33,15 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
       data-aos="fade-up"
       data-aos-delay={delay}
     >
+      {/* Shimmer Loading Effect (One-time) */}
+      <motion.div
+        initial={{ x: '-100%', opacity: 0 }}
+        whileInView={{ x: '200%', opacity: 0.5 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 }}
+        className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none"
+      />
+
       {/* Spotlight Effect Layer */}
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"

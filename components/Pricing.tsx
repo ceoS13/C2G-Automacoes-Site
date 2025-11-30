@@ -133,8 +133,8 @@ export const Pricing: React.FC = () => {
   return (
     <section id="pricing" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
       
-      {/* Background Gradient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Seamless Radial Gradient Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.12)_0%,transparent_70%)] pointer-events-none z-0" />
 
       {/* Static Pattern Overlay (Base layer) */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" />
