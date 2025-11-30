@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo, useEffect } from 'react';
 
 // Using stable CDN (SimpleIcons/Devicon/SVGL) to ensure logos load correctly
+// Updated Google Gemini to jsDelivr for better caching headers
 const PARTNERS = [
   {
     name: 'OpenAI',
@@ -19,8 +20,8 @@ const PARTNERS = [
   },
   {
     name: 'Google Gemini',
-    // New Gradient Logo (Blue/Purple)
-    logoUrl: 'https://raw.githubusercontent.com/pheralb/svgl/main/static/library/gemini.svg',
+    // Optimized: Using jsDelivr CDN instead of raw.githubusercontent for better caching/performance
+    logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/gemini.svg',
     className: 'hover:drop-shadow-[0_0_15px_rgba(66,133,244,0.4)] transition-all duration-500'
   },
   {
@@ -39,7 +40,16 @@ const PARTNERS = [
 
 export const Partners: React.FC = () => {
   // Quadruple the list for an even smoother infinite loop on wider screens
-  const MARQUEE_ITEMS = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
+  // Optimization: useMemo to prevent array recreation on every render
+  const MARQUEE_ITEMS = useMemo(() => [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS], []);
+
+  // Browser Cache Optimization: Preload images as soon as component mounts
+  useEffect(() => {
+    PARTNERS.forEach((partner) => {
+        const img = new Image();
+        img.src = partner.logoUrl;
+    });
+  }, []);
 
   return (
     <section className="py-12 md:py-24 bg-[#050505] relative overflow-hidden z-20 select-none">
@@ -61,7 +71,7 @@ export const Partners: React.FC = () => {
          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none" />
 
          <div className="relative w-full overflow-hidden">
-             <div className="flex w-max animate-marquee items-center group/marquee">
+             <div className="flex w-max animate-marquee items-center group/marquee will-change-transform">
                 {MARQUEE_ITEMS.map((partner, index) => (
                    <div 
                      key={`${partner.name}-${index}`}
@@ -73,7 +83,7 @@ export const Partners: React.FC = () => {
                           src={partner.logoUrl} 
                           alt={partner.name}
                           className={`h-6 md:h-8 w-auto object-contain ${partner.className}`}
-                          loading="lazy"
+                          loading="eager" // Eager loading since we want them visible immediately in the animation
                         />
                      </div>
                    </div>
@@ -89,7 +99,6 @@ export const Partners: React.FC = () => {
         }
         .animate-marquee {
           animation: marquee 40s linear infinite;
-          will-change: transform;
         }
         /* Pause on hover */
         .group\\/marquee:hover .animate-marquee {

@@ -64,7 +64,7 @@ const PricingCard: React.FC<{
   floatDelay?: string; // Prop for async levitation
 }> = React.memo(({ title, price, features, highlight, delay, floatDelay = "0s" }) => (
   <article 
-    className={`relative rounded-3xl flex flex-col h-full transition-all duration-300 animate-float-subtle group/card`}
+    className={`relative rounded-3xl flex flex-col h-full transition-all duration-300 animate-float-subtle group/card will-change-transform`}
     style={{ animationDelay: floatDelay }}
     data-aos="fade-up"
     data-aos-delay={delay}
@@ -191,7 +191,7 @@ export const Pricing: React.FC = () => {
             {/* Enterprise Card - with Levitation and Grid */}
             <article 
               data-aos="zoom-in-up"
-              className="relative rounded-[2rem] animate-float-subtle group"
+              className="relative rounded-[2rem] animate-float-subtle group will-change-transform"
               style={{ animationDelay: '3.5s' }}
             >
                 {/* Inner Container */}

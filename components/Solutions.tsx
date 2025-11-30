@@ -27,7 +27,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
 
   return (
     <div 
-      className="group relative h-full bg-zinc-900/30 border border-white/10 rounded-2xl overflow-hidden animate-float-subtle"
+      className="group relative h-full bg-zinc-900/30 border border-white/10 rounded-2xl overflow-hidden animate-float-subtle will-change-transform"
       style={{ animationDelay: floatDelay }}
       onMouseMove={handleMouseMove}
       data-aos="fade-up"

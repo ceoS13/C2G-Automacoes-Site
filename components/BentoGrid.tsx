@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   BrainCircuit, 
   Zap, 
@@ -32,7 +32,7 @@ const DashboardCard: React.FC<{
 }> = ({ title, icon, className, children, headerAction, delay }) => {
   return (
     <article 
-      className={`group relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 ${className}`}
+      className={`group relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 will-change-transform ${className}`}
       data-aos="fade-up"
       data-aos-delay={delay}
     >
@@ -97,7 +97,7 @@ const IsisAnalysisWidget = () => {
            </div>
            <motion.div 
              animate={{ opacity: [1, 0.4, 1] }}
-             transition={{ duration: 1.5, repeat: Infinity }}
+             transition={{ duration: 2.0, repeat: Infinity }}
              className="flex items-center gap-1.5 text-emerald-400 font-bold tracking-wider"
            >
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_#34d399]" />
@@ -113,7 +113,7 @@ const IsisAnalysisWidget = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
                 className="bg-white/5 border border-white/5 rounded-xl p-3 flex flex-col justify-center gap-2 hover:bg-white/10 transition-colors"
             >
                 <div className="flex items-center gap-2 text-zinc-400 mb-1">
@@ -138,7 +138,7 @@ const IsisAnalysisWidget = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
                 className="bg-white/5 border border-white/5 rounded-xl p-3 flex flex-col justify-center gap-3 hover:bg-white/10 transition-colors"
             >
                 {/* Intent */}
@@ -158,7 +158,7 @@ const IsisAnalysisWidget = () => {
                             <motion.div 
                                 initial={{ width: 0 }}
                                 whileInView={{ width: '98%' }}
-                                transition={{ duration: 1, delay: 0.5 }}
+                                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
                                 className="h-full bg-emerald-500" 
                             />
                         </div>
@@ -172,7 +172,7 @@ const IsisAnalysisWidget = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
                 className="bg-white/5 border border-white/5 rounded-xl p-2 flex flex-row md:flex-col items-center justify-between md:justify-center relative hover:bg-white/10 transition-colors group h-16 md:h-auto px-4 md:px-2"
             >
                 <div className="text-[10px] text-zinc-500 uppercase tracking-wide md:absolute md:top-2 md:left-2">Nota</div>
@@ -195,7 +195,7 @@ const IsisAnalysisWidget = () => {
                             initial={{ strokeDashoffset: circumference }}
                             whileInView={{ strokeDashoffset: strokeDashoffset }}
                             viewport={{ once: true }}
-                            transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+                            transition={{ duration: 2.0, ease: "easeOut", delay: 0.5 }}
                             cx="50%"
                             cy="50%"
                             r={radius}
@@ -338,7 +338,7 @@ const GrowthWidget = () => {
                             initial={{ scaleY: 0 }}
                             whileInView={{ scaleY: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: i * 0.1, type: "spring", stiffness: 100 }}
+                            transition={{ duration: 1.5, delay: i * 0.15, type: "spring", stiffness: 80 }}
                             onMouseEnter={() => setHoveredIndex(i)}
                             style={{ height: `${height}%`, transformOrigin: 'bottom' }}
                             className={`
@@ -417,30 +417,37 @@ const AnalyticsWidget = () => {
     const startY = 170; // Bottom Left
     const endY = 40;    // Top Right
     
-    let d = "";
-    let fillD = "";
-    
-    const points = noiseData.map((noise, i) => {
-        const x = i * stepX;
-        const trendY = startY - ((startY - endY) * (i / (pointsCount - 1)));
-        let y = trendY + noise;
-        y = Math.max(10, Math.min(190, y));
-        return { x, y };
-    });
-
-    if (points.length > 0) {
-        d = `M ${points[0].x},${points[0].y}`;
-        fillD = `M ${points[0].x},${points[0].y}`;
+    // Optimization: Memoize path calculation to avoid re-computing on every render if noiseData hasn't changed
+    const { d, fillD } = useMemo(() => {
+        let d = "";
+        let fillD = "";
         
-        for (let i = 1; i < points.length; i++) {
-            d += ` L ${points[i].x},${points[i].y}`;
-            fillD += ` L ${points[i].x},${points[i].y}`;
+        const points = noiseData.map((noise, i) => {
+            const x = i * stepX;
+            const trendY = startY - ((startY - endY) * (i / (pointsCount - 1)));
+            let y = trendY + noise;
+            y = Math.max(10, Math.min(190, y));
+            return { x, y };
+        });
+
+        if (points.length > 0) {
+            d = `M ${points[0].x},${points[0].y}`;
+            fillD = `M ${points[0].x},${points[0].y}`;
+            
+            for (let i = 1; i < points.length; i++) {
+                d += ` L ${points[i].x},${points[i].y}`;
+                fillD += ` L ${points[i].x},${points[i].y}`;
+            }
+            
+            fillD += ` L ${width},${height} L 0,${height} Z`;
         }
-        
-        fillD += ` L ${width},${height} L 0,${height} Z`;
-    }
+        return { d, fillD };
+    }, [noiseData]);
 
-    const lastPoint = points[points.length - 1] || { x: 0, y: 0 };
+    const lastPoint = { 
+        x: (noiseData.length - 1) * stepX, 
+        y: Math.max(10, Math.min(190, (startY - ((startY - endY)) + (noiseData[noiseData.length - 1] || 0))))
+    };
 
     return (
         <div className="h-full flex flex-col relative overflow-hidden z-10 min-h-[220px] md:min-h-0">

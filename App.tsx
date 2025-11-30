@@ -32,7 +32,7 @@ const App: React.FC = () => {
     const initAOS = () => {
       if (window.AOS) {
         window.AOS.init({
-          duration: 1000,
+          duration: 1200, // Increased from 1000 to 1200 for smoother entrance
           once: true,
           easing: 'ease-out-cubic',
           offset: 50,

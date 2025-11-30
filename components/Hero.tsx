@@ -42,7 +42,7 @@ export const Hero: React.FC = () => {
       
       {/* Dynamic Cursor Spotlight - Instant Tracking (Hidden on mobile) */}
       <motion.div 
-        className="hidden md:block fixed top-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-screen"
+        className="hidden md:block fixed top-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-screen will-change-transform"
         style={{ x: mouseX, y: mouseY }}
         aria-hidden="true"
       />
@@ -54,14 +54,14 @@ export const Hero: React.FC = () => {
         
         <div 
             data-aos="fade-down"
-            data-aos-duration="1000"
+            data-aos-duration="1500"
             className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50"
         >
             <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
             <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Sistema Operacional: Online</span>
         </div>
 
-        <div data-aos="fade-up" data-aos-duration="1000">
+        <div data-aos="fade-up" data-aos-duration="1500">
           <motion.h1 
             className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9]"
             style={{ y: yTitle }}
@@ -76,7 +76,7 @@ export const Hero: React.FC = () => {
           </motion.h1>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+        <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="1500">
           <motion.p 
             className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4"
             style={{ y: yText }}
@@ -85,7 +85,7 @@ export const Hero: React.FC = () => {
           </motion.p>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+        <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="1500">
           <motion.div 
             className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
             style={{ y: yButtons }}
