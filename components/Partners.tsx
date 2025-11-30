@@ -9,9 +9,19 @@ const PARTNERS = [
     className: 'hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
   },
   {
+    name: 'LangChain',
+    logoUrl: 'https://cdn.simpleicons.org/langchain/ffffff',
+    className: 'hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
+  },
+  {
     name: 'n8n',
     logoUrl: 'https://cdn.simpleicons.org/n8n/ff6584', // Official Red/Pink
     className: 'hover:drop-shadow-[0_0_15px_rgba(255,101,132,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'WhatsApp',
+    logoUrl: 'https://cdn.simpleicons.org/whatsapp/25D366', // Official Green
+    className: 'hover:drop-shadow-[0_0_15px_rgba(37,211,102,0.4)] transition-all duration-500'
   },
   {
     name: 'Supabase',
@@ -23,6 +33,12 @@ const PARTNERS = [
     // Optimized: Using jsDelivr CDN instead of raw.githubusercontent for better caching/performance
     logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/gemini.svg',
     className: 'hover:drop-shadow-[0_0_15px_rgba(66,133,244,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'LinkedIn',
+    // Fix: Switching to jsDelivr/SVGL for reliability as SimpleIcons was failing
+    logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/linkedin.svg',
+    className: 'hover:drop-shadow-[0_0_15px_rgba(0,119,181,0.4)] transition-all duration-500'
   },
   {
     name: 'Redis',

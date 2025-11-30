@@ -30,22 +30,22 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <motion.header 
-        initial={{ x: "-50%", y: 0, opacity: 1 }}
+        initial={{ y: -100, x: "-50%", opacity: 0 }}
         animate={{ 
+          y: isVisible ? 0 : -100,
           x: "-50%",
-          y: isVisible ? 0 : -100, 
           opacity: isVisible ? 1 : 0 
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-6 left-1/2 w-[95%] md:w-full max-w-6xl z-50"
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} // Custom easing for premium feel
+        className="fixed top-4 md:top-6 left-1/2 w-[95%] md:w-full max-w-7xl z-50"
       >
-        <nav className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-full px-4 md:px-6 py-3 shadow-lg shadow-black/50 transition-all duration-300 flex items-center justify-between">
+        <nav className="relative bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/10 rounded-full pl-4 pr-2 py-2 shadow-2xl shadow-black/50 flex items-center justify-between transition-all duration-300 hover:border-white/20 hover:shadow-black/70">
           
-          {/* Logo - Left Align */}
-          <div className="flex-1 flex justify-start">
+          {/* 1. Logo - Left Align */}
+          <div className="shrink-0 flex items-center">
             <button 
               type="button"
-              className="cursor-pointer group focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded-lg" 
+              className="cursor-pointer group focus:outline-none rounded-lg" 
               onClick={() => scroll.scrollToTop()}
               aria-label="Voltar ao topo - C2G Automações"
             >
@@ -53,31 +53,33 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          {/* Desktop Nav Links - Absolute Center */}
-          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-6">
-            {NAV_LINKS.map((link) => (
-              <Link 
-                key={link.name} 
-                to={link.href.replace('#', '')}
-                spy={true}
-                smooth={true}
-                offset={-140}
-                duration={1000}
-                className="cursor-pointer text-sm font-medium tracking-wide text-zinc-400 hover:text-white transition-all duration-300 whitespace-nowrap focus:outline-none hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
-                activeClass="!text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
-              >
-                {link.name}
-              </Link>
-            ))}
+          {/* 2. Navigation Cluster - Absolute Center (The "Inner Capsule") */}
+          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center">
+            <div className="flex items-center gap-1 bg-white/5 border border-white/5 rounded-full px-2 py-1">
+              {NAV_LINKS.map((link) => (
+                <Link 
+                  key={link.name} 
+                  to={link.href.replace('#', '')}
+                  spy={true}
+                  smooth={true}
+                  offset={-140}
+                  duration={1000}
+                  className="cursor-pointer px-3 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/10 transition-all duration-300 whitespace-nowrap focus:outline-none"
+                  activeClass="!text-white !bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </div>
 
-          {/* CTA Button & Mobile Toggle - Right Align */}
-          <div className="flex-1 flex justify-end items-center gap-4">
+          {/* 3. Actions - Right Align */}
+          <div className="shrink-0 flex items-center gap-3">
             <a 
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 border border-white/10 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:scale-105 active:scale-95 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-cyan-500"
+              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] hover:scale-105 active:scale-95 border border-white/10"
             >
               Falar com Ísis
             </a>
@@ -86,24 +88,24 @@ export const Navbar: React.FC = () => {
             <button 
               type="button"
               onClick={toggleMenu} 
-              className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+              className="md:hidden p-2.5 text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 rounded-full transition-all focus:outline-none active:scale-95"
               aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={isOpen}
             >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </nav>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu Dropdown (Floating Panel) */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 w-full mt-2 bg-black/80 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl p-4 md:hidden"
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute top-full left-0 w-full mt-3 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl p-2 md:hidden max-h-[80vh] overflow-y-auto"
             >
               <div className="flex flex-col space-y-1">
                 {NAV_LINKS.map((link) => (
@@ -115,17 +117,17 @@ export const Navbar: React.FC = () => {
                     offset={-140}
                     duration={1000}
                     onClick={() => setIsOpen(false)}
-                    className="cursor-pointer block px-4 py-3 rounded-xl text-base font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all tracking-wide"
+                    className="cursor-pointer block px-4 py-3 rounded-xl text-sm font-medium text-zinc-400 hover:text-white hover:bg-white/10 transition-all border border-transparent hover:border-white/5"
                   >
                     {link.name}
                   </Link>
                 ))}
-                <div className="h-px bg-white/10 my-2" />
+                <div className="h-px bg-white/10 my-2 mx-2" />
                 <a 
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
+                  className="mx-1 flex justify-center items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg shadow-cyan-900/20"
                 >
                   Falar com Ísis
                 </a>

@@ -33,12 +33,12 @@ export const Hero: React.FC = () => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: -80, // Offset for navbar
+      offset: -140, // Increased offset for navbar
     });
   };
 
   return (
-    <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:pt-20 md:pb-0">
+    <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       
       {/* Dynamic Cursor Spotlight - Instant Tracking (Hidden on mobile) */}
       <motion.div 
@@ -67,10 +67,10 @@ export const Hero: React.FC = () => {
             style={{ y: yTitle }}
           >
             <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 uppercase">
-              IA PARA
+              IA PARA O SEU
             </span>
             <span className="block relative uppercase mt-1 md:mt-0">
-              SEU SUCESSO<span className="text-cyan-500">.</span>
+              SUCESSO<span className="text-cyan-500">.</span>
               <div className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
             </span>
           </motion.h1>
@@ -81,7 +81,7 @@ export const Hero: React.FC = () => {
             className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4"
             style={{ y: yText }}
           >
-            Saia da micro-gestão. Desenvolvemos <span className="text-white font-medium">Ecossistemas de IA</span> que conectam Vendas, Financeiro, Processos e Atendimento em um fluxo único e autônomo. Sua empresa rodando sozinha, de ponta a ponta.
+            Pare de inflar sua folha de pagamento. Implementamos <span className="text-white font-medium">Ecossistemas de Receita Autônoma</span> que prospectam, vendem e atendem seus clientes 24/7. Cresça seu faturamento, não seus custos fixos.
           </motion.p>
         </div>
 
@@ -97,7 +97,7 @@ export const Hero: React.FC = () => {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-200 to-blue-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center justify-center gap-2">
-                Ver Ecossistema Completo <ArrowRight size={20} />
+                Automatizar Minha Empresa <ArrowRight size={20} />
               </span>
             </button>
             
@@ -106,7 +106,7 @@ export const Hero: React.FC = () => {
                 onClick={() => scrollToSection('tech')}
                 className="flex items-center gap-2 text-zinc-500 hover:text-cyan-400 transition-colors uppercase text-xs md:text-sm tracking-widest font-mono py-2"
             >
-              <Cpu size={16} /> Ver Stack Técnica
+              <Cpu size={16} /> Ver Arquitetura
             </button>
           </motion.div>
         </div>

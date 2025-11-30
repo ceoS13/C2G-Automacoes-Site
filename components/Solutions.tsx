@@ -142,52 +142,52 @@ export const Solutions: React.FC = () => {
             Nossos Agentes
           </h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Ecossistemas completos de inteligência artificial projetados para funções críticas de negócio.
+            Não contrate mais funcionários. Contrate inteligência que gera receita.
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           <SolutionCard 
-            title="Ísis"
-            description="Agente de Atendimento & Vendas que converte leads em clientes reais, 24 horas por dia."
+            title="Ísis (Conversão)"
+            description="Transforme curiosos em pagantes. Atendimento imediato que nunca deixa um lead esfriar e agenda reuniões automaticamente."
             icon={<MessageSquare size={28} />}
             gradient="from-blue-600 to-cyan-500"
             accentColor="cyan-400"
             features={[
-              "Memória de Longo Prazo",
-              "Validação de Regras de Negócio",
-              "Agendamento Automático (GCal/Outlook)",
-              "Transbordo Inteligente"
+              "Atendimento 24/7 sem fila",
+              "Recuperação de leads inativos",
+              "Agendamento direto no Calendar",
+              "Integração total com seu CRM"
             ]}
             delay="0"
             floatDelay="0s"
           />
           <SolutionCard 
-            title="Growth Autônomo"
-            description="SDR Digital que prospecta ativamente no LinkedIn e E-mail, gerando pipeline qualificado."
+            title="Growth (Prospecção)"
+            description="Encha a agenda do seu time comercial. Prospecção ativa que busca e qualifica decisores no LinkedIn e E-mail todos os dias."
             icon={<Rocket size={28} />}
             gradient="from-emerald-500 to-teal-400"
             accentColor="emerald-400"
             features={[
-              "Prospecção Ativa (Outbound)",
-              "Enriquecimento de Leads",
-              "Personalização Contextual",
-              "Integração CRM Direta"
+              "Geração de Pipeline Previsível",
+              "Enriquecimento de dados de contato",
+              "Abordagem personalizada em massa",
+              "Nutrição automática de leads"
             ]}
             delay="100"
             floatDelay="2.5s"
           />
           <SolutionCard 
-            title="Governança (A.V.A.)"
-            description="Camada de auditoria e segurança que garante que a IA opere dentro das diretrizes da empresa."
+            title="Governança (Segurança)"
+            description="Durma tranquilo. Auditoria em tempo real que garante que sua marca seja representada com perfeição e segurança jurídica."
             icon={<Lock size={28} />}
             gradient="from-indigo-600 to-blue-500"
             accentColor="indigo-400"
             features={[
-              "Auditoria em Tempo Real",
-              "Bloqueio de Alucinações",
-              "Conformidade LGPD",
-              "Logs Transparentes"
+              "Bloqueio de respostas erradas",
+              "Auditoria de qualidade (Score)",
+              "Proteção total dos seus dados",
+              "Conformidade com LGPD"
             ]}
             delay="200"
             floatDelay="1.5s"

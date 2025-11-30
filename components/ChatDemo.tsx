@@ -99,28 +99,28 @@ export const ChatDemo: React.FC = () => {
           <div ref={containerRef} data-aos="fade-right" className="relative z-10">
             <div className="bg-black/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border border-white/10 md:border-none p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none">
                 <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
-                Muito além do <br/>
+                Sua Força de <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
-                    WhatsApp.
+                    Trabalho Digital.
                 </span>
                 </h2>
                 <p className="text-base md:text-xl text-zinc-400 mb-8 leading-relaxed">
-                Enquanto o mercado vende 'chatbots', nós entregamos Força de Trabalho Digital. Nossos agentes não apenas conversam: eles operam seu ERP, prospectam no LinkedIn, gerenciam e-mails e auditam processos internos com autonomia de Nível 4.
+                Substitua tarefas manuais repetitivas por agentes que não dormem, não erram e custam uma fração de um funcionário. Nossos sistemas operam seu Financeiro, Logística e Vendas com autonomia de Nível 4.
                 </p>
                 
                 <ul className="space-y-4">
                     <li className="flex items-center gap-4 text-zinc-300">
                         <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0"><Database size={24} /></div>
                         <div>
-                        <h4 className="font-bold text-sm md:text-base">Conexão Real</h4>
-                        <p className="text-xs md:text-sm text-zinc-500">Centralizamos dados de WhatsApp, E-mail, LinkedIn e Bancos em um único cérebro.</p>
+                        <h4 className="font-bold text-sm md:text-base">Elimine Erro Humano</h4>
+                        <p className="text-xs md:text-sm text-zinc-500">Dados cruzados entre WhatsApp, E-mail e ERP sem falhas de digitação.</p>
                         </div>
                     </li>
                     <li className="flex items-center gap-4 text-zinc-300">
                         <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 shrink-0"><CheckCircle2 size={24} /></div>
                         <div>
-                        <h4 className="font-bold text-sm md:text-base">Raciocínio Lógico</h4>
-                        <p className="text-xs md:text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
+                        <h4 className="font-bold text-sm md:text-base">Redução de Custo Operacional</h4>
+                        <p className="text-xs md:text-sm text-zinc-500">Escale o volume de atendimento sem precisar contratar mais pessoas.</p>
                         </div>
                     </li>
                 </ul>
@@ -154,7 +154,7 @@ export const ChatDemo: React.FC = () => {
                         className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${activeScenario === 'scheduling' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário de Agendamento"
                     >
-                        <Calendar size={12} className="shrink-0" /> <span>Agendamento</span>
+                        <Calendar size={12} className="shrink-0" /> <span>Comercial</span>
                     </button>
                     <button 
                         type="button"
@@ -162,7 +162,7 @@ export const ChatDemo: React.FC = () => {
                         className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${activeScenario === 'support' ? 'bg-white/10 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
                         aria-label="Ativar cenário de Suporte"
                     >
-                        <Headphones size={12} className="shrink-0" /> <span>Suporte</span>
+                        <Headphones size={12} className="shrink-0" /> <span>Logística</span>
                     </button>
                     <button 
                         type="button"

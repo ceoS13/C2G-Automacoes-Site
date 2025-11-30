@@ -6,18 +6,18 @@ import {
   Activity, 
   Server, 
   Users, 
-  MoreHorizontal,
-  ArrowUpRight,
-  Lock,
-  Terminal,
-  Target,
-  Smile,
-  Code2,
-  ScanEye,
-  User,
-  Briefcase,
-  Loader2,
-  Check
+  MoreHorizontal, 
+  ArrowUpRight, 
+  Lock, 
+  Terminal, 
+  Target, 
+  Smile, 
+  Code2, 
+  ScanEye, 
+  User, 
+  Briefcase, 
+  Loader2, 
+  Check 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -59,7 +59,7 @@ const DashboardCard: React.FC<{
   );
 };
 
-// --- WIDGET 1: Ísis Analysis HUD (Redesigned Modular) ---
+// --- WIDGET 1: Isis Analysis HUD (Redesigned Modular) ---
 const IsisAnalysisWidget = () => {
   // Donut Chart Props
   const radius = 28;
@@ -295,9 +295,9 @@ const GrowthWidget = () => {
         <div className="h-full flex flex-col p-4 md:p-5 relative z-10 min-h-[200px] md:min-h-0">
             <div className="flex items-start justify-between mb-6">
                 <div>
-                    <div className="text-xs text-zinc-500 font-mono mb-1">LEADS GERADOS</div>
+                    <div className="text-xs text-zinc-500 font-mono mb-1">RECEITA GERADA</div>
                     <div className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-2">
-                      +1,240
+                      +124k
                       <span className="flex h-2 w-2 relative">
                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -541,7 +541,7 @@ const SecurityWidget = () => {
     }, [lines]);
 
     return (
-        <div className="flex flex-col h-full bg-[#050505] relative z-10 min-h-[160px] md:min-h-0">
+        <div className="flex flex-col h-[200px] md:h-full bg-[#050505] relative z-10">
              {/* Terminal Logs */}
              <div 
                 ref={scrollRef}
@@ -599,7 +599,7 @@ const ServerWidget = () => {
                  </div>
                  <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
                      <motion.div 
-                        animate={{ width: ["40%", "45%", "38%", "42%"] }}
+                        animate={{ width: ["85%", "92%", "88%", "90%"] }}
                         transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }}
                         className="h-full bg-cyan-500 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.6)]" 
                      />
@@ -612,7 +612,7 @@ const ServerWidget = () => {
                  </div>
                  <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
                      <motion.div 
-                        animate={{ width: ["60%", "62%", "60%", "61%"] }}
+                        animate={{ width: ["78%", "82%", "80%", "81%"] }}
                         transition={{ duration: 4, repeat: Infinity, repeatType: "mirror" }}
                         className="h-full bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]" 
                      />
@@ -713,10 +713,10 @@ export const BentoGrid: React.FC = () => {
         <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
           <div>
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                O Sistema Operacional
+                Painel de Controle do Seu Império
             </h2>
             <p className="text-zinc-400 max-w-xl text-lg">
-                Visão unificada da sua empresa rodando no piloto automático.
+                Tenha visão total da eficiência e do lucro gerado pela sua operação autônoma em tempo real.
             </p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-white/10 rounded-full text-xs font-mono text-zinc-400 w-fit">
@@ -725,12 +725,12 @@ export const BentoGrid: React.FC = () => {
           </div>
         </div>
 
-        {/* GRID LAYOUT - Increased height on desktop to prevent cramping */}
+        {/* GRID LAYOUT - Increased height on desktop to prevent cramping, auto on mobile */}
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 h-auto md:h-[800px]">
           
           {/* 1. Ísis Analysis HUD (Redesigned Modular) */}
           <DashboardCard 
-            title="Analisador de Leads Ísis" 
+            title="Conversão de Vendas" 
             icon={<BrainCircuit size={16}/>} 
             className="md:col-span-2 md:row-span-2 min-h-[300px] md:min-h-0"
             delay="0"
@@ -740,7 +740,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 2. Growth (Vertical) */}
           <DashboardCard 
-            title="Motor de Crescimento" 
+            title="Máquina de Receita" 
             icon={<Zap size={16}/>} 
             className="md:col-span-1 md:row-span-2"
             delay="100"
@@ -750,7 +750,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 3. Governance (Pequeno) */}
           <DashboardCard 
-            title="Protocolo A.V.A" 
+            title="Segurança & Compliance" 
             icon={<ShieldCheck size={16}/>} 
             className="md:col-span-1 md:row-span-1"
             headerAction={<div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />}
@@ -761,7 +761,7 @@ export const BentoGrid: React.FC = () => {
           
            {/* 4. Server Health (Pequeno) */}
            <DashboardCard 
-            title="Infraestrutura" 
+            title="Performance Operacional" 
             icon={<Server size={16}/>} 
             className="md:col-span-1 md:row-span-1"
             delay="300"
@@ -771,7 +771,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 5. Team Nodes (Largo) */}
           <DashboardCard 
-            title="Agentes Ativos" 
+            title="Equipe Digital Ativa" 
             icon={<Users size={16}/>} 
             className="md:col-span-2 md:row-span-1"
             delay="400"
@@ -784,7 +784,7 @@ export const BentoGrid: React.FC = () => {
 
           {/* 6. Analytics (Largo) */}
           <DashboardCard 
-            title="Métricas em Tempo Real" 
+            title="Retorno Sobre Investimento (ROI)" 
             icon={<Activity size={16}/>} 
             className="md:col-span-2 md:row-span-1"
             delay="500"

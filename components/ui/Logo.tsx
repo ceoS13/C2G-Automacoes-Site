@@ -51,7 +51,7 @@ export const Logo: React.FC<LogoProps> = ({ className = "w-6 h-6", size = 24 }) 
     {/* Texto da Marca */}
     {/* Se sua imagem .png já contém o nome da empresa, você pode remover ou comentar o bloco abaixo */}
     <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block">
-        C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400">Automações</span>
+        C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400 hidden lg:inline">Automações</span>
     </span>
   </div>
 );
