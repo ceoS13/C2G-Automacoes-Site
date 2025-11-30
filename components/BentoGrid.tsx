@@ -316,15 +316,19 @@ const GrowthWidget = () => {
                         <AnimatePresence>
                             {hoveredIndex === i && (
                                 <motion.div 
-                                    initial={{ opacity: 0, y: 5, x: "-50%" }}
-                                    animate={{ opacity: 1, y: 0, x: "-50%" }}
-                                    exit={{ opacity: 0, y: 2, x: "-50%" }}
-                                    transition={{ duration: 0.15 }}
-                                    style={{ bottom: `${height}%` }}
-                                    className="absolute left-1/2 mb-2 z-30 flex flex-col items-center pointer-events-none"
+                                    initial={{ opacity: 0, y: 4, scale: 0.95, x: "-50%" }}
+                                    animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+                                    exit={{ opacity: 0, y: 2, scale: 0.95, x: "-50%" }}
+                                    transition={{ duration: 0.2, ease: "easeOut" }}
+                                    style={{ bottom: `${height}%`, marginBottom: '12px' }}
+                                    className="absolute left-1/2 z-30 flex flex-col items-center pointer-events-none"
                                 >
-                                    <div className="bg-zinc-900 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2 py-1.5 rounded shadow-xl whitespace-nowrap">
-                                        {Math.round(height * 12.4)}
+                                    <div className="relative bg-[#09090b] border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2.5 py-1.5 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.5)] whitespace-nowrap">
+                                        {/* Valor Formatado como Moeda (R$ X.Xk) */}
+                                        {`R$ ${(height * 0.15).toFixed(1).replace('.', ',')}k`}
+                                        
+                                        {/* Seta do Tooltip */}
+                                        <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#09090b] border-r border-b border-emerald-500/30 transform rotate-45"></div>
                                     </div>
                                 </motion.div>
                             )}
@@ -481,15 +485,18 @@ const AnalyticsWidget = () => {
 // --- WIDGET 4: Governance Terminal ---
 const SecurityWidget = () => {
     const [lines, setLines] = useState<string[]>([]);
+    const scrollRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
         const allLogs = [
           "Iniciando Protocolo AVA v2.4...",
-          "Escaneando intenção da mensagem...",
+          "Verificando integridade...",
+          "Escaneando intenção...",
           "Analisando sentimento...",
           "Verificando padrões PII...",
           "Validando regras de negócio...",
-          "Criptografia verificada (AES-256)",
+          "Conectando Secure Gateway...",
+          "Criptografia (AES-256): OK",
           "Acesso permitido."
         ];
         
@@ -499,9 +506,14 @@ const SecurityWidget = () => {
                 const logToAdd = allLogs[currentIndex];
                 setLines(prev => {
                     const newLines = [...prev, logToAdd];
-                    if (newLines.length > 5) newLines.shift();
+                    // Keep a reasonable buffer history so scrolling is visible
+                    // 50 ensures lines aren't removed too quickly, forcing scroll
+                    if (newLines.length > 50) newLines.shift(); 
                     return newLines;
                 });
+                currentIndex++;
+            } else if (currentIndex < allLogs.length + 4) {
+                // Pause for ~3.2 seconds (4 * 800ms) showing the full state
                 currentIndex++;
             } else {
                 currentIndex = 0;
@@ -511,34 +523,50 @@ const SecurityWidget = () => {
         return () => clearInterval(interval);
     }, []);
 
+    // Auto-scroll to bottom whenever lines change
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+                top: scrollRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }, [lines]);
+
     return (
         <div className="flex flex-col h-full bg-[#050505] relative z-10 min-h-[160px] md:min-h-0">
-             {/* Terminal Logs - Takes available space */}
-             <div className="flex-1 p-3 font-mono text-[10px] text-zinc-400 space-y-1.5 overflow-hidden">
+             {/* Terminal Logs */}
+             <div 
+                ref={scrollRef}
+                className="flex-1 p-4 font-mono text-[10px] text-zinc-400 space-y-2 overflow-y-auto flex flex-col [&::-webkit-scrollbar]:hidden"
+                style={{ scrollbarWidth: 'none' }} // Firefox
+             >
                 {lines.map((line, idx) => (
                     <motion.div 
                       key={idx} 
-                      initial={{ opacity: 0, y: 10 }} 
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex gap-2"
+                      initial={{ opacity: 0, x: -10 }} 
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex gap-2 shrink-0" // shrink-0 ensures lines are not compressed
                     >
-                        <span className="text-zinc-600">{`>`}</span>
-                        <span className={line && line.includes("permitido") ? "text-emerald-400 font-bold" : "text-zinc-400"}>
+                        <span className="text-zinc-600 shrink-0">{`>`}</span>
+                        <span className={`truncate ${line && line.includes("permitido") ? "text-emerald-400 font-bold" : "text-zinc-400"}`}>
                           {line}
                         </span>
                     </motion.div>
                 ))}
-                <motion.div 
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="w-2 h-4 bg-zinc-600 inline-block align-middle ml-2"
-                />
+                {lines.length > 0 && lines.length < 9 && (
+                    <motion.div 
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                    className="w-2 h-4 bg-zinc-600 ml-4 shrink-0"
+                    />
+                )}
              </div>
-             {/* Footer Status - Fixed height */}
-             <div className="h-8 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between px-3 shrink-0">
+             {/* Footer Status */}
+             <div className="h-10 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between px-4 shrink-0">
                  <div className="flex items-center gap-2">
-                     <Lock size={10} className="text-emerald-500" />
+                     <Lock size={12} className="text-emerald-500" />
                      <span className="text-[10px] font-bold text-emerald-400 tracking-wider">SEGURANÇA</span>
                  </div>
                  <motion.div 

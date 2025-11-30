@@ -12,9 +12,10 @@ interface SolutionCardProps {
   gradient: string;
   accentColor: string; // Tailwind color class for text/bg (e.g. "cyan-400")
   delay?: string;
+  floatDelay?: string;
 }
 
-const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, features, gradient, accentColor, delay }) => {
+const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, features, gradient, accentColor, delay, floatDelay = "0s" }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -26,7 +27,8 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
 
   return (
     <div 
-      className="group relative h-full bg-zinc-900/30 border border-white/10 rounded-2xl overflow-hidden"
+      className="group relative h-full bg-zinc-900/30 border border-white/10 rounded-2xl overflow-hidden animate-float-subtle"
+      style={{ animationDelay: floatDelay }}
       onMouseMove={handleMouseMove}
       data-aos="fade-up"
       data-aos-delay={delay}
@@ -149,6 +151,7 @@ export const Solutions: React.FC = () => {
               "Transbordo Inteligente"
             ]}
             delay="0"
+            floatDelay="0s"
           />
           <SolutionCard 
             title="Growth Autônomo"
@@ -163,6 +166,7 @@ export const Solutions: React.FC = () => {
               "Integração CRM Direta"
             ]}
             delay="100"
+            floatDelay="2.5s"
           />
           <SolutionCard 
             title="Governança (A.V.A.)"
@@ -177,6 +181,7 @@ export const Solutions: React.FC = () => {
               "Logs Transparentes"
             ]}
             delay="200"
+            floatDelay="1.5s"
           />
         </div>
       </div>
