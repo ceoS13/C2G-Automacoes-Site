@@ -39,7 +39,7 @@ export const Navbar: React.FC = () => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="fixed top-6 left-1/2 w-[95%] md:w-full max-w-6xl z-50"
       >
-        <nav className="relative bg-[#050505]/80 backdrop-blur-md border border-white/5 rounded-full px-4 md:px-6 py-3 shadow-2xl shadow-black/80 transition-all duration-300 flex items-center justify-between">
+        <nav className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-full px-4 md:px-6 py-3 shadow-lg shadow-black/50 transition-all duration-300 flex items-center justify-between">
           
           {/* Logo - Left Align */}
           <div className="flex-1 flex justify-start">
@@ -54,17 +54,17 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop Nav Links - Absolute Center */}
-          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1">
+          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-6">
             {NAV_LINKS.map((link) => (
               <Link 
                 key={link.name} 
                 to={link.href.replace('#', '')}
                 spy={true}
                 smooth={true}
-                offset={-100}
+                offset={-140}
                 duration={1000}
-                className="cursor-pointer text-xs lg:text-sm font-medium text-zinc-400 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
-                activeClass="!text-white !bg-white/10"
+                className="cursor-pointer text-sm font-medium tracking-wide text-zinc-400 hover:text-white transition-all duration-300 whitespace-nowrap focus:outline-none hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+                activeClass="!text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
               >
                 {link.name}
               </Link>
@@ -77,7 +77,7 @@ export const Navbar: React.FC = () => {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 border border-white/5 text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-cyan-500"
+              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 border border-white/10 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:scale-105 active:scale-95 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-cyan-500"
             >
               Falar com Ísis
             </a>
@@ -103,7 +103,7 @@ export const Navbar: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 w-full mt-2 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl p-4 md:hidden"
+              className="absolute top-full left-0 w-full mt-2 bg-black/80 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl p-4 md:hidden"
             >
               <div className="flex flex-col space-y-1">
                 {NAV_LINKS.map((link) => (
@@ -112,20 +112,20 @@ export const Navbar: React.FC = () => {
                     to={link.href.replace('#', '')}
                     spy={true}
                     smooth={true}
-                    offset={-80}
+                    offset={-140}
                     duration={1000}
                     onClick={() => setIsOpen(false)}
-                    className="cursor-pointer block px-4 py-3 rounded-xl text-base font-medium text-zinc-300 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] hover:bg-white/5 transition-all"
+                    className="cursor-pointer block px-4 py-3 rounded-xl text-base font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all tracking-wide"
                   >
                     {link.name}
                   </Link>
                 ))}
-                <div className="h-px bg-white/5 my-2" />
+                <div className="h-px bg-white/10 my-2" />
                 <a 
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
+                  className="w-full mt-2 flex justify-center items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg shadow-cyan-500/20"
                 >
                   Falar com Ísis
                 </a>
