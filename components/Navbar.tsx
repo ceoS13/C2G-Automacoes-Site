@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { Link, animateScroll as scroll } from 'react-scroll';
 import { Logo } from './ui/Logo';
 import { NAV_LINKS, WHATSAPP_LINK } from '../lib/constants';
-import { smoothScrollTo } from '../lib/utils';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,11 +23,8 @@ export const Navbar: React.FC = () => {
     }
   });
 
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const targetId = href.replace('#', '');
-    smoothScrollTo(targetId, 1200);
-    setIsOpen(false);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -40,7 +37,7 @@ export const Navbar: React.FC = () => {
           opacity: isVisible ? 1 : 0 
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-6 left-1/2 w-[95%] md:w-full max-w-5xl z-50"
+        className="fixed top-6 left-1/2 w-[95%] md:w-full max-w-6xl z-50"
       >
         <nav className="relative bg-[#050505]/80 backdrop-blur-md border border-white/5 rounded-full px-4 md:px-6 py-3 shadow-2xl shadow-black/80 transition-all duration-300 flex items-center justify-between">
           
@@ -49,7 +46,7 @@ export const Navbar: React.FC = () => {
             <button 
               type="button"
               className="cursor-pointer group focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded-lg" 
-              onClick={() => smoothScrollTo('root', 1000)}
+              onClick={() => scroll.scrollToTop()}
               aria-label="Voltar ao topo - C2G Automações"
             >
               <Logo className="w-5 h-5" />
@@ -59,14 +56,18 @@ export const Navbar: React.FC = () => {
           {/* Desktop Nav Links - Absolute Center */}
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1">
             {NAV_LINKS.map((link) => (
-              <a 
+              <Link 
                 key={link.name} 
-                href={link.href}
-                onClick={(e) => handleScroll(e, link.href)}
-                className="text-xs lg:text-sm font-medium text-zinc-400 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                to={link.href.replace('#', '')}
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={1000}
+                className="cursor-pointer text-xs lg:text-sm font-medium text-zinc-400 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                activeClass="!text-white !bg-white/10"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -84,7 +85,7 @@ export const Navbar: React.FC = () => {
             {/* Mobile Menu Button */}
             <button 
               type="button"
-              onClick={() => setIsOpen(!isOpen)} 
+              onClick={toggleMenu} 
               className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
               aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={isOpen}
@@ -106,14 +107,18 @@ export const Navbar: React.FC = () => {
             >
               <div className="flex flex-col space-y-1">
                 {NAV_LINKS.map((link) => (
-                  <a
+                  <Link
                     key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleScroll(e, link.href)}
-                    className="block px-4 py-3 rounded-xl text-base font-medium text-zinc-300 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] hover:bg-white/5 transition-all"
+                    to={link.href.replace('#', '')}
+                    spy={true}
+                    smooth={true}
+                    offset={-80}
+                    duration={1000}
+                    onClick={() => setIsOpen(false)}
+                    className="cursor-pointer block px-4 py-3 rounded-xl text-base font-medium text-zinc-300 hover:text-white hover:[text-shadow:0_0_10px_rgba(34,211,238,0.5)] hover:bg-white/5 transition-all"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 ))}
                 <div className="h-px bg-white/5 my-2" />
                 <a 

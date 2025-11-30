@@ -40,8 +40,9 @@ export const About: React.FC = () => {
         
         {/* Manifesto Section */}
         <div className="max-w-4xl mx-auto text-center mb-24" data-aos="fade-up">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-mono mb-6 uppercase tracking-widest">
-            Sobre Nós
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+              <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Sobre Nós</span>
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 tracking-tight">
@@ -53,7 +54,7 @@ export const About: React.FC = () => {
               A C2G nasceu de uma inconformidade. Olhamos para o mercado e vimos um abismo: de um lado, o hype da Inteligência Artificial prometendo milagres. Do outro, empresas reais travadas com ferramentas que não se conversam e chatbots que não resolvem problemas.
             </p>
             <p>
-              Decidimos construir a ponte. Não vendemos "prompts". Construímos <span className="font-semibold text-white">Infraestrutura de Automação</span>. Nossa missão é fechar o Execution Gap — a distância entre saber que a IA existe e fazê-la gerar receita no seu caixa.
+              Decidimos construir a ponte. Não vendemos "prompts". Construímos <span className="font-semibold text-white">Infraestrutura de Automação</span>. Nossa missão é fechar o Execution Gap a distância entre saber que a IA existe e fazê-la gerar receita no seu caixa.
             </p>
             <p className="font-medium text-white">
               Nós codificamos o futuro do trabalho autônomo.
@@ -63,10 +64,10 @@ export const About: React.FC = () => {
 
         {/* Leadership Grid Title */}
         <div id="team" className="text-center pt-8 mb-16" data-aos="fade-up">
-             <h3 className="text-3xl md:text-4xl font-bold text-white inline-block relative">
-                Nossa Equipe
-                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-1 bg-cyan-500 rounded-full"></div>
-             </h3>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Nossa Equipe</span>
+            </div>
         </div>
 
         {/* Leadership Grid */}

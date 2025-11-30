@@ -7,6 +7,7 @@ export const NAV_LINKS = [
   { name: 'Sistema', href: '#system' },
   { name: 'Tecnologia', href: '#tech' },
   { name: 'Preços', href: '#pricing' },
+  { name: 'Processo', href: '#process' },
   { name: 'Sobre Nós', href: '#about' },
   { name: 'Equipe', href: '#team' },
   { name: 'FAQ', href: '#faq' },

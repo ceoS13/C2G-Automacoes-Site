@@ -1,9 +1,21 @@
 import React from 'react';
 import { Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
 import { Logo } from './ui/Logo';
-import { NAV_LINKS, SOCIAL_LINKS } from '../lib/constants';
+import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../lib/constants';
+import { scroller } from 'react-scroll';
 
 export const Footer: React.FC = () => {
+
+  const handleScroll = (href: string) => {
+    const sectionId = href.replace('#', '');
+    scroller.scrollTo(sectionId, {
+      duration: 1000,
+      delay: 0,
+      smooth: true,
+      offset: -80,
+    });
+  };
+
   return (
     <footer className="bg-[#050505] border-t border-gray-900 pt-20 pb-10 relative overflow-hidden">
       {/* Background Glow */}
@@ -31,11 +43,11 @@ export const Footer: React.FC = () => {
           <nav aria-label="Links de Produtos">
             <h4 className="text-white font-semibold mb-6">Produto</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              <li><a href="#solutions" className="hover:text-white transition-colors">Ísis (Atendimento)</a></li>
-              <li><a href="#solutions" className="hover:text-white transition-colors">Growth Autônomo</a></li>
-              <li><a href="#solutions" className="hover:text-white transition-colors">Governança AI</a></li>
-              <li><a href="#tech" className="hover:text-white transition-colors">Integrações (n8n)</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Preços</a></li>
+              <li><button onClick={() => handleScroll('#solutions')} className="hover:text-white transition-colors text-left">Ísis (Atendimento)</button></li>
+              <li><button onClick={() => handleScroll('#solutions')} className="hover:text-white transition-colors text-left">Growth Autônomo</button></li>
+              <li><button onClick={() => handleScroll('#solutions')} className="hover:text-white transition-colors text-left">Governança AI</button></li>
+              <li><button onClick={() => handleScroll('#tech')} className="hover:text-white transition-colors text-left">Integrações (n8n)</button></li>
+              <li><button onClick={() => handleScroll('#pricing')} className="hover:text-white transition-colors text-left">Preços</button></li>
             </ul>
           </nav>
 
@@ -44,12 +56,16 @@ export const Footer: React.FC = () => {
             <h4 className="text-white font-semibold mb-6">Empresa</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               {NAV_LINKS.filter(l => l.name === 'Sobre Nós' || l.name === 'Equipe').map(link => (
-                  <li key={link.name}><a href={link.href} className="hover:text-white transition-colors">{link.name}</a></li>
+                  <li key={link.name}>
+                    <button onClick={() => handleScroll(link.href)} className="hover:text-white transition-colors text-left">
+                      {link.name}
+                    </button>
+                  </li>
               ))}
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Contratando</span></a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Blog Tech</a></li>
               <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Imprensa</a></li>
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
+              <li><a href={`mailto:${CONTACT_EMAIL}`} rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
             </ul>
           </nav>
 
@@ -67,7 +83,7 @@ export const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 gap-4">
-          <p>&copy; {new Date().getFullYear()} C2G Automações Ltda. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} {COMPANY_NAME} Ltda. Todos os direitos reservados.</p>
           <div className="flex gap-6 items-center">
             <span className="flex items-center gap-2 text-zinc-700"><Globe size={14} /> Brasil (PT-BR)</span>
           </div>

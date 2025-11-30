@@ -68,9 +68,14 @@ export const FAQ: React.FC = () => {
   return (
     <section id="faq" className="py-20 md:py-32 bg-[#080808]">
       <div className="max-w-3xl mx-auto px-6 md:px-8" data-aos="fade-up">
-        <h2 className="text-4xl font-bold text-white mb-12 text-center">
-          Perguntas Frequentes
-        </h2>
+        
+        {/* Standardized Header Badge */}
+        <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Perguntas Frequentes</span>
+            </div>
+        </div>
         
         <div className="space-y-2">
           {faqData.map((item) => (

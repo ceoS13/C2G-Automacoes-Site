@@ -7,15 +7,23 @@ const HyperText: React.FC<{ text: string; className?: string }> = ({ text, class
   const [displayText, setDisplayText] = useState(text);
   const [isScrambling, setIsScrambling] = useState(false);
   const iterations = useRef(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#%&";
+
+  // Cleanup interval on unmount
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   const scramble = () => {
     if (isScrambling) return;
     setIsScrambling(true);
     iterations.current = 0;
 
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setDisplayText((prev) =>
         text
           .split("")
@@ -29,7 +37,7 @@ const HyperText: React.FC<{ text: string; className?: string }> = ({ text, class
       );
 
       if (iterations.current >= text.length) {
-        clearInterval(interval);
+        if (intervalRef.current) clearInterval(intervalRef.current);
         setIsScrambling(false);
       }
 
@@ -121,12 +129,9 @@ export const Pricing: React.FC = () => {
         <div className="text-center mb-16 relative" data-aos="fade-up">
             
             {/* Live Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded border border-cyan-500/30 bg-cyan-950/20 backdrop-blur-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                </span>
-                <span className="text-[10px] font-mono text-cyan-400 tracking-widest uppercase">Análise de Custos: Online</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Análise de Custos: Online</span>
             </div>
 
             {/* Scanner Beam Background */}

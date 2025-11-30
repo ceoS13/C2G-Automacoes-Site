@@ -37,12 +37,12 @@ const DashboardCard: React.FC<{
       data-aos-delay={delay}
     >
       {/* Widget Header */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-white/[0.02] z-20 relative">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between px-4 py-3 md:px-5 md:py-4 border-b border-white/5 bg-white/[0.02] z-20 relative shrink-0">
+        <div className="flex items-center gap-2 md:gap-3">
             <div className="text-zinc-400 group-hover:text-cyan-400 transition-colors">
                 {icon}
             </div>
-            <h3 className="text-sm font-semibold text-zinc-300 tracking-wide uppercase font-mono">{title}</h3>
+            <h3 className="text-xs md:text-sm font-semibold text-zinc-300 tracking-wide uppercase font-mono">{title}</h3>
         </div>
         <div>
             {headerAction || <MoreHorizontal size={16} className="text-zinc-600 cursor-pointer hover:text-white" />}
@@ -50,7 +50,7 @@ const DashboardCard: React.FC<{
       </div>
 
       {/* Widget Body */}
-      <div className="relative flex-1 p-0 overflow-hidden">
+      <div className="relative flex-1 p-0 overflow-hidden h-full">
          {/* Grid Background */}
          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none z-0" />
          {children}
@@ -87,7 +87,7 @@ const IsisAnalysisWidget = () => {
   };
 
   return (
-    <div className="flex flex-col h-full p-5 relative z-10 font-mono text-xs select-none gap-4">
+    <div className="flex flex-col h-full p-4 md:p-5 relative z-10 font-mono text-xs select-none gap-4">
         
         {/* 1. Topo: Contexto */}
         <div className="flex justify-between items-center pb-2 border-b border-white/5">
@@ -142,18 +142,18 @@ const IsisAnalysisWidget = () => {
                 className="bg-white/5 border border-white/5 rounded-xl p-3 flex flex-col justify-center gap-3 hover:bg-white/10 transition-colors"
             >
                 {/* Intent */}
-                <div>
+                <div className="flex items-center justify-between md:block">
                     <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1">
                         <Target size={10} /> Intenção
                     </div>
                     <div className="text-white font-bold">Agendamento</div>
                 </div>
                 {/* Sentiment */}
-                <div>
+                <div className="flex flex-col md:block w-full">
                     <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1">
                         <Smile size={10} /> Sentimento
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                         <div className="h-1.5 flex-1 bg-zinc-800 rounded-full overflow-hidden">
                             <motion.div 
                                 initial={{ width: 0 }}
@@ -173,11 +173,11 @@ const IsisAnalysisWidget = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                className="bg-white/5 border border-white/5 rounded-xl p-2 flex flex-col items-center justify-center relative hover:bg-white/10 transition-colors group"
+                className="bg-white/5 border border-white/5 rounded-xl p-2 flex flex-row md:flex-col items-center justify-between md:justify-center relative hover:bg-white/10 transition-colors group h-16 md:h-auto px-4 md:px-2"
             >
-                <div className="absolute top-2 left-2 text-[10px] text-zinc-500 uppercase tracking-wide">Nota</div>
+                <div className="text-[10px] text-zinc-500 uppercase tracking-wide md:absolute md:top-2 md:left-2">Nota</div>
                 
-                <div className="relative w-20 h-20 flex items-center justify-center mt-2">
+                <div className="relative w-12 h-12 md:w-20 md:h-20 flex items-center justify-center md:mt-2">
                     {/* SVG Donut */}
                     <svg className="w-full h-full transform -rotate-90">
                         {/* Track */}
@@ -208,7 +208,7 @@ const IsisAnalysisWidget = () => {
                         />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center flex-col">
-                        <span className="text-xl font-bold text-white">92</span>
+                        <span className="text-sm md:text-xl font-bold text-white">92</span>
                     </div>
                 </div>
                 <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">Lead Quente</span>
@@ -225,7 +225,7 @@ const IsisAnalysisWidget = () => {
            onClick={handleActionClick}
            disabled={actionStatus !== 'idle'}
            className={`
-               relative w-full border rounded-lg p-3 flex items-center justify-between transition-all duration-300 overflow-hidden group outline-none
+               relative w-full border rounded-lg p-3 flex items-center justify-between transition-all duration-300 overflow-hidden group outline-none shrink-0
                ${actionStatus === 'idle' 
                     ? 'bg-black/40 border-cyan-500/20 text-cyan-400 hover:bg-cyan-950/20 hover:border-cyan-500/40' 
                     : actionStatus === 'success' 
@@ -292,11 +292,11 @@ const GrowthWidget = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     
     return (
-        <div className="h-full flex flex-col p-5 relative z-10">
+        <div className="h-full flex flex-col p-4 md:p-5 relative z-10 min-h-[200px] md:min-h-0">
             <div className="flex items-start justify-between mb-6">
                 <div>
                     <div className="text-xs text-zinc-500 font-mono mb-1">LEADS GERADOS</div>
-                    <div className="text-3xl font-bold text-white tracking-tight flex items-center gap-2">
+                    <div className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-2">
                       +1,240
                       <span className="flex h-2 w-2 relative">
                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -309,10 +309,10 @@ const GrowthWidget = () => {
                 </div>
             </div>
 
-            <div className="flex-1 flex items-end justify-between gap-2" onMouseLeave={() => setHoveredIndex(null)}>
+            <div className="flex-1 flex items-end justify-between gap-1.5 md:gap-2" onMouseLeave={() => setHoveredIndex(null)}>
                 {bars.map((height, i) => (
                     <div key={i} className="relative w-full h-full flex items-end justify-center group">
-                        {/* Tooltip - Perfectly centered above bar */}
+                        {/* Tooltip */}
                         <AnimatePresence>
                             {hoveredIndex === i && (
                                 <motion.div 
@@ -324,9 +324,8 @@ const GrowthWidget = () => {
                                     className="absolute left-1/2 mb-2 z-30 flex flex-col items-center pointer-events-none"
                                 >
                                     <div className="bg-zinc-900 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2 py-1.5 rounded shadow-xl whitespace-nowrap">
-                                        {Math.round(height * 12.4)} Leads
+                                        {Math.round(height * 12.4)}
                                     </div>
-                                    <div className="w-2 h-2 bg-zinc-900 border-r border-b border-emerald-500/30 rotate-45 -mt-[5px]" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -351,7 +350,7 @@ const GrowthWidget = () => {
                 ))}
             </div>
             
-            <div className="mt-2 flex justify-between text-[10px] text-zinc-600 font-mono">
+            <div className="mt-2 flex justify-between text-[8px] md:text-[10px] text-zinc-600 font-mono">
                 <span>SEG</span>
                 <span>TER</span>
                 <span>QUA</span>
@@ -364,7 +363,7 @@ const GrowthWidget = () => {
     );
 };
 
-// --- WIDGET 3: Analytics Waveform (BRUTE STACCATO CHART) ---
+// --- WIDGET 3: Analytics Waveform ---
 const AnalyticsWidget = () => {
     // Config for jagged look
     const pointsCount = 35;
@@ -374,6 +373,8 @@ const AnalyticsWidget = () => {
     
     // State for the "scrolling" noise array
     const [noiseData, setNoiseData] = useState<number[]>([]);
+    const [roi, setRoi] = useState(450);
+    const [savings, setSavings] = useState(12.1);
     
     // Initialize noise
     useEffect(() => {
@@ -381,43 +382,49 @@ const AnalyticsWidget = () => {
         setNoiseData(initialNoise);
     }, []);
 
-    // Staccato Tick Animation
+    // Staccato Tick Animation & Number Updates
     useEffect(() => {
         const interval = setInterval(() => {
             setNoiseData(prev => {
                 const next = [...prev];
-                next.shift(); // Remove first (leftmost)
-                // Add new random jittery noise at the end (rightmost)
-                // Higher volatility for "nervous" look
+                next.shift();
                 next.push((Math.random() * 50 - 25)); 
                 return next;
             });
-        }, 800); // 800ms = Slower, more deliberate update rate (Drastically slowed down from 100ms)
+            setRoi(prev => {
+                const change = Math.floor(Math.random() * 15) - 7; 
+                let next = prev + change;
+                if (next > 490) next = 490;
+                if (next < 420) next = 420;
+                return next;
+            });
+            setSavings(prev => {
+                const change = (Math.random() * 0.4) - 0.2; 
+                let next = prev + change;
+                if (next > 13.5) next = 13.5;
+                if (next < 11.0) next = 11.0;
+                return next;
+            });
+
+        }, 800);
         return () => clearInterval(interval);
     }, []);
 
-    // Construct the path
-    // We combine a fixed upward Slope with the scrolling Noise
     const startY = 170; // Bottom Left
     const endY = 40;    // Top Right
     
     let d = "";
     let fillD = "";
     
-    // Calculate points
     const points = noiseData.map((noise, i) => {
         const x = i * stepX;
-        // Fixed linear trend
         const trendY = startY - ((startY - endY) * (i / (pointsCount - 1)));
-        // Add noise
         let y = trendY + noise;
-        // Clamp
         y = Math.max(10, Math.min(190, y));
         return { x, y };
     });
 
     if (points.length > 0) {
-        // Build M/L commands (NO curves, pure jagged lines)
         d = `M ${points[0].x},${points[0].y}`;
         fillD = `M ${points[0].x},${points[0].y}`;
         
@@ -426,32 +433,34 @@ const AnalyticsWidget = () => {
             fillD += ` L ${points[i].x},${points[i].y}`;
         }
         
-        // Close fill
         fillD += ` L ${width},${height} L 0,${height} Z`;
     }
 
     const lastPoint = points[points.length - 1] || { x: 0, y: 0 };
 
     return (
-        <div className="h-full flex flex-col p-5 relative overflow-hidden z-10">
-             <div className="flex items-center justify-between mb-2 relative z-20">
-                <div className="flex gap-4">
+        <div className="h-full flex flex-col relative overflow-hidden z-10 min-h-[220px] md:min-h-0">
+             {/* Content Container with Z-Index higher than chart */}
+             <div className="flex items-center justify-between p-4 md:p-5 relative z-20">
+                <div className="flex gap-8">
                     <div>
-                        <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1">ROI Atual</div>
-                        <div className="text-xl font-bold text-emerald-400 flex items-center gap-2">
-                          450%
-                          <Activity size={14} className="animate-pulse" />
+                        <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-mono">ROI Atual</div>
+                        <div className="text-2xl md:text-3xl font-bold text-emerald-400 flex items-center gap-2">
+                          {roi}%
+                          <Activity size={16} className="animate-pulse" />
                         </div>
                     </div>
                     <div>
-                         <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1">Economia</div>
-                         <div className="text-xl font-bold text-white">R$ 12k</div>
+                         <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-mono">Economia</div>
+                         <div className="text-2xl md:text-3xl font-bold text-white">
+                             R$ {savings.toFixed(1).replace('.', ',')}k
+                         </div>
                     </div>
                 </div>
              </div>
 
-            {/* Staccato Chart */}
-            <div className="absolute bottom-0 left-0 right-0 h-40 w-full overflow-hidden">
+            {/* Staccato Chart - Absolute Positioned to Bottom - Percentage Height for Responsiveness */}
+            <div className="absolute bottom-0 left-0 right-0 h-[65%] w-full overflow-hidden pointer-events-none z-10">
                 <svg viewBox="0 0 500 200" className="w-full h-full preserve-3d absolute bottom-0" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="financial-gradient" x1="0" x2="0" y1="0" y2="1">
@@ -459,52 +468,10 @@ const AnalyticsWidget = () => {
                             <stop offset="100%" stopColor="#34d399" stopOpacity="0" />
                         </linearGradient>
                     </defs>
-                    
-                    {/* Fill Area - Instant update, no transition for "Staccato" feel */}
-                    <path 
-                        d={fillD}
-                        fill="url(#financial-gradient)"
-                        className="transition-none" 
-                    />
-                    
-                    {/* Stroke Line - Sharp Miter Join for jagged look */}
-                    <path 
-                        d={d}
-                        fill="none" 
-                        stroke="#34d399" 
-                        strokeWidth="2" 
-                        strokeLinejoin="miter"
-                        vectorEffect="non-scaling-stroke"
-                        className="drop-shadow-[0_0_8px_rgba(52,211,153,0.5)] transition-none"
-                    />
-
-                    {/* Jitter Tip Point */}
-                    {/* Independent fast vibration animation */}
-                    <motion.circle 
-                        cx={lastPoint.x} 
-                        cy={lastPoint.y} 
-                        r="3" 
-                        fill="#fff"
-                        animate={{ 
-                            y: [-2, 2, -1, 3, 0],
-                            opacity: [1, 0.7, 1]
-                        }}
-                        transition={{ 
-                            duration: 0.5, // Slowed down jitter slightly to match slower chart
-                            repeat: Infinity,
-                            repeatType: "mirror"
-                        }}
-                    />
-                    {/* Glow for Tip */}
-                    <motion.circle 
-                        cx={lastPoint.x} 
-                        cy={lastPoint.y} 
-                        r="8" 
-                        fill="#34d399"
-                        opacity="0.4"
-                        animate={{ scale: [1, 1.5, 1] }}
-                        transition={{ duration: 0.5, repeat: Infinity }}
-                    />
+                    <path d={fillD} fill="url(#financial-gradient)" className="transition-none" />
+                    <path d={d} fill="none" stroke="#34d399" strokeWidth="2" strokeLinejoin="miter" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_rgba(52,211,153,0.5)] transition-none"/>
+                    <motion.circle cx={lastPoint.x} cy={lastPoint.y} r="3" fill="#fff" animate={{ y: [-2, 2, -1, 3, 0], opacity: [1, 0.7, 1]}} transition={{ duration: 0.5, repeat: Infinity, repeatType: "mirror" }}/>
+                    <motion.circle cx={lastPoint.x} cy={lastPoint.y} r="8" fill="#34d399" opacity="0.4" animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 0.5, repeat: Infinity }}/>
                 </svg>
             </div>
         </div>
@@ -529,16 +496,14 @@ const SecurityWidget = () => {
         let currentIndex = 0;
         const interval = setInterval(() => {
             if (currentIndex < allLogs.length) {
-                // Capture the value of the log to add synchronously
                 const logToAdd = allLogs[currentIndex];
                 setLines(prev => {
                     const newLines = [...prev, logToAdd];
-                    if (newLines.length > 5) newLines.shift(); // Keep last 5 lines
+                    if (newLines.length > 5) newLines.shift();
                     return newLines;
                 });
                 currentIndex++;
             } else {
-                // Reset to loop effect
                 currentIndex = 0;
                 setLines([]);
             }
@@ -547,7 +512,8 @@ const SecurityWidget = () => {
     }, []);
 
     return (
-        <div className="flex flex-col h-full bg-[#050505] relative z-10">
+        <div className="flex flex-col h-full bg-[#050505] relative z-10 min-h-[160px] md:min-h-0">
+             {/* Terminal Logs - Takes available space */}
              <div className="flex-1 p-3 font-mono text-[10px] text-zinc-400 space-y-1.5 overflow-hidden">
                 {lines.map((line, idx) => (
                     <motion.div 
@@ -569,11 +535,11 @@ const SecurityWidget = () => {
                   className="w-2 h-4 bg-zinc-600 inline-block align-middle ml-2"
                 />
              </div>
-             {/* Security Check Status Bar */}
-             <div className="h-8 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between px-3">
+             {/* Footer Status - Fixed height */}
+             <div className="h-8 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between px-3 shrink-0">
                  <div className="flex items-center gap-2">
                      <Lock size={10} className="text-emerald-500" />
-                     <span className="text-[10px] font-bold text-emerald-400 tracking-wider">VERIFICAÇÃO DE SEGURANÇA</span>
+                     <span className="text-[10px] font-bold text-emerald-400 tracking-wider">SEGURANÇA</span>
                  </div>
                  <motion.div 
                     animate={{ opacity: [0.6, 1, 0.6], boxShadow: ["0 0 0px rgba(16,185,129,0)", "0 0 10px rgba(16,185,129,0.5)", "0 0 0px rgba(16,185,129,0)"] }}
@@ -590,8 +556,7 @@ const SecurityWidget = () => {
 // --- WIDGET 5: Server Health (Stack) ---
 const ServerWidget = () => {
     return (
-        <div className="p-5 flex flex-col justify-center h-full gap-5 relative z-10">
-             {/* CPU */}
+        <div className="p-4 md:p-5 flex flex-col justify-center h-full gap-4 md:gap-5 relative z-10 min-h-[160px] md:min-h-0">
              <div>
                  <div className="flex justify-between text-xs mb-1.5">
                      <span className="text-zinc-500 flex items-center gap-1"><Terminal size={10}/> WORKERS n8n</span>
@@ -605,7 +570,6 @@ const ServerWidget = () => {
                      />
                  </div>
              </div>
-             {/* RAM */}
              <div>
                  <div className="flex justify-between text-xs mb-1.5">
                      <span className="text-zinc-500 flex items-center gap-1"><Server size={10}/> MEMÓRIA REDIS</span>
@@ -619,7 +583,6 @@ const ServerWidget = () => {
                      />
                  </div>
              </div>
-             {/* Latency */}
              <div>
                  <div className="flex justify-between text-xs mb-1.5">
                      <span className="text-zinc-500 flex items-center gap-1"><Activity size={10}/> LATÊNCIA API</span>
@@ -640,7 +603,7 @@ const ServerWidget = () => {
     )
 }
 
-// --- WIDGET 6: Connected Team (Multi-Agent) ---
+// --- WIDGET 6: Connected Team ---
 const TeamWidget = () => {
     const roles = [
         { name: "Agente SDR", status: "Ativo", color: "bg-orange-400", shadowColor: "rgba(251,146,60,0.6)" },
@@ -648,11 +611,11 @@ const TeamWidget = () => {
         { name: "Bot Suporte", status: "Ocioso", color: "bg-blue-400", shadowColor: "rgba(96,165,250,0.6)" }
     ];
     return (
-        <div className="p-5 flex flex-col justify-center h-full relative z-10">
-            <div className="space-y-3">
+        <div className="p-4 md:p-5 flex flex-col justify-center h-full relative z-10 min-h-[140px] md:min-h-0">
+            <div className="space-y-2 md:space-y-3">
                 {roles.map((role, i) => (
-                    <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
-                        <div className="flex items-center gap-3">
+                    <div key={i} className="flex items-center justify-between p-2 md:p-2.5 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                        <div className="flex items-center gap-2 md:gap-3">
                             <motion.div 
                                 animate={{ 
                                     scale: [1, 1.2, 1],
@@ -680,25 +643,23 @@ const UptimeWidget = () => {
     const [percent, setPercent] = useState("99.98");
     
     useEffect(() => {
-        // Randomly fluctuate between 99.98, 99.99, 99.97 to simulate live tracking
         const interval = setInterval(() => {
             const rand = Math.random();
             if (rand > 0.7) {
                 setPercent("99.99");
-                setTimeout(() => setPercent("99.98"), 800); // Return to baseline
+                setTimeout(() => setPercent("99.98"), 800);
             } else if (rand < 0.2) {
                 setPercent("99.97");
                 setTimeout(() => setPercent("99.98"), 800);
             }
         }, 4000);
-        
         return () => clearInterval(interval);
     }, []);
 
     return (
-        <div className="border-l border-white/5 p-5 flex flex-col justify-center relative z-10 h-full">
+        <div className="border-l border-white/5 p-4 md:p-5 flex flex-col justify-center relative z-10 h-full min-h-[140px] md:min-h-0">
             <div className="text-zinc-500 text-xs mb-2">DISPONIBILIDADE</div>
-            <div className="text-2xl font-mono text-white flex items-center gap-2">
+            <div className="text-xl md:text-2xl font-mono text-white flex items-center gap-2">
                 {percent}%
                 <span className="text-[10px] text-emerald-400 bg-emerald-900/20 px-1 rounded border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.3)]">ESTÁVEL</span>
             </div>
@@ -709,34 +670,34 @@ const UptimeWidget = () => {
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="system" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
+    <section id="system" className="py-16 md:py-32 bg-[#050505] relative overflow-hidden">
        {/* Ambient Light */}
        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-900/10 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
+        <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
                 O Sistema Operacional
             </h2>
             <p className="text-zinc-400 max-w-xl text-lg">
                 Visão unificada da sua empresa rodando no piloto automático.
             </p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-white/10 rounded-full text-xs font-mono text-zinc-400">
+          <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-white/10 rounded-full text-xs font-mono text-zinc-400 w-fit">
              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
              SISTEMA ONLINE
           </div>
         </div>
 
-        {/* GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-6 h-auto md:h-[600px]">
+        {/* GRID LAYOUT - Increased height on desktop to prevent cramping */}
+        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 h-auto md:h-[800px]">
           
           {/* 1. Ísis Analysis HUD (Redesigned Modular) */}
           <DashboardCard 
             title="Analisador de Leads Ísis" 
             icon={<BrainCircuit size={16}/>} 
-            className="md:col-span-2 md:row-span-2"
+            className="md:col-span-2 md:row-span-2 min-h-[300px] md:min-h-0"
             delay="0"
           >
              <IsisAnalysisWidget />

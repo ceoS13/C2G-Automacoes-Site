@@ -89,13 +89,14 @@ export const ImplementationJourney: React.FC = () => {
   const lineScale = useTransform(smoothProgress, [0, 0.75], [0, 1]);
 
   return (
-    <section ref={containerRef} className="py-20 md:py-32 bg-[#050505] relative overflow-hidden border-t border-white/5">
+    <section id="process" ref={containerRef} className="py-20 md:py-32 bg-[#050505] relative overflow-hidden border-t border-white/5">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-[#050505] to-[#050505] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
             <div className="text-center mb-20">
-                <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-cyan-950/20 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-widest">
-                    Processo
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+                    <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+                    <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Processo</span>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
                     Do Kickoff à Autonomia em <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">3 Passos</span>

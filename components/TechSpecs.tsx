@@ -60,7 +60,7 @@ export const TechSpecs: React.FC = () => {
   const activeNode = WORKFLOW_NODES.find(n => n.id === activeNodeId);
 
   return (
-    <section id="tech" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
+    <section id="tech" className="py-16 md:py-32 bg-[#050505] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Why C2G */}
@@ -97,13 +97,13 @@ export const TechSpecs: React.FC = () => {
           <div className="relative mt-8 lg:mt-0 z-0" data-aos="fade-left" data-aos-delay="200">
              <span id="cases" className="absolute -top-32 invisible"></span>
             
-            {/* Added extra vertical padding on mobile (py-32) to clear the absolute stats cards */}
-            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-32 md:p-12 shadow-2xl overflow-hidden min-h-[600px] flex flex-col justify-center">
+            {/* Adjusted vertical padding for mobile to be less huge */}
+            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-20 md:p-12 shadow-2xl overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-center">
                 {/* Grid Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] z-0" />
                 
                 {/* Workflow Nodes */}
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 w-full">
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-0 md:gap-4 w-full">
                     
                     {WORKFLOW_NODES.map((node, index) => {
                       const isActive = activeNodeId === node.id;
@@ -113,7 +113,7 @@ export const TechSpecs: React.FC = () => {
                         <React.Fragment key={node.id}>
                           {/* Node Item */}
                           <div 
-                            className="flex flex-col items-center gap-3 w-32 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none"
+                            className="flex flex-col items-center gap-2 md:gap-3 w-32 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none"
                             style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}
                             onClick={() => setActiveNodeId(node.id)}
                             onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setActiveNodeId(node.id)}
@@ -123,14 +123,13 @@ export const TechSpecs: React.FC = () => {
                           >
                               <div 
                                 className={`
-                                  w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-[#111] flex items-center justify-center z-10 relative 
+                                  w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-[#111] flex items-center justify-center z-10 relative 
                                   transition-all duration-300 group-hover:scale-105 pointer-events-none
                                   ${isActive ? `${node.shadowColor} scale-105 bg-opacity-100` : 'bg-opacity-80 backdrop-blur-sm'}
                                 `}
                               >
                                   <Icon 
-                                    className={`transition-colors duration-300 ${isActive ? node.textColor : 'text-zinc-500 group-hover:text-zinc-300'}`} 
-                                    size={32} 
+                                    className={`transition-colors duration-300 w-6 h-6 md:w-8 md:h-8 ${isActive ? node.textColor : 'text-zinc-500 group-hover:text-zinc-300'}`} 
                                   />
                                   {isActive && (
                                     <div className={`absolute -top-1 -right-1 w-3 h-3 ${node.bgColor} rounded-full animate-pulse`} />
@@ -138,7 +137,7 @@ export const TechSpecs: React.FC = () => {
                               </div>
                               <div className="text-center pointer-events-none">
                                   <span className={`
-                                    block text-xs font-mono px-2 py-1 rounded transition-colors duration-300
+                                    block text-[10px] md:text-xs font-mono px-2 py-1 rounded transition-colors duration-300
                                     ${isActive 
                                       ? `${node.textColor} bg-black/50` 
                                       : 'text-zinc-500 bg-black/30'
@@ -151,8 +150,8 @@ export const TechSpecs: React.FC = () => {
 
                           {/* Connector (Render for all except last item) */}
                           {index < WORKFLOW_NODES.length - 1 && (
-                            <div className="relative flex items-center justify-center -my-2 md:my-0 md:-mx-4 flex-1 w-full md:w-auto pointer-events-none">
-                                <div className="h-12 w-0.5 md:h-0.5 md:w-full bg-zinc-800 relative overflow-hidden">
+                            <div className="relative flex items-center justify-center -my-1 md:my-0 md:-mx-4 flex-1 w-full md:w-auto pointer-events-none">
+                                <div className="h-8 md:h-0.5 w-0.5 md:w-full bg-zinc-800 relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 animate-flow" />
                                 </div>
                                 <div className="absolute bg-[#0a0a0a] border border-zinc-800 rounded-full p-1 text-zinc-500 shadow-sm z-10">
@@ -167,7 +166,7 @@ export const TechSpecs: React.FC = () => {
                 </div>
 
                 {/* Description Panel (Inspector) */}
-                <div className="relative z-10 mt-12 h-32 md:h-24 flex items-center justify-center">
+                <div className="relative z-10 mt-8 md:mt-12 h-28 md:h-24 flex items-center justify-center px-4 md:px-0">
                   <AnimatePresence mode="wait">
                     {activeNode ? (
                       <motion.div
@@ -176,10 +175,10 @@ export const TechSpecs: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="w-full max-w-2xl bg-[#111] border border-white/10 rounded-xl p-4 flex items-start gap-4 shadow-lg z-20"
+                        className="w-full max-w-2xl bg-[#111] border border-white/10 rounded-xl p-3 md:p-4 flex items-start gap-3 md:gap-4 shadow-lg z-20"
                       >
                          <div className={`p-2 rounded-lg bg-black border border-white/5 ${activeNode.textColor} shrink-0`}>
-                            <activeNode.icon size={20} />
+                            <activeNode.icon size={18} />
                          </div>
                          <div>
                             <h5 className={`text-sm font-bold ${activeNode.textColor} mb-1`}>{activeNode.title}</h5>
@@ -214,15 +213,15 @@ export const TechSpecs: React.FC = () => {
 
             </div>
             
-            {/* Stats Cards overlay - Positioned carefully to avoid overlap on mobile */}
-            <div className="absolute -bottom-4 -right-2 md:-bottom-6 md:-right-4 bg-[#111] border border-white/10 p-4 rounded-xl shadow-2xl transform rotate-3 z-30" data-aos="zoom-in" data-aos-delay="400">
+            {/* Stats Cards overlay - Positioned to not overlap mobile flow */}
+            <div className="absolute -bottom-4 -right-2 md:-bottom-6 md:-right-4 bg-[#111] border border-white/10 p-3 md:p-4 rounded-xl shadow-2xl transform rotate-3 z-30 scale-90 md:scale-100" data-aos="zoom-in" data-aos-delay="400">
                 <div className="flex items-center gap-2 mb-1">
                     <Zap size={14} className="text-yellow-400" />
                     <span className="text-xs text-zinc-400">Automações/mês</span>
                 </div>
                 <div className="text-xl md:text-2xl font-bold text-white">120k+</div>
             </div>
-             <div className="absolute -top-4 -left-2 md:-top-6 md:-left-4 bg-[#111] border border-white/10 p-4 rounded-xl shadow-2xl transform -rotate-2 z-30" data-aos="zoom-in" data-aos-delay="500">
+             <div className="absolute -top-4 -left-2 md:-top-6 md:-left-4 bg-[#111] border border-white/10 p-3 md:p-4 rounded-xl shadow-2xl transform -rotate-2 z-30 scale-90 md:scale-100" data-aos="zoom-in" data-aos-delay="500">
                 <div className="flex items-center gap-2 mb-1">
                      <Globe size={14} className="text-blue-400" />
                     <span className="text-xs text-zinc-400">Conectores</span>

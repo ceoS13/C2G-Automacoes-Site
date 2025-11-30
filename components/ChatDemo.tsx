@@ -44,7 +44,7 @@ export const ChatDemo: React.FC = () => {
   
   // Modified to track the specific chat container instead of the whole section
   const chatRef = useRef<HTMLElement>(null);
-  const isInView = useInView(chatRef, { once: true, amount: 0.4 });
+  const isInView = useInView(chatRef, { once: true, amount: 0.2 }); // Trigger slightly earlier on mobile
   
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -92,19 +92,19 @@ export const ChatDemo: React.FC = () => {
   }, [activeScenario, isInView]);
 
   return (
-    <section id="chat-demo" className="py-20 md:py-32 relative bg-[#050505] overflow-hidden">
+    <section id="chat-demo" className="py-16 md:py-32 relative bg-[#050505] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           <div ref={containerRef} data-aos="fade-right" className="relative z-10">
             <div className="bg-black/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border border-white/10 md:border-none p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none">
-                <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
+                <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
                 Muito além do <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
                     WhatsApp.
                 </span>
                 </h2>
-                <p className="text-lg md:text-xl text-zinc-400 mb-8 leading-relaxed">
+                <p className="text-base md:text-xl text-zinc-400 mb-8 leading-relaxed">
                 Enquanto o mercado vende 'chatbots', nós entregamos Força de Trabalho Digital. Nossos agentes não apenas conversam: eles operam seu ERP, prospectam no LinkedIn, gerenciam e-mails e auditam processos internos com autonomia de Nível 4.
                 </p>
                 
@@ -112,42 +112,42 @@ export const ChatDemo: React.FC = () => {
                     <li className="flex items-center gap-4 text-zinc-300">
                         <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0"><Database size={24} /></div>
                         <div>
-                        <h4 className="font-bold">Conexão Real</h4>
-                        <p className="text-sm text-zinc-500">Centralizamos dados de WhatsApp, E-mail, LinkedIn e Bancos em um único cérebro.</p>
+                        <h4 className="font-bold text-sm md:text-base">Conexão Real</h4>
+                        <p className="text-xs md:text-sm text-zinc-500">Centralizamos dados de WhatsApp, E-mail, LinkedIn e Bancos em um único cérebro.</p>
                         </div>
                     </li>
                     <li className="flex items-center gap-4 text-zinc-300">
                         <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 shrink-0"><CheckCircle2 size={24} /></div>
                         <div>
-                        <h4 className="font-bold">Raciocínio Lógico</h4>
-                        <p className="text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
+                        <h4 className="font-bold text-sm md:text-base">Raciocínio Lógico</h4>
+                        <p className="text-xs md:text-sm text-zinc-500">Valida regras de negócio (ex: "não agendar no domingo") antes de responder.</p>
                         </div>
                     </li>
                 </ul>
             </div>
           </div>
 
-          <article ref={chatRef} className="relative w-full mt-12 lg:mt-0" data-aos="fade-left">
+          <article ref={chatRef} className="relative w-full mt-8 lg:mt-0" data-aos="fade-left">
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-500/20 rounded-[3rem] blur-xl transform rotate-3" />
             
-            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-4 md:p-6 h-[550px] md:h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">
+            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-6 h-[450px] md:h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">
               
               <header className="border-b border-white/5 pb-4 mb-4 space-y-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
-                        <Bot size={20} className="text-white" />
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
+                        <Bot size={18} className="text-white" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-white">Ísis AI</h3>
-                        <p className="text-xs text-emerald-400 flex items-center gap-1">
+                        <h3 className="font-bold text-white text-sm md:text-base">Ísis AI</h3>
+                        <p className="text-[10px] md:text-xs text-emerald-400 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Online
                         </p>
                     </div>
                     </div>
                 </div>
 
-                <div className="flex p-1 bg-white/5 rounded-xl border border-white/5 overflow-x-auto no-scrollbar">
+                <div className="flex p-1 bg-white/5 rounded-xl border border-white/5 overflow-x-auto no-scrollbar scroll-smooth">
                     <button 
                         type="button"
                         onClick={() => setActiveScenario('scheduling')}
@@ -195,22 +195,22 @@ export const ChatDemo: React.FC = () => {
                     >
                       {msg.role === 'system' ? (
                          <div className="w-full text-center my-2">
-                             <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono transition-colors duration-500 ${
+                             <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] md:text-xs font-mono transition-colors duration-500 ${
                                  !isSystemLoading
                                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
                                  : "bg-white/5 border-white/5 text-zinc-500"
                              }`}>
                                 {isSystemLoading ? (
-                                    <Loader2 size={12} className="animate-spin" />
+                                    <Loader2 size={10} className="animate-spin" />
                                 ) : (
-                                    <Check size={12} className="stroke-[3]" /> 
+                                    <Check size={10} className="stroke-[3]" /> 
                                 )}
                                 {msg.content}
                              </span>
                          </div>
                       ) : (
                         <div
-                          className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                          className={`max-w-[85%] p-3 md:p-4 rounded-2xl text-xs md:text-sm leading-relaxed shadow-sm ${
                             msg.role === 'user'
                               ? 'bg-zinc-100 text-black rounded-br-none'
                               : 'bg-white/5 text-white border border-white/5 rounded-bl-none'
@@ -240,9 +240,9 @@ export const ChatDemo: React.FC = () => {
                 
               </div>
 
-              <div className="pt-4 border-t border-white/5 mt-auto shrink-0">
-                <div className="bg-white/5 rounded-full h-12 flex items-center px-4 border border-white/5 opacity-50">
-                    <span className="text-zinc-500 text-sm">Digite uma mensagem...</span>
+              <div className="pt-3 md:pt-4 border-t border-white/5 mt-auto shrink-0">
+                <div className="bg-white/5 rounded-full h-10 md:h-12 flex items-center px-4 border border-white/5 opacity-50">
+                    <span className="text-zinc-500 text-xs md:text-sm">Digite uma mensagem...</span>
                 </div>
               </div>
             </div>
