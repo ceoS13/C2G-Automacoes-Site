@@ -35,7 +35,7 @@ const App: React.FC = () => {
           duration: 1200, // Increased from 1000 to 1200 for smoother entrance
           once: true,
           easing: 'ease-out-cubic',
-          offset: 50,
+          offset: 150, // Increased offset to trigger animations later (when scrolling to the right height)
         });
         // Force refresh to detect elements rendered by React
         setTimeout(() => {

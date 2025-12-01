@@ -19,7 +19,7 @@ import {
   Loader2, 
   Check 
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 // --- WRAPPER COMPONENT: Dashboard Panel ---
 const DashboardCard: React.FC<{
@@ -493,8 +493,12 @@ const AnalyticsWidget = () => {
 const SecurityWidget = () => {
     const [lines, setLines] = useState<string[]>([]);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInView = useInView(containerRef, { once: true, amount: 0.4 });
     
     useEffect(() => {
+        if (!isInView) return;
+
         const allLogs = [
           "Iniciando Protocolo AVA v2.4...",
           "Verificando integridade...",
@@ -528,7 +532,7 @@ const SecurityWidget = () => {
             }
         }, 800);
         return () => clearInterval(interval);
-    }, []);
+    }, [isInView]);
 
     // Auto-scroll to bottom whenever lines change
     useEffect(() => {
@@ -541,7 +545,7 @@ const SecurityWidget = () => {
     }, [lines]);
 
     return (
-        <div className="flex flex-col h-[200px] md:h-full bg-[#050505] relative z-10">
+        <div ref={containerRef} className="flex flex-col h-[200px] md:h-full bg-[#050505] relative z-10">
              {/* Terminal Logs */}
              <div 
                 ref={scrollRef}
