@@ -717,7 +717,7 @@ export const BentoGrid: React.FC = () => {
         <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
           <div>
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                Painel de Controle do Seu Império
+                O Sistema Operacional da Sua Empresa
             </h2>
             <p className="text-zinc-400 max-w-xl text-lg">
                 Tenha visão total da eficiência e do lucro gerado pela sua operação autônoma em tempo real.

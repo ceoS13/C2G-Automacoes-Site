@@ -3,30 +3,12 @@ import React, { useMemo, useEffect } from 'react';
 // Using stable CDN (SimpleIcons/Devicon/SVGL) to ensure logos load correctly
 // Updated Google Gemini to jsDelivr for better caching headers
 const PARTNERS = [
+  // --- O Cérebro (IA) ---
   {
     name: 'OpenAI',
-    logoUrl: 'https://cdn.simpleicons.org/openai/ffffff', // White logo for dark bg
-    className: 'hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
-  },
-  {
-    name: 'LangChain',
-    logoUrl: 'https://cdn.simpleicons.org/langchain/ffffff',
-    className: 'hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
-  },
-  {
-    name: 'n8n',
-    logoUrl: 'https://cdn.simpleicons.org/n8n/ff6584', // Official Red/Pink
-    className: 'hover:drop-shadow-[0_0_15px_rgba(255,101,132,0.4)] transition-all duration-500'
-  },
-  {
-    name: 'WhatsApp',
-    logoUrl: 'https://cdn.simpleicons.org/whatsapp/25D366', // Official Green
-    className: 'hover:drop-shadow-[0_0_15px_rgba(37,211,102,0.4)] transition-all duration-500'
-  },
-  {
-    name: 'Supabase',
-    logoUrl: 'https://cdn.simpleicons.org/supabase/3ecf8e', // Official Green
-    className: 'hover:drop-shadow-[0_0_15px_rgba(62,207,142,0.4)] transition-all duration-500'
+    // Switched to jsDelivr for reliability. Added 'invert' class to ensure it is white on dark background.
+    logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/openai.svg', 
+    className: 'invert hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
   },
   {
     name: 'Google Gemini',
@@ -35,10 +17,27 @@ const PARTNERS = [
     className: 'hover:drop-shadow-[0_0_15px_rgba(66,133,244,0.4)] transition-all duration-500'
   },
   {
-    name: 'LinkedIn',
-    // Fix: Switching to jsDelivr/SVGL for reliability as SimpleIcons was failing
-    logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/linkedin.svg',
-    className: 'hover:drop-shadow-[0_0_15px_rgba(0,119,181,0.4)] transition-all duration-500'
+    name: 'LangChain',
+    logoUrl: 'https://cdn.simpleicons.org/langchain/ffffff',
+    className: 'hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
+  },
+
+  // --- A Engenharia (Back-end) ---
+  {
+    name: 'n8n',
+    logoUrl: 'https://cdn.simpleicons.org/n8n/ff6584', // Official Red/Pink
+    className: 'hover:drop-shadow-[0_0_15px_rgba(255,101,132,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'Supabase',
+    logoUrl: 'https://cdn.simpleicons.org/supabase/3ecf8e', // Official Green
+    className: 'hover:drop-shadow-[0_0_15px_rgba(62,207,142,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'PostgreSQL',
+    // Authentic shaded logo
+    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', 
+    className: 'hover:drop-shadow-[0_0_15px_rgba(65,105,225,0.4)] transition-all duration-500'
   },
   {
     name: 'Redis',
@@ -46,11 +45,28 @@ const PARTNERS = [
     logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg', 
     className: 'h-7 md:h-9 w-auto hover:drop-shadow-[0_0_15px_rgba(220,53,69,0.4)] transition-all duration-500'
   },
+
+  // --- Os Canais (Onde o cliente está) ---
   {
-    name: 'PostgreSQL',
-    // Authentic shaded logo
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', 
-    className: 'hover:drop-shadow-[0_0_15px_rgba(65,105,225,0.4)] transition-all duration-500'
+    name: 'WhatsApp',
+    logoUrl: 'https://cdn.simpleicons.org/whatsapp/25D366', // Official Green
+    className: 'hover:drop-shadow-[0_0_15px_rgba(37,211,102,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'Instagram',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg', // Official Gradient Logo
+    className: 'hover:drop-shadow-[0_0_15px_rgba(228,64,95,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'LinkedIn',
+    // Fix: Switching to jsDelivr/SVGL for reliability as SimpleIcons was failing
+    logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/linkedin.svg',
+    className: 'hover:drop-shadow-[0_0_15px_rgba(0,119,181,0.4)] transition-all duration-500'
+  },
+  {
+    name: 'Meta',
+    logoUrl: 'https://cdn.simpleicons.org/meta/0668E1', // Official Meta Blue
+    className: 'hover:drop-shadow-[0_0_15px_rgba(6,104,225,0.4)] transition-all duration-500'
   }
 ];
 
