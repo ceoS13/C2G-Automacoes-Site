@@ -84,7 +84,7 @@ export const TechSpecs: React.FC = () => {
   const activeNode = WORKFLOW_NODES.find(n => n.id === activeNodeId);
 
   return (
-    <section id="tech" className="py-12 md:py-32 bg-[#050505] relative overflow-hidden">
+    <section id="tech" className="py-12 md:py-32 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Why C2G - Top Section */}
@@ -107,7 +107,7 @@ export const TechSpecs: React.FC = () => {
               ].map((item, i) => (
                 <div 
                     key={i} 
-                    className="bg-[#0a0a0a] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-1 group"
+                    className="bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-1 group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#111] border border-white/5 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 group-hover:bg-cyan-950/20 transition-all">
                     {item.icon}
@@ -124,8 +124,8 @@ export const TechSpecs: React.FC = () => {
              <span id="cases" className="absolute -top-32 invisible"></span>
             
             {/* Adjusted vertical padding for mobile to be less huge */}
-            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-20 md:p-12 shadow-2xl overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-center h-auto">
-                {/* Grid Background */}
+            <div className="relative bg-[#0a0a0a]/90 backdrop-blur border border-white/10 rounded-2xl px-6 py-20 md:p-12 shadow-2xl overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-center h-auto">
+                {/* Grid Background - Inner Card Grid (Kept for Technical Aesthetic inside the "Monitor") */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] z-0" />
                 
                 {/* Workflow Nodes */}
@@ -176,7 +176,7 @@ export const TechSpecs: React.FC = () => {
 
                           {/* Connector (Render for all except last item) */}
                           {index < WORKFLOW_NODES.length - 1 && (
-                            <div className="relative flex items-center justify-center -my-1 md:my-0 md:-mx-6 md:mt-10 flex-1 w-full md:w-auto pointer-events-none">
+                            <div className="relative flex items-center justify-center -my-1 md:my-0 md:-mx-6 md:mt-8 flex-1 w-full md:w-auto pointer-events-none">
                                 <div className="h-14 md:h-0.5 w-0.5 md:w-full bg-zinc-800 relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 animate-flow" />
                                 </div>
@@ -243,9 +243,9 @@ export const TechSpecs: React.FC = () => {
             <div className="absolute -bottom-4 right-2 md:-bottom-6 md:right-8 bg-[#111] border border-white/10 p-3 md:p-4 rounded-xl shadow-2xl transform rotate-3 z-30 scale-90 md:scale-100" data-aos="zoom-in" data-aos-delay="400">
                 <div className="flex items-center gap-2 mb-1">
                     <Zap size={14} className="text-yellow-400" />
-                    <span className="text-xs text-zinc-400">Tempo de Resposta</span>
+                    <span className="text-xs text-zinc-400">Latência</span>
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-white">~2.5s</div>
+                <div className="text-xl md:text-2xl font-bold text-white">Humanizada</div>
             </div>
              <div className="absolute -top-4 left-2 md:-top-6 md:left-8 bg-[#111] border border-white/10 p-3 md:p-4 rounded-xl shadow-2xl transform -rotate-2 z-30 scale-90 md:scale-100" data-aos="zoom-in" data-aos-delay="500">
                 <div className="flex items-center gap-2 mb-1">

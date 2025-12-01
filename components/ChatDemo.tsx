@@ -92,7 +92,7 @@ export const ChatDemo: React.FC = () => {
   }, [activeScenario, isInView]);
 
   return (
-    <section id="chat-demo" className="py-16 md:py-32 relative bg-[#050505] overflow-hidden">
+    <section id="chat-demo" className="py-16 md:py-32 relative bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           

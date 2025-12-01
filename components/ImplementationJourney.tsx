@@ -89,8 +89,8 @@ export const ImplementationJourney: React.FC = () => {
   const lineScale = useTransform(smoothProgress, [0, 0.75], [0, 1]);
 
   return (
-    <section id="process" ref={containerRef} className="py-20 md:py-32 bg-[#050505] relative overflow-hidden border-t border-white/5">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-[#050505] to-[#050505] pointer-events-none" />
+    <section id="process" ref={containerRef} className="py-20 md:py-32 bg-transparent relative overflow-hidden border-t border-white/5">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
             <div className="text-center mb-20">

@@ -705,7 +705,7 @@ const UptimeWidget = () => {
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="system" className="py-16 md:py-32 bg-[#050505] relative overflow-hidden">
+    <section id="system" className="py-16 md:py-32 bg-transparent relative overflow-hidden">
        {/* Seamless Radial Gradient Background */}
        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,78,99,0.15)_0%,transparent_70%)] pointer-events-none z-0" />
 

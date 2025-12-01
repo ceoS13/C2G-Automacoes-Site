@@ -131,13 +131,10 @@ const PricingCard: React.FC<{
 
 export const Pricing: React.FC = () => {
   return (
-    <section id="pricing" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
+    <section id="pricing" className="py-20 md:py-32 bg-transparent relative overflow-hidden">
       
       {/* Seamless Radial Gradient Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.12)_0%,transparent_70%)] pointer-events-none z-0" />
-
-      {/* Static Pattern Overlay (Base layer) */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         

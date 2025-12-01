@@ -131,11 +131,8 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
 
 export const Solutions: React.FC = () => {
   return (
-    <section id="solutions" className="py-16 md:py-24 bg-[#050505] relative overflow-hidden">
+    <section id="solutions" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
       
-      {/* Background decoration: Subtle moving grid or noise */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none opacity-50" />
-
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="text-center mb-20" data-aos="fade-up">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">

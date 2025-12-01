@@ -56,21 +56,26 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
-      <Navbar />
-      <main>
-        <Hero />
-        <ChatDemo />
-        <Solutions />
-        <BentoGrid />
-        <TechSpecs />
-        <Partners />
-        <Pricing />
-        <ImplementationJourney />
-        <About />
-        <FAQ />
-      </main>
-      <Footer />
+    <div className="min-h-screen text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white relative">
+      {/* Global Vignette (Vinheta) Overlay - Fixed to ensure grid depth effect focuses on center */}
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_100%)] opacity-80" aria-hidden="true" />
+      
+      <div className="relative z-10">
+        <Navbar />
+        <main>
+          <Hero />
+          <ChatDemo />
+          <Solutions />
+          <BentoGrid />
+          <TechSpecs />
+          <Partners />
+          <Pricing />
+          <ImplementationJourney />
+          <About />
+          <FAQ />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };
