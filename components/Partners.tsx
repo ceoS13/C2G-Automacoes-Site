@@ -68,7 +68,7 @@ export const Partners: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-12 md:py-24 bg-transparent relative overflow-hidden z-20 select-none">
+    <section className="py-12 md:py-24 bg-[#050505] relative overflow-hidden z-20 select-none">
       
       {/* 1. Capsule Header - Floating above */}
       <div className="max-w-7xl mx-auto px-6 md:px-8 mb-10 text-center relative z-10" data-aos="fade-in">

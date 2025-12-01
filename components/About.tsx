@@ -32,8 +32,10 @@ const TeamCard: React.FC<{
 
 export const About: React.FC = () => {
   return (
-    <section id="about" className="py-24 md:py-40 bg-transparent relative border-t border-white/5 overflow-visible">
-      
+    <section id="about" className="py-24 md:py-40 bg-[#050505] relative border-t border-white/5 overflow-visible">
+      {/* Decorative Grid Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />
+
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Manifesto Section */}

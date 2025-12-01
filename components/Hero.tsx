@@ -38,7 +38,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0 bg-transparent">
+    <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       
       {/* Dynamic Cursor Spotlight - Instant Tracking (Hidden on mobile) */}
       <motion.div 
@@ -46,6 +46,9 @@ export const Hero: React.FC = () => {
         style={{ x: mouseX, y: mouseY }}
         aria-hidden="true"
       />
+
+      {/* Neural Network / Grid Background - Cyan Tint */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
         
