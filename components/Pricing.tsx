@@ -111,9 +111,9 @@ const PricingCard: React.FC<{
           )}
 
           <div className="relative z-10 flex flex-col h-full">
-              <div className="mb-2">
-                <h3 className={`text-xl font-bold inline-block mr-2 ${highlight ? 'text-cyan-400' : 'text-white'}`}>{title}</h3>
-                {subtitle && <span className={`text-[10px] uppercase tracking-wider border px-2 py-0.5 rounded-full ${highlight ? 'border-cyan-500/30 text-cyan-400 bg-cyan-950/20' : 'border-white/10 text-zinc-500'}`}>{subtitle}</span>}
+              <div className="mb-2 flex items-center gap-2">
+                <h3 className={`text-xl font-bold ${highlight ? 'text-cyan-400' : 'text-white'}`}>{title}</h3>
+                {subtitle && <span className={`text-[10px] uppercase tracking-wider border px-2 py-0.5 rounded-full whitespace-nowrap ${highlight ? 'border-cyan-500/30 text-cyan-400 bg-cyan-950/20' : 'border-white/10 text-zinc-500'}`}>{subtitle}</span>}
               </div>
 
               <div className="text-3xl font-bold text-white mb-4">{price}<span className="text-sm text-zinc-500 font-normal">/mês</span></div>
@@ -256,9 +256,9 @@ export const Pricing: React.FC = () => {
             data-aos-delay="300"
           >
               <div className="flex-1 flex flex-col">
-                <div className="mb-2">
-                    <h3 className="text-xl font-bold text-white inline-block mr-2">Enterprise</h3>
-                    <span className="text-[10px] uppercase tracking-wider border border-white/10 text-zinc-500 px-2 py-0.5 rounded-full">O ECOSSISTEMA</span>
+                <div className="mb-2 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-white">Enterprise</h3>
+                    <span className="text-[10px] uppercase tracking-wider border border-white/10 text-zinc-500 px-2 py-0.5 rounded-full whitespace-nowrap">O "ECOSSISTEMA"</span>
                 </div>
                 <div className="text-3xl font-bold text-white mb-4">Sob Medida</div>
                 <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
@@ -280,7 +280,7 @@ export const Pricing: React.FC = () => {
                 </ul>
 
                 <div className="mb-6 p-3 rounded-lg border text-xs italic bg-white/5 border-white/5 text-zinc-400">
-                    "A infraestrutura completa para dominar seu mercado."
+                    "A infraestrutura robusta para escalar sem limites"
                 </div>
               </div>
 
