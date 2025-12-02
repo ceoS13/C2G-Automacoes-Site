@@ -200,7 +200,7 @@ export const Pricing: React.FC = () => {
           
           <PricingCard 
             title="Standard"
-            subtitle='O "Filtro"'
+            subtitle='O "Filtro Inteligente"'
             price="R$ 1.499"
             description="Foco: Tirar o peso do atendimento humano. A IA resolve o básico."
             features={[
@@ -216,7 +216,7 @@ export const Pricing: React.FC = () => {
           <PricingCard 
             title="Plus"
             subtitle='O "Engajador"'
-            price="R$ 2.999/mês"
+            price="R$ 2.999"
             description="Foco: Aquecer o lead e trazer de volta quem sumiu. Humanização."
             features={[
               "Tudo do Standard",
@@ -233,10 +233,10 @@ export const Pricing: React.FC = () => {
           <PricingCard 
             title="Pro"
             subtitle='O "Closer Autônomo"'
-            price="R$ 4.999/mês"
+            price="R$ 4.999"
             description="Foco: A IA executa o trabalho sujo. Ela qualifica, agenda ou fecha."
             features={[
-              "Tudo do plus",
+              "Tudo do Plus",
               "Autonomia Executiva",
               "Gestão de CRM (Qualificação Automática)",
               "Memória de Longo Prazo (Vitalícia)",

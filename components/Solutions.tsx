@@ -23,6 +23,15 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
     mouseY.set(clientY - top);
   }
 
+  // Mapeamento de sombras neon baseadas na cor de destaque
+  const neonShadows: Record<string, string> = {
+    "cyan-400": "shadow-[0_0_20px_2px_rgba(34,211,238,0.8)]",
+    "emerald-400": "shadow-[0_0_20px_2px_rgba(52,211,153,0.8)]",
+    "indigo-400": "shadow-[0_0_20px_2px_rgba(129,140,248,0.8)]",
+  };
+
+  const shadowClass = neonShadows[accentColor] || "shadow-[0_0_20px_2px_rgba(255,255,255,0.5)]";
+
   return (
     <div 
       className="group relative h-full bg-zinc-900/30 border border-white/10 rounded-2xl overflow-hidden animate-float-subtle will-change-transform"
@@ -76,8 +85,14 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
       {/* Card Content */}
       <div className="relative h-full p-8 flex flex-col z-10">
         
-        {/* Top Gradient Line */}
-        <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-500`} />
+        {/* Top Neon Gradient Line (LIVING EFFECT) */}
+        <div className="absolute top-0 left-0 w-full z-20">
+             {/* Base Line with Strong Shadow */}
+             <div className={`w-full h-[2px] bg-gradient-to-r ${gradient} ${shadowClass} opacity-90`} />
+             
+             {/* Breathing Blur Layer */}
+             <div className={`absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r ${gradient} blur-[4px] opacity-60 animate-pulse-slow`} />
+        </div>
         
         {/* Header: Icon & Status */}
         <div className="flex justify-between items-start mb-6">

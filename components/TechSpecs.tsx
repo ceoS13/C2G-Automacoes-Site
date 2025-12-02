@@ -82,6 +82,7 @@ export const TechSpecs: React.FC = () => {
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
 
   const activeNode = WORKFLOW_NODES.find(n => n.id === activeNodeId);
+  const cardDelays = ['0s', '2s', '1s', '3s'];
 
   return (
     <section id="tech" className="py-12 md:py-32 bg-[#050505] relative overflow-hidden">
@@ -107,7 +108,8 @@ export const TechSpecs: React.FC = () => {
               ].map((item, i) => (
                 <div 
                     key={i} 
-                    className="bg-[#0a0a0a] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-1 group"
+                    className="bg-[#0a0a0a] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 group animate-float-subtle will-change-transform"
+                    style={{ animationDelay: cardDelays[i] || '0s' }}
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#111] border border-white/5 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 group-hover:bg-cyan-950/20 transition-all">
                     {item.icon}

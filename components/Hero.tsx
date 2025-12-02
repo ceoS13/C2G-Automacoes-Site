@@ -40,6 +40,37 @@ export const Hero: React.FC = () => {
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       
+      {/* 1. Aurora Background - Living Light Orbs */}
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+          x: [0, 50, -50, 0],
+          y: [0, -30, 30, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
+      />
+      <motion.div
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.2, 0.4, 0.2],
+          x: [0, -50, 50, 0],
+          y: [0, 40, -40, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+        className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
+      />
+
       {/* Dynamic Cursor Spotlight - Instant Tracking (Hidden on mobile) */}
       <motion.div 
         className="hidden md:block fixed top-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0 mix-blend-screen will-change-transform"
@@ -70,7 +101,11 @@ export const Hero: React.FC = () => {
               IA PARA O SEU
             </span>
             <span className="block relative uppercase mt-1 md:mt-0">
-              SUCESSO<span className="text-cyan-500">.</span>
+              {/* Shimmer Effect on Text */}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-white bg-[length:200%_auto] animate-text-shimmer inline-block px-2">
+                SUCESSO
+              </span>
+              <span className="text-cyan-500">.</span>
               <div className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
             </span>
           </motion.h1>
@@ -90,7 +125,10 @@ export const Hero: React.FC = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
             style={{ y: yButtons }}
           >
-            <button 
+            {/* Levitation Button */}
+            <motion.button 
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               type="button"
               className="group relative px-6 py-3.5 md:px-8 md:py-4 bg-zinc-100 text-black font-bold text-base md:text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
               onClick={() => scrollToSection('solutions')}
@@ -99,7 +137,7 @@ export const Hero: React.FC = () => {
               <span className="relative flex items-center justify-center gap-2">
                 Automatizar Minha Empresa <ArrowRight size={20} />
               </span>
-            </button>
+            </motion.button>
             
             <button 
                 type="button"
