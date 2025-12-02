@@ -140,6 +140,12 @@ export const Solutions: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="text-center mb-20" data-aos="fade-up">
+          {/* Status Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+              <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Agentes Inteligentes: Online</span>
+          </div>
+          
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
             Nossos Agentes
           </h2>

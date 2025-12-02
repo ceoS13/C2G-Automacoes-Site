@@ -91,6 +91,13 @@ export const TechSpecs: React.FC = () => {
         {/* Why C2G - Top Section */}
         <div className="mb-20 md:mb-24" data-aos="fade-up">
           <div className="text-center max-w-4xl mx-auto mb-16">
+            
+            {/* Status Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Arquitetura: Online</span>
+            </div>
+
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
               Por que a <span className="text-cyan-400">C2G</span>?
             </h2>

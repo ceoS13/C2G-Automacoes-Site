@@ -716,16 +716,18 @@ export const BentoGrid: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
           <div>
+            {/* Status Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 bg-black/50">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Monitoramento: Online</span>
+            </div>
+
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
                 O Sistema Operacional da Sua Empresa
             </h2>
             <p className="text-zinc-400 max-w-xl text-lg">
                 Tenha visão total da eficiência e do lucro gerado pela sua operação autônoma em tempo real.
             </p>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-white/10 rounded-full text-xs font-mono text-zinc-400 w-fit">
-             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
-             SISTEMA ONLINE
           </div>
         </div>
 
