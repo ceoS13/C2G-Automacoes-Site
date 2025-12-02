@@ -1,4 +1,6 @@
 
+import { WHATSAPP_LINK } from './constants';
+
 export const openWhatsApp = () => {
-  window.open('https://wa.me/', '_blank');
+  window.open(WHATSAPP_LINK, '_blank');
 };

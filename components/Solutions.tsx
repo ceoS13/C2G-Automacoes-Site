@@ -1,7 +1,5 @@
 import React from 'react';
-import { MessageSquare, Rocket, Lock, ArrowUpRight } from 'lucide-react';
-import { Button } from './ui/Button';
-import { WHATSAPP_LINK } from '../lib/constants';
+import { MessageSquare, Rocket, Lock } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
 interface SolutionCardProps {
@@ -105,7 +103,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
         <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">{title}</h3>
         <p className="text-zinc-400 mb-8 h-20 leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">{description}</p>
         
-        <ul className="space-y-3 mb-8 flex-1">
+        <ul className="space-y-3 flex-1">
           {features.map((feature, i) => (
             <li key={i} className="flex items-center gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
               <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${gradient} shadow-[0_0_5px_rgba(6,182,212,0.5)]`} />
@@ -113,17 +111,6 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
             </li>
           ))}
         </ul>
-
-        <div className="mt-auto">
-            <Button 
-            variant="ghost" 
-            className="!p-0 hover:!bg-transparent text-zinc-500 group-hover:text-white group-hover:gap-4 transition-all duration-300 w-fit" 
-            onClick={() => window.open(WHATSAPP_LINK, '_blank')}
-            title={`Saiba mais sobre ${title}`}
-            >
-            Saiba mais <ArrowUpRight size={16} className="text-cyan-500" />
-            </Button>
-        </div>
       </div>
     </div>
   );
