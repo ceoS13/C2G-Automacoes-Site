@@ -7,19 +7,19 @@ const steps = [
   {
     icon: Rocket,
     title: 'Kickoff & Mapeamento',
-    desc: 'Reunião de alinhamento estratégico e liberação de acessos (Dia 1).',
+    desc: 'Reunião de alinhamento estratégico e liberação de acessos (Semana 1).',
     id: 1
   },
   {
     icon: Code,
     title: 'Engenharia & Setup',
-    desc: 'Construção dos fluxos, integração de bancos de dados e testes de estresse (Dias 2-14).',
+    desc: 'Construção dos fluxos, integração de bancos de dados e validação de regras (semana 2-3).',
     id: 2
   },
   {
     icon: TrendingUp,
     title: 'Go-Live & Monitoramento',
-    desc: 'Seu ecossistema entra no ar. Acompanhamento em tempo real e otimização contínua.',
+    desc: 'Seu ecossistema entra no ar. Acompanhamento assistido e calibração final (semana 4).',
     id: 3
   }
 ];

@@ -70,7 +70,7 @@ export const FAQ: React.FC = () => {
     {
       id: 'alucinacao',
       question: "A IA pode 'alucinar' e falar besteira para o cliente?",
-      answer: "Não. Utilizamos uma arquitetura de RAG (Retrieval-Augmented Generation) com camadas de segurança. A Ísis só responde baseada nos documentos que você aprovar. Além disso, temos o A.V.A. (nosso auditor digital) que monitora as interações. Se a IA não tiver certeza da resposta, ela transfere imediatamente para um humano, jamais inventa dados."
+      answer: "Nossa infraestrutura foi desenhada para bloquear alucinações. Utilizamos RAG (Geração Aumentada por Recuperação) para restringir as respostas dos nossos agentes apenas aos documentos que você aprovar. Além disso, o protocolo A.V.A. audita a confiança de cada resposta em tempo real. Se a IA não encontrar a informação na sua base, ela é programada para não inventar: ela pede desculpas e transfere para um humano."
     },
     {
       id: 'numero',
@@ -85,7 +85,7 @@ export const FAQ: React.FC = () => {
     {
       id: 'implementacao',
       question: "Qual o tempo de implementação?",
-      answer: "Somos ágeis. Para os planos Standard e Plus, entregamos sua IA configurada e treinada em até 5 a 7 dias úteis. Para projetos Enterprise (com integrações profundas de estoque ou jurídico), o cronograma é definido no diagnóstico técnico, variando geralmente entre 15 a 30 dias."
+      answer: "Prezamos pela estabilidade. Para os planos Standard, Plus e Pro, nosso ciclo completo (Setup + Homologação + Testes de Carga) leva em média 30 dias. Para projetos Enterprise, o cronograma é desenhado sob medida após o diagnóstico técnico da sua infraestrutura atual."
     }
   ];
 
