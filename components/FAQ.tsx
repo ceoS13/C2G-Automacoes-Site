@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 interface FAQItemProps {
   question: string;
@@ -13,28 +13,52 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, id }) => {
   const headerId = `faq-header-${id}`;
 
   return (
-    <div className="border-b border-gray-800">
+    <div 
+        className={`
+            group border rounded-xl overflow-hidden transition-all duration-300 ease-in-out
+            ${isOpen 
+                ? 'bg-[#0a0a0a] border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 
+                : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/[0.07]'
+            }
+        `}
+    >
       <button 
         id={headerId}
-        className="w-full py-6 flex justify-between items-center text-left focus:outline-none rounded"
+        className="w-full p-6 flex justify-between items-center text-left focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-controls={panelId}
       >
-        <span className="text-lg font-medium text-white pr-4">{question}</span>
-        <ChevronDown 
-            className={`text-zinc-500 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} 
-            aria-hidden="true" 
-        />
+        <span className={`text-base md:text-lg font-medium pr-4 transition-colors duration-300 ${isOpen ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>
+            {question}
+        </span>
+        
+        {/* Animated Icon Container */}
+        <div className={`
+            shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300
+            ${isOpen 
+                ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400 rotate-45' 
+                : 'bg-white/5 border-white/10 text-zinc-500 group-hover:border-white/30 group-hover:text-white rotate-0'
+            }
+        `}>
+             <Plus size={16} />
+        </div>
+
       </button>
+
       <div 
         id={panelId}
         role="region"
         aria-labelledby={headerId}
-        className={`grid overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+        className={`grid overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <p className="text-zinc-400 leading-relaxed text-base pt-2 pb-6">{answer}</p>
+          <div className="px-6 pb-6 pt-0">
+             <div className="h-px w-full bg-white/5 mb-4" /> {/* Divisor sutil interno */}
+             <p className="text-zinc-400 leading-relaxed text-base font-light">
+                {answer}
+             </p>
+          </div>
         </div>
       </div>
     </div>
@@ -70,14 +94,18 @@ export const FAQ: React.FC = () => {
       <div className="max-w-3xl mx-auto px-6 md:px-8" data-aos="fade-up">
         
         {/* Standardized Header Badge */}
-        <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50">
+        <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 mb-6">
                 <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Perguntas Frequentes</span>
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Base de Conhecimento</span>
             </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Dúvidas Frequentes
+            </h2>
         </div>
         
-        <div className="space-y-2">
+        {/* Stack of Cards */}
+        <div className="space-y-4">
           {faqData.map((item) => (
             <FAQItem 
               key={item.id}
@@ -87,6 +115,7 @@ export const FAQ: React.FC = () => {
             />
           ))}
         </div>
+
       </div>
     </section>
   );
