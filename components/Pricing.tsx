@@ -200,7 +200,7 @@ export const Pricing: React.FC = () => {
           
           <PricingCard 
             title="Standard"
-            subtitle='O "Filtro Inteligente"'
+            subtitle='O "Filtro"'
             price="R$ 1.499"
             description="Foco: Tirar o peso do atendimento humano. A IA resolve o básico."
             features={[
@@ -255,17 +255,17 @@ export const Pricing: React.FC = () => {
             data-aos="fade-up"
             data-aos-delay="300"
           >
-              <div className="flex-1">
+              <div className="flex-1 flex flex-col">
                 <div className="mb-2">
                     <h3 className="text-xl font-bold text-white inline-block mr-2">Enterprise</h3>
-                    <span className="text-[10px] uppercase tracking-wider border border-white/10 text-zinc-500 px-2 py-0.5 rounded-full">Custom</span>
+                    <span className="text-[10px] uppercase tracking-wider border border-white/10 text-zinc-500 px-2 py-0.5 rounded-full">O ECOSSISTEMA</span>
                 </div>
                 <div className="text-3xl font-bold text-white mb-4">Sob Medida</div>
                 <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
                     Para operações complexas que exigem integrações profundas (API de Estoque, Logística, Banco de Dados Legado).
                 </p>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-4 mb-8 flex-1">
                     {[
                         "Engenharia de Soluções Dedicada",
                         "Integração SQL/NoSQL & ERPs",
@@ -278,6 +278,10 @@ export const Pricing: React.FC = () => {
                         </li>
                     ))}
                 </ul>
+
+                <div className="mb-6 p-3 rounded-lg border text-xs italic bg-white/5 border-white/5 text-zinc-400">
+                    "A infraestrutura completa para dominar seu mercado."
+                </div>
               </div>
 
               <button 
