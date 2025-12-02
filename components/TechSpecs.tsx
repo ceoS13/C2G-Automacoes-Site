@@ -43,9 +43,9 @@ const WORKFLOW_NODES = [
   { 
     id: 'isis_core',
     title: 'Agente Ísis (LLM)',
-    short: 'Cérebro',
+    short: 'Atendente',
     description: 'O Agente Principal. Utiliza LangChain para raciocinar sobre a intenção do usuário, manter a persona e orquestrar o uso de ferramentas.',
-    icon: BrainCircuit,
+    icon: Bot,
     color: 'cyan',
     borderColor: 'border-cyan-400',
     shadowColor: 'shadow-[0_0_30px_rgba(34,211,238,0.4)]',
@@ -148,7 +148,9 @@ export const TechSpecs: React.FC = () => {
                         <React.Fragment key={node.id}>
                           {/* Node Item */}
                           <div 
-                            className="flex flex-col items-center gap-2 md:gap-3 w-28 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none p-2 -m-2"
+                            className={`
+                              flex flex-col items-center gap-2 md:gap-3 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none p-2 -m-2 w-28
+                            `}
                             style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}
                             onClick={() => setActiveNodeId(node.id)}
                             onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setActiveNodeId(node.id)}
@@ -156,26 +158,34 @@ export const TechSpecs: React.FC = () => {
                             tabIndex={0}
                             aria-label={`Ver detalhes de ${node.title}`}
                           >
+                              {/* Node Visual */}
                               <div 
                                 className={`
-                                  w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-[#111] flex items-center justify-center z-10 relative 
-                                  transition-all duration-300 group-hover:scale-105 pointer-events-none
+                                  relative flex items-center justify-center z-10 transition-all duration-300 group-hover:scale-105 pointer-events-none
+                                  w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-[#111]
                                   ${isActive ? `${node.shadowColor} scale-105 bg-opacity-100` : 'bg-opacity-80 backdrop-blur-sm'}
                                 `}
                               >
                                   <Icon 
-                                    className={`transition-colors duration-300 w-5 h-5 md:w-7 md:h-7 ${isActive ? node.textColor : 'text-zinc-500 group-hover:text-zinc-300'}`} 
+                                    className={`
+                                      transition-colors duration-300 w-5 h-5 md:w-7 md:h-7 
+                                      ${isActive ? node.textColor : 'text-zinc-500 group-hover:text-zinc-300'}
+                                    `} 
                                   />
+
+                                  {/* Pulse Dots */}
                                   {isActive && (
                                     <div className={`absolute -top-1 -right-1 w-2.5 h-2.5 ${node.bgColor} rounded-full animate-pulse`} />
                                   )}
                               </div>
+                              
+                              {/* Label below */}
                               <div className="text-center pointer-events-none">
                                   <span className={`
-                                    block text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors duration-300 whitespace-nowrap
+                                    block text-[9px] md:text-[10px] font-mono px-2 py-0.5 rounded-full transition-colors duration-300 whitespace-nowrap
                                     ${isActive 
-                                      ? `${node.textColor} bg-black/50` 
-                                      : 'text-zinc-500 bg-black/30'
+                                      ? `${node.textColor} bg-black/50 border border-${node.color}-500/20` 
+                                      : 'text-zinc-500 bg-black/30 border border-transparent'
                                     }
                                   `}>
                                     {node.short}
@@ -264,7 +274,6 @@ export const TechSpecs: React.FC = () => {
                 <div className="text-xl md:text-2xl font-bold text-white">200+</div>
             </div>
         </div>
-      </div>
       
       {/* Custom CSS for flow animation injected here for component isolation */}
       <style>{`
