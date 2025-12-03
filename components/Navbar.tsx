@@ -1,8 +1,8 @@
+
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Link, animateScroll as scroll } from 'react-scroll';
-import { Logo } from './ui/Logo';
 import { NAV_LINKS, WHATSAPP_LINK } from '../lib/constants';
 
 export const Navbar: React.FC = () => {
@@ -39,17 +39,19 @@ export const Navbar: React.FC = () => {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} // Custom easing for premium feel
         className="fixed top-4 md:top-6 left-1/2 w-[95%] md:w-full max-w-7xl z-50"
       >
-        <nav className="relative bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/10 rounded-full pl-4 pr-2 py-2 shadow-2xl shadow-black/50 flex items-center justify-between transition-all duration-300 hover:border-white/20 hover:shadow-black/70">
+        <nav className="relative bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/10 rounded-full pl-6 pr-2 py-2 shadow-2xl shadow-black/50 flex items-center justify-between transition-all duration-300 hover:border-white/20 hover:shadow-black/70">
           
-          {/* 1. Logo - Left Align */}
+          {/* 1. Logo Text - Left Align */}
           <div className="shrink-0 flex items-center">
             <button 
               type="button"
-              className="cursor-pointer group focus:outline-none rounded-lg" 
+              className="cursor-pointer group focus:outline-none flex items-center gap-1.5 transition-opacity hover:opacity-80" 
               onClick={() => scroll.scrollToTop()}
               aria-label="Voltar ao topo - C2G Automações"
             >
-              <Logo className="w-5 h-5" />
+              {/* Composição Textual Minimalista */}
+              <span className="text-2xl font-bold text-white tracking-tight">C2G</span>
+              <span className="text-2xl font-light text-zinc-300 tracking-tight">Automações</span>
             </button>
           </div>
 

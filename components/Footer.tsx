@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
 import { Logo } from './ui/Logo';
@@ -27,7 +28,8 @@ export const Footer: React.FC = () => {
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-                <Logo className="w-6 h-6" />
+                {/* Increased Logo size for Footer: h-24 (96px) - Destaque máximo conforme solicitado */}
+                <Logo className="h-24 w-auto" />
             </div>
             <p className="text-zinc-500 max-w-sm mb-6 leading-relaxed">
               Engenharia de software aplicada a inteligência artificial. Criamos o futuro do trabalho autônomo para empresas que lideram seus setores.

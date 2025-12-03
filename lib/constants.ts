@@ -2,7 +2,7 @@
 export const COMPANY_NAME = "C2G Automações";
 
 // URL da Logo Transparente (Leve) - Para Navbar, Footer e Favicon
-export const LOGO_URL = "https://lh3.googleusercontent.com/d/1Z6ZISzdttI_Z9v7IpY3-vmR1FS4powrv";
+export const LOGO_URL = "https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk";
 
 // URL da Logo Alta Definição (Fundo Preto) - Exclusiva para o Hero/Watermark
 export const LOGO_HQ_URL = "https://lh3.googleusercontent.com/d/1a7v7opGKCyBswnFPse_lDUfuTKzKQhuB";

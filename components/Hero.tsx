@@ -85,9 +85,10 @@ export const Hero: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.08 }}
         transition={{ duration: 2 }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none grayscale mix-blend-screen"
+        // mix-blend-screen on the parent container handles the blending of the child image content against the background
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none mix-blend-screen"
       >
-         {/* Usando LOGO_HQ_URL (com fundo preto) e mix-blend-screen para remover o preto */}
+         {/* Optimization: Image uses mix-blend-screen to ensure black background is treated as transparent */}
          <img src={LOGO_HQ_URL} alt="" className="w-full h-full object-contain mix-blend-screen" />
       </motion.div>
 
