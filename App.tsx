@@ -1,8 +1,14 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { Home } from './components/Home';
-import { TermsPage } from './components/TermsPage';
+import { LoadingSpinner } from './components/ui/LoadingSpinner';
+
+// Lazy Load da página de termos para reduzir o bundle inicial
+// Como TermsPage é um export nomeado, precisamos adaptar o import
+const TermsPage = React.lazy(() => 
+  import('./components/TermsPage').then(module => ({ default: module.TermsPage }))
+);
 
 // Define AOS type to avoid @ts-ignore and enable intellisense
 declare global {
@@ -62,7 +68,11 @@ const App: React.FC = () => {
   }, []);
 
   if (currentView === 'terms') {
-    return <TermsPage onBack={handleNavigateToHome} initialSection={targetTermsSection} />;
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <TermsPage onBack={handleNavigateToHome} initialSection={targetTermsSection} />
+      </Suspense>
+    );
   }
 
   return (

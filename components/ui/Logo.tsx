@@ -50,7 +50,7 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
       )}
 
       {/* Texto da Marca - Exibido apenas se o container for grande o suficiente ou em telas maiores */}
-      <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block ml-3 relative z-10">
+      <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block ml-1 relative z-10">
           C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400 hidden lg:inline">Automações</span>
       </span>
     </div>
