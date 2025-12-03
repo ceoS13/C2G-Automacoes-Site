@@ -1,15 +1,6 @@
-import React, { useState } from 'react';
 
-// ----------------------------------------------------------------------
-// CONFIGURAÇÃO DO LOGO
-// ----------------------------------------------------------------------
-// Para usar sua própria logo:
-// 1. Se tiver o arquivo, coloque na pasta 'public' e use: "/nome-do-arquivo.png"
-// 2. Se tiver um link, cole ele aqui. Ex: "https://minhaempresa.com/logo.png"
-// 3. Deixe vazio ("") para usar o ícone padrão do template.
-// ----------------------------------------------------------------------
-// Link atualizado para um formato de CDN do Google mais estável
-const CUSTOM_LOGO_URL = "https://lh3.googleusercontent.com/d/1Q5HtlHfFAB3PKNx-S__o4YlQ7M1qnrZd"; 
+import React, { useState } from 'react';
+import { LOGO_URL } from '../../lib/constants';
 
 interface LogoProps {
   className?: string;
@@ -20,22 +11,22 @@ export const Logo: React.FC<LogoProps> = ({ className = "w-6 h-6", size = 24 }) 
   const [imgError, setImgError] = useState(false);
   
   // Só tenta usar a imagem se houver URL e não tiver dado erro anterior
-  const useImage = CUSTOM_LOGO_URL && !imgError;
+  const useImage = LOGO_URL && !imgError;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 relative">
       {useImage ? (
-        // Renderização com Imagem Customizada
+        // Renderização Simples e Nativa (Imagem Transparente)
         <div className="h-10 flex items-center justify-center shrink-0">
            <img 
-              src={CUSTOM_LOGO_URL} 
+              src={LOGO_URL} 
               alt="Logo C2G" 
               className="h-full w-auto object-contain max-w-[150px]" 
               onError={() => setImgError(true)}
            />
         </div>
       ) : (
-        // Renderização Padrão (Ícone SVG do Template) - Fallback caso a imagem quebre
+        // Renderização Padrão (Ícone SVG do Template) - Fallback
         <div className="h-10 w-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
           <svg 
             width={size} 
