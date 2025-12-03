@@ -48,8 +48,8 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
       )}
 
       {/* Texto da Marca - Exibido apenas se o container for grande o suficiente ou em telas maiores */}
-      {/* Ajuste: -ml-1 (Negative Margin Left) puxa o texto levemente para compensar o scale-150, mas sem sobrepor (-ml-3 era muito) */}
-      <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block -ml-1 relative z-10">
+      {/* Ajuste: Alterado de -ml-1 para ml-2 para afastar o texto do logo (breathing room) */}
+      <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block ml-2 relative z-10">
           C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400 hidden lg:inline">Automações</span>
       </span>
     </div>

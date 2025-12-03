@@ -37,7 +37,7 @@ export const Navbar: React.FC = () => {
           x: "-50%",
           opacity: isVisible ? 1 : 0 
         }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} // Custom easing for premium feel
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="fixed top-4 md:top-6 left-1/2 w-[95%] md:w-full max-w-7xl z-50"
       >
         <nav className="relative bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/10 rounded-full pl-4 pr-2 py-2 shadow-2xl shadow-black/50 flex items-center justify-between transition-all duration-300 hover:border-white/20 hover:shadow-black/70">
@@ -48,19 +48,15 @@ export const Navbar: React.FC = () => {
               type="button"
               className="cursor-pointer group focus:outline-none rounded-lg" 
               onClick={() => scroll.scrollToTop()}
-              whileHover={{ scale: 1.05 }}
+              // Animação de Mola (Spring) Premium
+              whileHover={{ 
+                scale: 1.1,
+                transition: { type: "spring", stiffness: 400, damping: 10 }
+              }}
               whileTap={{ scale: 0.95 }}
               aria-label="Voltar ao topo - C2G Automações"
             >
-              <motion.div
-                whileHover={{ 
-                  y: [0, -3, 0],
-                  transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
-                }}
-              >
-                {/* Optimized Size: h-11 (44px) - Mantém a barra fina, mas a imagem terá zoom interno via CSS */}
-                <Logo className="h-11 w-auto" />
-              </motion.div>
+              <Logo className="h-11 w-auto" />
             </motion.button>
           </div>
 

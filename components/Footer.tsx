@@ -1,12 +1,11 @@
-
 import React from 'react';
-import { Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
+import { Linkedin, Instagram, Globe } from 'lucide-react';
 import { Logo } from './ui/Logo';
 import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../lib/constants';
 import { scroller } from 'react-scroll';
 
 interface FooterProps {
-  onTermsClick?: () => void;
+  onTermsClick?: (section?: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
@@ -41,7 +40,6 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
             <div className="flex gap-4">
               <a href={SOCIAL_LINKS.linkedin} aria-label="LinkedIn" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
               <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
-              <a href={SOCIAL_LINKS.twitter} aria-label="Twitter" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Twitter size={18} /></a>
             </div>
           </div>
 
@@ -70,7 +68,6 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
               ))}
               <li><span className="text-zinc-600 cursor-default">Carreiras</span></li>
               <li><span className="text-zinc-600 cursor-default">Blog (Em breve)</span></li>
-              <li><a href={`mailto:${CONTACT_EMAIL}`} rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
             </ul>
           </nav>
 
@@ -79,13 +76,13 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
             <h4 className="text-white font-semibold mb-6">Legal</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               <li>
-                <button onClick={onTermsClick} className="hover:text-white transition-colors text-left">Termos de Uso</button>
+                <button onClick={() => onTermsClick?.('terms')} className="hover:text-white transition-colors text-left">Termos de Uso</button>
               </li>
               <li>
-                <button onClick={onTermsClick} className="hover:text-white transition-colors text-left">Política de Privacidade</button>
+                <button onClick={() => onTermsClick?.('privacy')} className="hover:text-white transition-colors text-left">Política de Privacidade</button>
               </li>
               <li>
-                 <button onClick={onTermsClick} className="hover:text-white transition-colors text-left">Compliance</button>
+                 <button onClick={() => onTermsClick?.('compliance')} className="hover:text-white transition-colors text-left">Compliance</button>
               </li>
               <li><button className="hover:text-white transition-colors flex items-center gap-2 cursor-default mt-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Status do Sistema</button></li>
             </ul>
@@ -95,7 +92,13 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
         
         <div className="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 gap-4">
           <p>&copy; {new Date().getFullYear()} {COMPANY_NAME} Ltda. Todos os direitos reservados.</p>
-          <div className="flex gap-6 items-center">
+          <div className="flex flex-col items-center md:items-end gap-1">
+            <a 
+              href={`mailto:${CONTACT_EMAIL}`} 
+              className="hover:text-cyan-400 transition-colors cursor-pointer"
+            >
+              Contato: {CONTACT_EMAIL}
+            </a>
             <span className="flex items-center gap-2 text-zinc-700"><Globe size={14} /> Brasil (PT-BR)</span>
           </div>
         </div>

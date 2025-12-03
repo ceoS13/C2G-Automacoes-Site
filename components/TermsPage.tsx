@@ -1,31 +1,57 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { ArrowLeft, ShieldCheck, Scale, Lock, FileText, AlertTriangle, Cpu } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { scroller } from 'react-scroll';
 import { Logo } from './ui/Logo';
 import { WHATSAPP_LINK } from '../lib/constants';
 
 interface TermsPageProps {
   onBack: () => void;
+  initialSection?: string;
 }
 
-export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
+export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) => {
   
-  // Scroll to top on mount and refresh animations
-  useEffect(() => {
+  // Parallax Logic
+  const { scrollYProgress } = useScroll();
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+  // CRITICAL: Scroll Reset Logic
+  // Use useLayoutEffect to ensure DOM is painted starting at top before user sees it
+  useLayoutEffect(() => {
+    // Reset para todos os navegadores (Chrome, Safari, Firefox)
     window.scrollTo(0, 0);
-    
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
+
+  useEffect(() => {
     // Força o AOS a reconhecer os novos elementos da página de termos
     if (window.AOS) {
+      // Pequeno delay para garantir que o React renderizou o conteúdo
       setTimeout(() => {
         window.AOS.refreshHard();
       }, 100);
     }
-  }, []);
+
+    // Se houver uma seção específica, rola até ela suavemente
+    if (initialSection) {
+      setTimeout(() => {
+        scroller.scrollTo(initialSection, {
+          duration: 1000,
+          delay: 0,
+          smooth: 'easeInOutQuart',
+          offset: -120, // Offset para compensar o Navbar fixo
+        });
+      }, 500); // Delay seguro para garantir que o scroll reset (0,0) já ocorreu
+    }
+  }, [initialSection]);
 
   return (
     <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-cyan-500/30 selection:text-white flex flex-col relative overflow-hidden">
       
-      {/* Background Elements (Mesma atmosfera da Home) */}
+      {/* Background Elements */}
       <div className="fixed inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" />
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(6,182,212,0.08)_0%,transparent_50%)] pointer-events-none z-0" />
 
@@ -36,7 +62,8 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
             onClick={onBack}
             className="flex items-center gap-2 group hover:opacity-80 transition-opacity focus:outline-none"
           >
-            <Logo className="h-8 w-auto" />
+            {/* Aumentado de h-8 para h-10 (mobile) e h-12 (desktop) */}
+            <Logo className="h-10 md:h-12 w-auto" />
           </button>
 
           <div className="flex items-center gap-4">
@@ -60,7 +87,11 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
       </header>
 
       <main className="flex-1 pt-32 pb-20 px-6 relative z-10">
-        <article className="max-w-3xl mx-auto">
+        {/* Usando motion.article para o parallax sutil */}
+        <motion.article 
+            style={{ y: parallaxY }}
+            className="max-w-3xl mx-auto"
+        >
             
             {/* Header Section */}
             <div className="mb-16 text-center" data-aos="fade-up" data-aos-duration="1000">
@@ -82,7 +113,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
             <div className="space-y-16">
                 
                 {/* SECTION 1: TERMS OF USE */}
-                <section className="space-y-6">
+                <section id="terms" className="space-y-6 scroll-mt-32">
                     <div className="flex items-center gap-3 mb-8" data-aos="fade-right">
                         <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 border border-blue-500/20">
                             <FileText size={24} />
@@ -152,7 +183,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
                 <div className="w-full h-px bg-white/5" data-aos="fade-in" />
 
                 {/* SECTION 2: PRIVACY POLICY */}
-                <section className="space-y-6">
+                <section id="privacy" className="space-y-6 scroll-mt-32">
                     <div className="flex items-center gap-3 mb-8" data-aos="fade-right">
                         <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400 border border-emerald-500/20">
                             <Lock size={24} />
@@ -215,7 +246,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
                 <div className="w-full h-px bg-white/5" data-aos="fade-in" />
 
                 {/* SECTION 3: COMPLIANCE */}
-                <section className="space-y-6">
+                <section id="compliance" className="space-y-6 scroll-mt-32">
                     <div className="flex items-center gap-3 mb-8" data-aos="fade-right">
                         <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 border border-cyan-500/20">
                             <ShieldCheck size={24} />
@@ -265,7 +296,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack }) => {
                 </section>
 
             </div>
-        </article>
+        </motion.article>
       </main>
 
       {/* Simplified Footer for Terms Page */}

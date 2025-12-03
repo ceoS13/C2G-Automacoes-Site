@@ -13,7 +13,7 @@ import { About } from './About';
 import { Footer } from './Footer';
 
 interface HomeProps {
-  onTermsClick: () => void;
+  onTermsClick: (section?: string) => void;
 }
 
 export const Home: React.FC<HomeProps> = ({ onTermsClick }) => {

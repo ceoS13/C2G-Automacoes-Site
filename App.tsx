@@ -1,10 +1,10 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
 import { Home } from './components/Home';
 import { TermsPage } from './components/TermsPage';
 
-// Define AOS type to avoid @ts-ignore
+// Define AOS type to avoid @ts-ignore and enable intellisense
 declare global {
   interface Window {
     AOS: {
@@ -19,18 +19,20 @@ type PageView = 'home' | 'terms';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<PageView>('home');
+  const [targetTermsSection, setTargetTermsSection] = useState<string | undefined>(undefined);
 
-  // Inicializa o AOS globalmente apenas uma vez
+  // Inicializa o AOS globalmente
   useEffect(() => {
+    // Garante comportamento padrão de scroll do navegador antes do JS assumir
     document.documentElement.style.scrollBehavior = 'auto';
     
     const initAOS = () => {
       if (window.AOS) {
         window.AOS.init({
-          duration: 1200,
+          duration: 1000,
           once: true,
           easing: 'ease-out-cubic',
-          offset: 150,
+          offset: 100, // Trigger point otimizado
         });
       }
     };
@@ -46,19 +48,21 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const handleNavigateToTerms = () => {
-    window.scrollTo(0, 0);
+  // Otimização: useCallback impede que a Navbar renderize novamente sem necessidade
+  const handleNavigateToTerms = useCallback((section?: string) => {
+    setTargetTermsSection(section);
     setCurrentView('terms');
-  };
+  }, []);
 
-  const handleNavigateToHome = () => {
+  const handleNavigateToHome = useCallback(() => {
     setCurrentView('home');
+    setTargetTermsSection(undefined);
+    // Reset manual para garantir
     window.scrollTo(0, 0);
-    // O componente <Home /> cuidará de dar refreshHard no AOS ao ser montado
-  };
+  }, []);
 
   if (currentView === 'terms') {
-    return <TermsPage onBack={handleNavigateToHome} />;
+    return <TermsPage onBack={handleNavigateToHome} initialSection={targetTermsSection} />;
   }
 
   return (
