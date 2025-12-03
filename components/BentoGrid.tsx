@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   BrainCircuit, 
@@ -369,8 +370,8 @@ const GrowthWidget = () => {
 
 // --- WIDGET 3: Analytics Waveform ---
 const AnalyticsWidget = () => {
-    // Config for jagged look
-    const pointsCount = 35;
+    // Optimization: Reduce points count to reduce SVG complexity
+    const pointsCount = 25;
     const width = 500;
     const height = 200;
     const stepX = width / (pointsCount - 1);
@@ -388,6 +389,7 @@ const AnalyticsWidget = () => {
 
     // Staccato Tick Animation & Number Updates
     useEffect(() => {
+        // Optimization: Reduced update frequency from 800ms to 1200ms
         const interval = setInterval(() => {
             setNoiseData(prev => {
                 const next = [...prev];
@@ -410,7 +412,7 @@ const AnalyticsWidget = () => {
                 return next;
             });
 
-        }, 800);
+        }, 1200);
         return () => clearInterval(interval);
     }, []);
 
@@ -471,7 +473,8 @@ const AnalyticsWidget = () => {
              </div>
 
             {/* Staccato Chart - Absolute Positioned to Bottom - Percentage Height for Responsiveness */}
-            <div className="absolute bottom-0 left-0 right-0 h-[65%] w-full overflow-hidden pointer-events-none z-10">
+            {/* Added will-change-transform for performance hint */}
+            <div className="absolute bottom-0 left-0 right-0 h-[65%] w-full overflow-hidden pointer-events-none z-10 will-change-transform">
                 <svg viewBox="0 0 500 200" className="w-full h-full preserve-3d absolute bottom-0" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="financial-gradient" x1="0" x2="0" y1="0" y2="1">

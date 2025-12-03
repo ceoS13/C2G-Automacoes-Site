@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MessageSquare, Rocket, Lock } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
@@ -18,6 +19,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
   const mouseY = useMotionValue(0);
 
   function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    // Optimization: Disable calculation on mobile/touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -49,9 +53,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
         className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none"
       />
 
-      {/* Spotlight Effect Layer */}
+      {/* Spotlight Effect Layer - Hidden on Mobile */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
+        className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
         style={{
           background: useMotionTemplate`
             radial-gradient(
@@ -63,9 +67,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
         }}
       />
       
-      {/* Spotlight Border Reveal */}
+      {/* Spotlight Border Reveal - Hidden on Mobile */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
+        className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
         style={{
           background: useMotionTemplate`
             radial-gradient(

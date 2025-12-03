@@ -42,7 +42,11 @@ export const Hero: React.FC = () => {
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       
-      {/* 1. Aurora Background - Living Light Orbs */}
+      {/* 1. Aurora Background - Optimized for Mobile */}
+      {/* Mobile: Static Gradient (Zero GPU usage) */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-900/20 via-black to-black md:hidden -z-10" />
+
+      {/* Desktop: Living Light Orbs (Animated) */}
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
@@ -55,7 +59,7 @@ export const Hero: React.FC = () => {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
+        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
       />
       <motion.div
         animate={{
@@ -70,7 +74,7 @@ export const Hero: React.FC = () => {
           ease: "easeInOut",
           delay: 2
         }}
-        className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
+        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
       />
 
       {/* Dynamic Cursor Spotlight - Instant Tracking (Hidden on mobile) */}

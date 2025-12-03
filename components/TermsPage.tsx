@@ -62,8 +62,8 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
             onClick={onBack}
             className="flex items-center gap-2 group hover:opacity-80 transition-opacity focus:outline-none"
           >
-            {/* Aumentado de h-8 para h-10 (mobile) e h-12 (desktop) */}
-            <Logo className="h-10 md:h-12 w-auto" />
+            {/* Aumentado o tamanho do logo conforme solicitado: h-12 no mobile, h-16 no desktop */}
+            <Logo className="h-12 md:h-16 w-auto" />
           </button>
 
           <div className="flex items-center gap-4">
