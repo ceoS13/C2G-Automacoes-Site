@@ -14,16 +14,14 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
   const useImage = LOGO_URL && !imgError;
 
   return (
-    // Adicionado transition-transform e hover:scale-110 para o efeito de 'bounce/pulse' sutil
-    // Adicionado hover:drop-shadow para realce
-    <div className={`flex items-center relative select-none transition-transform duration-300 ease-out hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] ${className.includes('h-') ? '' : 'h-10'}`}>
+    <div className={`flex items-center relative select-none ${className.includes('h-') ? '' : 'h-10'}`}>
       {useImage ? (
         // Renderização Simples e Nativa (Imagem Transparente)
+        // Otimização: scale-150 aumenta visualmente a imagem em 50% sem expandir a altura da navbar
         <div className={`flex items-center justify-center shrink-0 ${className}`}>
            <img 
               src={LOGO_URL} 
               alt="Logo C2G" 
-              // Mantido scale-150 para garantir o tamanho visual grande solicitado anteriormente
               className="h-full w-auto object-contain scale-150" 
               onError={() => setImgError(true)}
            />
@@ -49,7 +47,11 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
         </div>
       )}
 
-      {/* Texto Removido conforme solicitado, deixando apenas o ícone */}
+      {/* Texto da Marca - Exibido apenas se o container for grande o suficiente ou em telas maiores */}
+      {/* Ajuste: -ml-1 (Negative Margin Left) puxa o texto levemente para compensar o scale-150, mas sem sobrepor (-ml-3 era muito) */}
+      <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block -ml-1 relative z-10">
+          C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400 hidden lg:inline">Automações</span>
+      </span>
     </div>
   );
 };
