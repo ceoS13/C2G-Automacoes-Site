@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { LOGO_URL } from '../../lib/constants';
+import { getOptimizedImageUrl } from '../../lib/utils';
 
 interface LogoProps {
   className?: string;
@@ -20,7 +21,8 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
         // Otimização: scale-150 aumenta visualmente a imagem em 50% sem expandir a altura da navbar
         <div className={`flex items-center justify-center shrink-0 ${className}`}>
            <img 
-              src={LOGO_URL} 
+              // Otimização: Solicita imagem com largura 400px (WebP) para telas Retina
+              src={getOptimizedImageUrl(LOGO_URL, 400)} 
               alt="Logo C2G" 
               className="h-full w-auto object-contain scale-150" 
               onError={() => setImgError(true)}
@@ -48,7 +50,6 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
       )}
 
       {/* Texto da Marca - Exibido apenas se o container for grande o suficiente ou em telas maiores */}
-      {/* Ajuste: Alterado de ml-2 para ml-3 para afastar mais o texto do logo conforme solicitado */}
       <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block ml-3 relative z-10">
           C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400 hidden lg:inline">Automações</span>
       </span>

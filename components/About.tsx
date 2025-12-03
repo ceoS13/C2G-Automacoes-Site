@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { getOptimizedImageUrl } from '../lib/utils';
 
 const TeamCard: React.FC<{
   name: string;
@@ -16,10 +17,14 @@ const TeamCard: React.FC<{
        {/* Image Overlay - Absolute on top border */}
        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-black p-2 z-10">
           <img 
-            src={imageSrc} 
+            // Otimização: Crop quadrado (400x400) focado no rosto
+            src={getOptimizedImageUrl(imageSrc, 400, 400, true)} 
             alt={name} 
             className="w-full h-full rounded-full object-cover border border-zinc-800 group-hover:border-cyan-500/30 grayscale group-hover:grayscale-0 transition-all duration-500 bg-zinc-900 group-hover:scale-105 group-hover:rotate-3"
             loading="lazy"
+            decoding="async"
+            width="400"
+            height="400"
           />
        </div>
 

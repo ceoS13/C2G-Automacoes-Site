@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
 import { scroller } from 'react-scroll';
 import { LOGO_HQ_URL } from '../lib/constants';
+import { getOptimizedImageUrl } from '../lib/utils';
 
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
@@ -92,8 +93,12 @@ export const Hero: React.FC = () => {
         // mix-blend-screen on the parent container handles the blending of the child image content against the background
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none mix-blend-screen"
       >
-         {/* Optimization: Image uses mix-blend-screen to ensure black background is treated as transparent */}
-         <img src={LOGO_HQ_URL} alt="" className="w-full h-full object-contain mix-blend-screen" />
+         {/* Optimization: Use Optimized Image Proxy for large watermark (1200px width for quality) */}
+         <img 
+            src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)} 
+            alt="" 
+            className="w-full h-full object-contain mix-blend-screen" 
+         />
       </motion.div>
 
       {/* Neural Network / Grid Background - Cyan Tint */}
