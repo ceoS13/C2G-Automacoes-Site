@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const TeamCard: React.FC<{
@@ -75,19 +76,19 @@ export const About: React.FC = () => {
           <TeamCard 
             name="Guilherme C."
             description="Mente por trás da engenharia, Guilherme C. é o arquiteto de soluções de IA. Especialista em construir as robustas e inovadoras arquiteturas multiagente que são o coração da C2G."
-            imageSrc="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=250&h=250&auto=format&fit=crop"
+            imageSrc="https://lh3.googleusercontent.com/d/12YdaYeZh-7ZUe-GOKvK0za10O68mYOd3"
             delay="0"
           />
           <TeamCard 
             name="Caíque R."
             description="Com um olhar estratégico afiado para negócios e parcerias, Caique R é o motor que impulsiona a C2G para novos horizontes, traduzindo a visão em oportunidades concretas."
-            imageSrc="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=250&h=250&auto=format&fit=crop"
+            imageSrc="https://lh3.googleusercontent.com/d/1t5_gwVOvQEmNqj8zIdvgb86OHCdAe1Ua"
             delay="100"
           />
           <TeamCard 
             name="Guilherme R."
             description="Especialista em engenharia de software, com foco em LLMs e visão estratégica. Responsável por garantir entregas eficientes e transformar tecnologia em resultados práticos."
-            imageSrc="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=250&h=250&auto=format&fit=crop"
+            imageSrc="https://lh3.googleusercontent.com/d/138PVe_N_ZzkX7UwSNh6UAidHWHLOV0ZO"
             delay="200"
           />
         </div>
