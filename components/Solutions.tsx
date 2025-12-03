@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageSquare, Rocket, Lock } from 'lucide-react';
+import { MessageSquare, Rocket, Lock, Settings } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
 interface SolutionCardProps {
@@ -32,6 +32,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
     "cyan-400": "shadow-[0_0_20px_2px_rgba(34,211,238,0.8)]",
     "emerald-400": "shadow-[0_0_20px_2px_rgba(52,211,153,0.8)]",
     "indigo-400": "shadow-[0_0_20px_2px_rgba(129,140,248,0.8)]",
+    "purple-400": "shadow-[0_0_20px_2px_rgba(192,132,252,0.8)]",
   };
 
   const shadowClass = neonShadows[accentColor] || "shadow-[0_0_20px_2px_rgba(255,255,255,0.5)]";
@@ -87,7 +88,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
       />
 
       {/* Card Content */}
-      <div className="relative h-full p-8 flex flex-col z-10">
+      <div className="relative h-full p-6 lg:p-8 flex flex-col z-10">
         
         {/* Top Neon Gradient Line (LIVING EFFECT) */}
         <div className="absolute top-0 left-0 w-full z-20">
@@ -119,13 +120,13 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
             </div>
         </div>
         
-        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">{title}</h3>
-        <p className="text-zinc-400 mb-8 h-20 leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">{description}</p>
+        <h3 className="text-xl lg:text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">{title}</h3>
+        <p className="text-zinc-400 mb-8 text-sm lg:text-base h-auto min-h-[5rem] leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">{description}</p>
         
         <ul className="space-y-3 flex-1">
           {features.map((feature, i) => (
             <li key={i} className="flex items-center gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
-              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${gradient} shadow-[0_0_5px_rgba(6,182,212,0.5)]`} />
+              <div className={`w-1.5 h-1.5 shrink-0 rounded-full bg-gradient-to-r ${gradient} shadow-[0_0_5px_rgba(6,182,212,0.5)]`} />
               {feature}
             </li>
           ))}
@@ -142,7 +143,7 @@ export const Solutions: React.FC = () => {
       {/* Background decoration: Subtle moving grid or noise */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none opacity-50" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-8 relative z-10">
         <div className="text-center mb-20" data-aos="fade-up">
           {/* Status Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
@@ -158,7 +159,8 @@ export const Solutions: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Updated Grid Layout for 4 Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <SolutionCard 
             title="Ísis (Conversão)"
             description="Transforme curiosos em pagantes. Atendimento imediato que nunca deixa um lead esfriar e agenda reuniões automaticamente."
@@ -182,12 +184,27 @@ export const Solutions: React.FC = () => {
             accentColor="emerald-400"
             features={[
               "Geração de Pipeline Previsível",
-              "Enriquecimento de dados de contato",
+              "Enriquecimento de dados",
               "Abordagem personalizada em massa",
               "Nutrição automática de leads"
             ]}
             delay="100"
             floatDelay="2.5s"
+          />
+          <SolutionCard 
+            title="Ops (Eficiência)"
+            description="Elimine o gargalo administrativo. Conecte RH, Financeiro e Operações em fluxos autônomos, reduzindo o erro humano a zero."
+            icon={<Settings size={28} />}
+            gradient="from-purple-600 to-fuchsia-500"
+            accentColor="purple-400"
+            features={[
+              "Onboarding de Colaboradores",
+              "Automação Financeira (NFs)",
+              "Gestão de Documentos (OCR)",
+              "Orquestração de ERP"
+            ]}
+            delay="200"
+            floatDelay="1s"
           />
           <SolutionCard 
             title="Governança (Segurança)"
@@ -201,7 +218,7 @@ export const Solutions: React.FC = () => {
               "Proteção total dos seus dados",
               "Conformidade com LGPD"
             ]}
-            delay="200"
+            delay="300"
             floatDelay="1.5s"
           />
         </div>

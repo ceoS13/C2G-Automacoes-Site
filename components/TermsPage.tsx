@@ -1,5 +1,5 @@
 
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ArrowLeft, ShieldCheck, Scale, Lock, FileText, AlertTriangle, Cpu } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { scroller } from 'react-scroll';
@@ -13,8 +13,19 @@ interface TermsPageProps {
 
 export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) => {
   
+  // Mobile Detection for Scroll Optimization
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Parallax Logic
   const { scrollYProgress } = useScroll();
+  // Only apply parallax translation on desktop to ensure native smooth touch scrolling on mobile
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
   // CRITICAL: Scroll Reset Logic
@@ -39,10 +50,11 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
     if (initialSection) {
       setTimeout(() => {
         scroller.scrollTo(initialSection, {
-          duration: 1000,
+          duration: 800, // Slightly faster for better mobile feel
           delay: 0,
           smooth: 'easeInOutQuart',
-          offset: -120, // Offset para compensar o Navbar fixo
+          // Menor offset no mobile para aproveitar melhor a tela
+          offset: window.innerWidth < 768 ? -100 : -120, 
         });
       }, 500); // Delay seguro para garantir que o scroll reset (0,0) já ocorreu
     }
@@ -87,9 +99,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
       </header>
 
       <main className="flex-1 pt-32 pb-20 px-6 relative z-10">
-        {/* Usando motion.article para o parallax sutil */}
+        {/* Usando motion.article para o parallax sutil (Apenas Desktop) */}
         <motion.article 
-            style={{ y: parallaxY }}
+            style={{ y: isMobile ? 0 : parallaxY }}
             className="max-w-3xl mx-auto"
         >
             
