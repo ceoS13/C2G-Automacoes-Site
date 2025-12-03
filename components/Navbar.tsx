@@ -44,15 +44,24 @@ export const Navbar: React.FC = () => {
           
           {/* 1. Logo - Left Align */}
           <div className="shrink-0 flex items-center">
-            <button 
+            <motion.button 
               type="button"
               className="cursor-pointer group focus:outline-none rounded-lg" 
               onClick={() => scroll.scrollToTop()}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               aria-label="Voltar ao topo - C2G Automações"
             >
-              {/* Optimized Size: h-11 (44px) - Mantém a barra fina, mas a imagem terá zoom interno via CSS */}
-              <Logo className="h-11 w-auto" />
-            </button>
+              <motion.div
+                whileHover={{ 
+                  y: [0, -3, 0],
+                  transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+                }}
+              >
+                {/* Optimized Size: h-11 (44px) - Mantém a barra fina, mas a imagem terá zoom interno via CSS */}
+                <Logo className="h-11 w-auto" />
+              </motion.div>
+            </motion.button>
           </div>
 
           {/* 2. Navigation Cluster - Absolute Center (The "Inner Capsule") */}

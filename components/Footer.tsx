@@ -5,7 +5,11 @@ import { Logo } from './ui/Logo';
 import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../lib/constants';
 import { scroller } from 'react-scroll';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onTermsClick?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
 
   const handleScroll = (href: string) => {
     const sectionId = href.replace('#', '');
@@ -64,9 +68,8 @@ export const Footer: React.FC = () => {
                     </button>
                   </li>
               ))}
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20">Contratando</span></a></li>
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Blog Tech</a></li>
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Imprensa</a></li>
+              <li><span className="text-zinc-600 cursor-default">Carreiras</span></li>
+              <li><span className="text-zinc-600 cursor-default">Blog (Em breve)</span></li>
               <li><a href={`mailto:${CONTACT_EMAIL}`} rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
             </ul>
           </nav>
@@ -75,10 +78,16 @@ export const Footer: React.FC = () => {
           <nav aria-label="Links Legais">
             <h4 className="text-white font-semibold mb-6">Legal</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Termos de Uso</a></li>
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Política de Privacidade</a></li>
-              <li><a href="#" rel="noopener noreferrer" className="hover:text-white transition-colors">Compliance</a></li>
-              <li><a href="#" rel="noopener noreferrer" target="_blank" className="hover:text-white transition-colors flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Status do Sistema</a></li>
+              <li>
+                <button onClick={onTermsClick} className="hover:text-white transition-colors text-left">Termos de Uso</button>
+              </li>
+              <li>
+                <button onClick={onTermsClick} className="hover:text-white transition-colors text-left">Política de Privacidade</button>
+              </li>
+              <li>
+                 <button onClick={onTermsClick} className="hover:text-white transition-colors text-left">Compliance</button>
+              </li>
+              <li><button className="hover:text-white transition-colors flex items-center gap-2 cursor-default mt-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Status do Sistema</button></li>
             </ul>
           </nav>
 

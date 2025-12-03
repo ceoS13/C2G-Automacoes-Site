@@ -27,8 +27,8 @@ export const NAV_LINKS = [
 
 export const SOCIAL_LINKS = {
   linkedin: "#",
-  instagram: "#",
+  instagram: "https://www.instagram.com/c2g.automacoes/",
   twitter: "#"
 };
 
-export const CONTACT_EMAIL = "contato@c2gautomacoes.com.br";
+export const CONTACT_EMAIL = "c2gautomacoes@gmail.com";
