@@ -85,21 +85,30 @@ export const Hero: React.FC = () => {
         aria-hidden="true"
       />
 
-      {/* Logo Watermark - Brand Atmosphere */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.08 }}
-        transition={{ duration: 2 }}
-        // mix-blend-screen on the parent container handles the blending of the child image content against the background
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none mix-blend-screen"
-      >
-         {/* Optimization: Use Optimized Image Proxy for large watermark (1200px width for quality) */}
-         <img 
-            src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)} 
-            alt="" 
-            className="w-full h-full object-contain mix-blend-screen" 
-         />
-      </motion.div>
+      {/* Logo Watermark - Brand Atmosphere (Animated Breathing Effect) */}
+      {/* Wrapper for positioning to avoid transform conflicts with framer-motion */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none mix-blend-screen">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ 
+            opacity: [0.04, 0.08, 0.04], // Pulsar opacidade (Respiração)
+            scale: [1, 1.05, 1]          // Pulsar tamanho (Heartbeat lento)
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+          className="w-full h-full will-change-transform"
+        >
+           {/* Optimization: Use Optimized Image Proxy for large watermark (1200px width for quality) */}
+           <img 
+              src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)} 
+              alt="" 
+              className="w-full h-full object-contain mix-blend-screen" 
+           />
+        </motion.div>
+      </div>
 
       {/* Neural Network / Grid Background - Cyan Tint */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />

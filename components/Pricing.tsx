@@ -1,6 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, Building2, ArrowRight, Activity, ScanLine } from 'lucide-react';
+import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 import { ISIS_NUMBER, CONSULTANT_NUMBER } from '../lib/constants';
+
+// Componente para animar o preço contando de 0 até o valor final
+const CountUpPrice: React.FC<{ value: string; className?: string }> = ({ value, className }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
+  const motionValue = useMotionValue(0);
+  
+  // Extrai o valor numérico (ex: "R$ 1.499" -> 1499)
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10);
+  const isNumeric = !isNaN(numericValue) && value.includes("R$");
+
+  useEffect(() => {
+    if (isInView && isNumeric) {
+      const controls = animate(motionValue, numericValue, {
+        duration: 2.5,
+        ease: [0.22, 1, 0.36, 1], // Custom easing (cubic-bezier)
+      });
+      return () => controls.stop();
+    }
+  }, [isInView, isNumeric, numericValue, motionValue]);
+
+  const displayValue = useTransform(motionValue, (latest) => {
+    if (!isNumeric) return value;
+    return `R$ ${Math.round(latest).toLocaleString('pt-BR')}`;
+  });
+
+  if (!isNumeric) {
+    return <span className={className}>{value}</span>;
+  }
+
+  return <motion.span ref={ref} className={className}>{displayValue}</motion.span>;
+};
 
 // HyperText Component for the Decoder Effect
 const HyperText: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
@@ -116,7 +149,10 @@ const PricingCard: React.FC<{
                 {subtitle && <span className={`text-[10px] uppercase tracking-wider border px-2 py-0.5 rounded-full whitespace-nowrap ${highlight ? 'border-cyan-500/30 text-cyan-400 bg-cyan-950/20' : 'border-white/10 text-zinc-500'}`}>{subtitle}</span>}
               </div>
 
-              <div className="text-3xl font-bold text-white mb-4">{price}<span className="text-sm text-zinc-500 font-normal">/mês</span></div>
+              <div className="text-3xl font-bold text-white mb-4">
+                <CountUpPrice value={price} />
+                <span className="text-sm text-zinc-500 font-normal">/mês</span>
+              </div>
               
               {description && <p className="text-sm text-zinc-400 mb-6 leading-relaxed min-h-[40px] md:min-h-[60px]">{description}</p>}
 
