@@ -4,6 +4,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SECURITY HEADERS (Meta Tag Simulation) -->
+    <!-- 1. Referrer Policy: Protege dados de navegação ao clicar em links externos -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    
+    <!-- 2. Frame Buster: Previne Clickjacking (Impede que o site abra em iframes) -->
+    <script>
+      if (window.top !== window.self) {
+        window.top.location = window.self.location;
+      }
+    </script>
+
     <title>C2G Automações | Engenharia de Agentes de IA</title>
     <meta name="description" content="Ecossistemas de negócios autônomos. Transforme custos fixos em receita com agentes de IA que prospectam, vendem e atendem 24/7." />
     

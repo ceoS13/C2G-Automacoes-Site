@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, Building2, ArrowRight, Activity, ScanLine } from 'lucide-react';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
@@ -104,7 +105,8 @@ const PricingCard: React.FC<{
     // Updated message format for Isis
     const message = `Olá Ísis, vim pelo site! Tenho interesse no plano ${title}.`;
     const url = `https://wa.me/${ISIS_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    // Security Fix: Explicit feature strings for robust browser compatibility
+    window.open(url, '_blank', 'noopener=yes,noreferrer=yes');
   };
 
   return (
@@ -197,7 +199,8 @@ export const Pricing: React.FC = () => {
     // Specific message for Consultant (Guilherme C.)
     const message = "Olá Guilherme C., vim pelo site! Tenho interesse no plano Enterprise.";
     const url = `https://wa.me/${CONSULTANT_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    // Security Fix: Explicit feature strings
+    window.open(url, '_blank', 'noopener=yes,noreferrer=yes');
   };
 
   return (
@@ -209,7 +212,7 @@ export const Pricing: React.FC = () => {
       {/* Static Pattern Overlay (Base layer) */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-8 relative z-10">
         
         {/* Terminal Header */}
         <div className="text-center mb-16 relative" data-aos="fade-up">
@@ -231,9 +234,25 @@ export const Pricing: React.FC = () => {
             </p>
         </div>
 
-        {/* Pricing Grid */}
-        <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        {/* Pricing Grid - Updated for 5 items */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-full mx-auto">
           
+          <PricingCard 
+            title="Personal"
+            subtitle='O "Concierge"'
+            price="R$ 599"
+            description="Foco: Produtividade individual. Sua secretária executiva digital."
+            features={[
+              "Organização de Agenda (Google/Outlook)",
+              "Resumo e Resposta de E-mails",
+              "Pesquisas de Mercado e Notícias",
+              "Anotações e Lembretes"
+            ]}
+            benefit="Ganhe 2 horas do seu dia de volta."
+            delay="0"
+            floatDelay="0s"
+          />
+
           <PricingCard 
             title="Standard"
             subtitle='O "Filtro"'
@@ -246,7 +265,7 @@ export const Pricing: React.FC = () => {
             ]}
             benefit="Pare de responder perguntas repetitivas."
             delay="0"
-            floatDelay="0s"
+            floatDelay="1s"
           />
 
           <PricingCard 

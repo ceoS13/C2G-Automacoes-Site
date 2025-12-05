@@ -2,7 +2,8 @@
 import { WHATSAPP_LINK } from './constants';
 
 export const openWhatsApp = () => {
-  window.open(WHATSAPP_LINK, '_blank');
+  // Security Fix: Explicit feature strings
+  window.open(WHATSAPP_LINK, '_blank', 'noopener=yes,noreferrer=yes');
 };
 
 /**

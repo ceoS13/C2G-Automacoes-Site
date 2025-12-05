@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageSquare, Rocket, Lock, Settings } from 'lucide-react';
+import { MessageSquare, Rocket, Lock, Settings, Sparkles } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
 interface SolutionCardProps {
@@ -33,6 +33,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
     "emerald-400": "shadow-[0_0_20px_2px_rgba(52,211,153,0.8)]",
     "indigo-400": "shadow-[0_0_20px_2px_rgba(129,140,248,0.8)]",
     "purple-400": "shadow-[0_0_20px_2px_rgba(192,132,252,0.8)]",
+    "orange-400": "shadow-[0_0_20px_2px_rgba(251,146,60,0.8)]",
   };
 
   const shadowClass = neonShadows[accentColor] || "shadow-[0_0_20px_2px_rgba(255,255,255,0.5)]";
@@ -143,7 +144,7 @@ export const Solutions: React.FC = () => {
       {/* Background decoration: Subtle moving grid or noise */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none opacity-50" />
 
-      <div className="max-w-[90rem] mx-auto px-6 md:px-8 relative z-10">
+      <div className="max-w-[95rem] mx-auto px-6 md:px-8 relative z-10">
         <div className="text-center mb-20" data-aos="fade-up">
           {/* Status Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
@@ -159,8 +160,23 @@ export const Solutions: React.FC = () => {
           </p>
         </div>
 
-        {/* Updated Grid Layout for 4 Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Updated Grid Layout for 5 Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <SolutionCard 
+            title="Personal (Vida)"
+            description="Seu segundo cérebro no WhatsApp. Gerencie agenda, e-mails, contatos e pesquisas na web com um comando de voz."
+            icon={<Sparkles size={28} />}
+            gradient="from-orange-500 to-amber-500"
+            accentColor="orange-400"
+            features={[
+              "Organização de Agenda (Google/Outlook)",
+              "Resumo e Resposta de E-mails",
+              "Pesquisas de Mercado e Notícias",
+              "Anotações e Lembretes"
+            ]}
+            delay="0"
+            floatDelay="0s"
+          />
           <SolutionCard 
             title="Ísis (Conversão)"
             description="Transforme curiosos em pagantes. Atendimento imediato que nunca deixa um lead esfriar e agenda reuniões automaticamente."
@@ -174,7 +190,7 @@ export const Solutions: React.FC = () => {
               "Integração total com seu CRM"
             ]}
             delay="0"
-            floatDelay="0s"
+            floatDelay="1s"
           />
           <SolutionCard 
             title="Growth (Prospecção)"

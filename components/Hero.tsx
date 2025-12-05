@@ -163,7 +163,7 @@ export const Hero: React.FC = () => {
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               type="button"
               className="group relative px-6 py-3.5 md:px-8 md:py-4 bg-zinc-100 text-black font-bold text-base md:text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
-              onClick={() => scrollToSection('solutions')}
+              onClick={() => scrollToSection('pricing')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-200 to-blue-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center justify-center gap-2">

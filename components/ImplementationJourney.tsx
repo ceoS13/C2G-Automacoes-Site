@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { Rocket, Code, TrendingUp } from 'lucide-react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
@@ -141,7 +142,8 @@ export const ImplementationJourney: React.FC = () => {
               className="text-center mt-16 md:mt-20"
             >
                 <button 
-                    onClick={() => window.open(WHATSAPP_LINK, '_blank')}
+                    // Security Fix: Explicit feature strings
+                    onClick={() => window.open(WHATSAPP_LINK, '_blank', 'noopener=yes,noreferrer=yes')}
                     className="inline-flex items-center gap-2 text-sm font-mono text-zinc-500 hover:text-cyan-400 transition-colors border-b border-transparent hover:border-cyan-400 pb-0.5 group"
                 >
                     Ver cronograma detalhado <TrendingUp size={14} className="group-hover:rotate-45 transition-transform"/>

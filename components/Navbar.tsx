@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import { Logo } from './ui/Logo';
@@ -86,9 +86,15 @@ export const Navbar: React.FC = () => {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] hover:scale-105 active:scale-95 border border-white/10"
+              className="hidden md:flex relative group overflow-hidden items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_35px_-5px_rgba(6,182,212,0.6)] hover:scale-105 active:scale-95 border border-white/10"
             >
-              Falar com Ísis
+              {/* Shine Effect Overlay */}
+              <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 animate-shine" />
+              
+              <span className="relative z-10 flex items-center gap-2">
+                Falar com Ísis
+                <MessageCircle size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
             </a>
 
             {/* Mobile Menu Button */}
@@ -134,9 +140,14 @@ export const Navbar: React.FC = () => {
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mx-1 flex justify-center items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg shadow-cyan-900/20"
+                  className="mx-1 relative overflow-hidden group flex justify-center items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg shadow-cyan-900/20"
                 >
-                  Falar com Ísis
+                  {/* Shine Effect Mobile */}
+                  <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 animate-shine" />
+                  
+                  <span className="relative z-10 flex items-center gap-2">
+                    Falar com Ísis <MessageCircle size={16} />
+                  </span>
                 </a>
               </div>
             </motion.div>
