@@ -212,7 +212,8 @@ export const Pricing: React.FC = () => {
       {/* Static Pattern Overlay (Base layer) */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" />
 
-      <div className="max-w-[90rem] mx-auto px-6 md:px-8 relative z-10">
+      {/* Increased max-w to 100rem for wider grid */}
+      <div className="max-w-[100rem] mx-auto px-6 md:px-8 relative z-10">
         
         {/* Terminal Header */}
         <div className="text-center mb-16 relative" data-aos="fade-up">
@@ -305,15 +306,15 @@ export const Pricing: React.FC = () => {
 
           {/* Enterprise Card - Custom Layout */}
           <article 
-            className="relative rounded-3xl flex flex-col h-full bg-[#0a0a0a] border border-zinc-800 p-8 transition-all duration-300 hover:border-white/30 animate-float-subtle group/card"
+            className="relative rounded-3xl flex flex-col h-full bg-[#0a0a0a] border border-zinc-800 px-5 py-8 transition-all duration-300 hover:border-white/30 animate-float-subtle group/card overflow-hidden"
             style={{ animationDelay: "3s" }}
             data-aos="fade-up"
             data-aos-delay="300"
           >
               <div className="flex-1 flex flex-col">
-                <div className="mb-2 flex items-center gap-2">
+                <div className="mb-2 flex items-center gap-1.5">
                     <h3 className="text-xl font-bold text-white">Enterprise</h3>
-                    <span className="text-[10px] uppercase tracking-wider border border-white/10 text-zinc-500 px-2 py-0.5 rounded-full whitespace-nowrap">O "ECOSSISTEMA"</span>
+                    <span className="text-[10px] uppercase tracking-wide border border-white/10 text-zinc-500 px-1.5 py-0.5 rounded-full whitespace-nowrap">O "ECOSSISTEMA"</span>
                 </div>
                 <div className="text-3xl font-bold text-white mb-4">Sob Medida</div>
                 <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
