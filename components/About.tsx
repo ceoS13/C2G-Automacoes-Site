@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { getOptimizedImageUrl } from '../lib/utils';
 
@@ -16,16 +15,26 @@ const TeamCard: React.FC<{
     <div className="h-full bg-black border border-zinc-800 rounded-[2.5rem] px-6 md:px-8 pb-10 pt-20 text-center relative mt-12 md:mt-0 transition-all duration-500 hover:-translate-y-3 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.15)]">
        {/* Image Overlay - Absolute on top border */}
        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-black p-2 z-10">
-          <img 
-            // Otimização: Crop quadrado (400x400) focado no rosto
-            src={getOptimizedImageUrl(imageSrc, 400, 400, true)} 
-            alt={name} 
-            className="w-full h-full rounded-full object-cover border border-zinc-800 group-hover:border-cyan-500/30 grayscale group-hover:grayscale-0 transition-all duration-500 bg-zinc-900 group-hover:scale-105 group-hover:rotate-3"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="400"
-          />
+          {/* 
+             Fix Visual Bug: Wrap image and border in a container to ensure border is always on top.
+             Using a separate div for the border avoids z-fighting or clipping issues with the img tag.
+          */}
+          <div className="relative w-full h-full rounded-full transition-all duration-500 group-hover:scale-105 group-hover:rotate-3 bg-zinc-900">
+             
+             <img 
+               // Otimização: Crop quadrado (400x400) focado no rosto
+               src={getOptimizedImageUrl(imageSrc, 400, 400, true)} 
+               alt={name} 
+               className="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 relative z-0"
+               loading="lazy"
+               decoding="async"
+               width="400"
+               height="400"
+             />
+
+             {/* Border Overlay - Ensures visibility above image */}
+             <div className="absolute inset-0 rounded-full border-2 border-zinc-800/80 group-hover:border-cyan-500/50 transition-colors duration-500 z-10 pointer-events-none" />
+          </div>
        </div>
 
        <h3 className="text-3xl font-bold text-white mb-6 tracking-tight">{name}</h3>

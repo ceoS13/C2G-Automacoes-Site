@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MessageSquare, Rocket, Lock, Settings, Sparkles } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';

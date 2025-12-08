@@ -1,4 +1,3 @@
-
 import { WHATSAPP_LINK } from './constants';
 
 export const openWhatsApp = () => {

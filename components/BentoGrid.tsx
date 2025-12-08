@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   BrainCircuit, 
@@ -7,7 +6,6 @@ import {
   Activity, 
   Server, 
   Users, 
-  MoreHorizontal, 
   ArrowUpRight, 
   Lock, 
   Terminal, 
@@ -18,69 +16,27 @@ import {
   User, 
   Briefcase, 
   Loader2, 
-  Check 
+  Check,
+  Play 
 } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { DashboardCard } from './ui/DashboardCard';
 
-// --- WRAPPER COMPONENT: Dashboard Panel ---
-const DashboardCard: React.FC<{
-  title: string;
-  icon: React.ReactNode;
-  className?: string;
-  children?: React.ReactNode;
-  headerAction?: React.ReactNode;
-  delay?: string;
-}> = ({ title, icon, className, children, headerAction, delay }) => {
-  return (
-    <article 
-      className={`group relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 will-change-transform ${className}`}
-      data-aos="fade-up"
-      data-aos-delay={delay}
-    >
-      {/* Widget Header */}
-      <div className="flex items-center justify-between px-4 py-3 md:px-5 md:py-4 border-b border-white/5 bg-white/[0.02] z-20 relative shrink-0">
-        <div className="flex items-center gap-2 md:gap-3">
-            <div className="text-zinc-400 group-hover:text-cyan-400 transition-colors">
-                {icon}
-            </div>
-            <h3 className="text-xs md:text-sm font-semibold text-zinc-300 tracking-wide uppercase font-mono">{title}</h3>
-        </div>
-        <div>
-            {headerAction || <MoreHorizontal size={16} className="text-zinc-600 cursor-pointer hover:text-white" />}
-        </div>
-      </div>
-
-      {/* Widget Body */}
-      <div className="relative flex-1 p-0 overflow-hidden h-full">
-         {/* Grid Background */}
-         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none z-0" />
-         {children}
-      </div>
-    </article>
-  );
-};
-
-// --- WIDGET 1: Isis Analysis HUD (Redesigned Modular) ---
+// --- WIDGET 1: Isis Analysis HUD ---
 const IsisAnalysisWidget = () => {
-  // Donut Chart Props
   const radius = 28;
   const circumference = 2 * Math.PI * radius;
   const progress = 92;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
-  // Interaction State for "Next Action"
   const [actionStatus, setActionStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
   const handleActionClick = () => {
     if (actionStatus !== 'idle') return;
 
     setActionStatus('loading');
-    
-    // Simulate API call
     setTimeout(() => {
         setActionStatus('success');
-        
-        // Reset after 3 seconds
         setTimeout(() => {
             setActionStatus('idle');
         }, 3000);
@@ -89,8 +45,7 @@ const IsisAnalysisWidget = () => {
 
   return (
     <div className="flex flex-col h-full p-4 md:p-5 relative z-10 font-mono text-xs select-none gap-4">
-        
-        {/* 1. Topo: Contexto */}
+        {/* Topo */}
         <div className="flex justify-between items-center pb-2 border-b border-white/5">
            <div className="flex items-center gap-2 text-zinc-500">
               <ScanEye size={12} />
@@ -106,10 +61,8 @@ const IsisAnalysisWidget = () => {
            </motion.div>
         </div>
 
-        {/* 2. Grid Modular (3 Colunas) */}
+        {/* Grid Modular */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1">
-            
-            {/* Bloco Esquerda: Quem é o Lead */}
             <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -118,23 +71,18 @@ const IsisAnalysisWidget = () => {
                 className="bg-white/5 border border-white/5 rounded-xl p-3 flex flex-col justify-center gap-2 hover:bg-white/10 transition-colors"
             >
                 <div className="flex items-center gap-2 text-zinc-400 mb-1">
-                    <div className="p-1.5 bg-blue-500/10 rounded text-blue-400">
-                        <User size={14} />
-                    </div>
+                    <div className="p-1.5 bg-blue-500/10 rounded text-blue-400"><User size={14} /></div>
                     <span className="text-[10px] uppercase tracking-wide">Lead</span>
                 </div>
                 <div>
                     <div className="text-white font-bold text-sm">Carlos Mendes</div>
                     <div className="flex items-center gap-1.5 mt-1">
                         <Briefcase size={10} className="text-zinc-500"/>
-                        <span className="text-[10px] text-zinc-300">
-                            Dir. Comercial @ <span className="text-cyan-400 font-bold">Vtex</span>
-                        </span>
+                        <span className="text-[10px] text-zinc-300">Dir. Comercial @ <span className="text-cyan-400 font-bold">Vtex</span></span>
                     </div>
                 </div>
             </motion.div>
 
-            {/* Bloco Centro: Intenção & Sentimento */}
             <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -142,33 +90,21 @@ const IsisAnalysisWidget = () => {
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="bg-white/5 border border-white/5 rounded-xl p-3 flex flex-col justify-center gap-3 hover:bg-white/10 transition-colors"
             >
-                {/* Intent */}
                 <div className="flex items-center justify-between md:block">
-                    <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1">
-                        <Target size={10} /> Intenção
-                    </div>
+                    <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1"><Target size={10} /> Intenção</div>
                     <div className="text-white font-bold">Agendamento</div>
                 </div>
-                {/* Sentiment */}
                 <div className="flex flex-col md:block w-full">
-                    <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1">
-                        <Smile size={10} /> Sentimento
-                    </div>
+                    <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] uppercase mb-1"><Smile size={10} /> Sentimento</div>
                     <div className="flex items-center gap-2 w-full">
                         <div className="h-1.5 flex-1 bg-zinc-800 rounded-full overflow-hidden">
-                            <motion.div 
-                                initial={{ width: 0 }}
-                                whileInView={{ width: '98%' }}
-                                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-                                className="h-full bg-emerald-500" 
-                            />
+                            <motion.div initial={{ width: 0 }} whileInView={{ width: '98%' }} viewport={{ once: true }} transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }} className="h-full bg-emerald-500" />
                         </div>
                         <span className="text-emerald-400 font-bold">0.98</span>
                     </div>
                 </div>
             </motion.div>
 
-            {/* Bloco Direita: Score Visual (Donut) */}
             <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -177,36 +113,10 @@ const IsisAnalysisWidget = () => {
                 className="bg-white/5 border border-white/5 rounded-xl p-2 flex flex-row md:flex-col items-center justify-between md:justify-center relative hover:bg-white/10 transition-colors group h-16 md:h-auto px-4 md:px-2"
             >
                 <div className="text-[10px] text-zinc-500 uppercase tracking-wide md:absolute md:top-2 md:left-2">Nota</div>
-                
                 <div className="relative w-12 h-12 md:w-20 md:h-20 flex items-center justify-center md:mt-2">
-                    {/* SVG Donut */}
                     <svg className="w-full h-full transform -rotate-90">
-                        {/* Track */}
-                        <circle
-                            cx="50%"
-                            cy="50%"
-                            r={radius}
-                            stroke="currentColor"
-                            strokeWidth="5"
-                            fill="transparent"
-                            className="text-zinc-800"
-                        />
-                        {/* Progress */}
-                        <motion.circle
-                            initial={{ strokeDashoffset: circumference }}
-                            whileInView={{ strokeDashoffset: strokeDashoffset }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 2.0, ease: "easeOut", delay: 0.5 }}
-                            cx="50%"
-                            cy="50%"
-                            r={radius}
-                            stroke="currentColor"
-                            strokeWidth="5"
-                            fill="transparent"
-                            strokeDasharray={circumference}
-                            strokeLinecap="round"
-                            className="text-emerald-500 drop-shadow-[0_0_4px_rgba(16,185,129,0.6)]"
-                        />
+                        <circle cx="50%" cy="50%" r={radius} stroke="currentColor" strokeWidth="5" fill="transparent" className="text-zinc-800"/>
+                        <motion.circle initial={{ strokeDashoffset: circumference }} whileInView={{ strokeDashoffset: strokeDashoffset }} viewport={{ once: true }} transition={{ duration: 2.0, ease: "easeOut", delay: 0.5 }} cx="50%" cy="50%" r={radius} stroke="currentColor" strokeWidth="5" fill="transparent" strokeDasharray={circumference} strokeLinecap="round" className="text-emerald-500 drop-shadow-[0_0_4px_rgba(16,185,129,0.6)]"/>
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center flex-col">
                         <span className="text-sm md:text-xl font-bold text-white">92</span>
@@ -214,10 +124,9 @@ const IsisAnalysisWidget = () => {
                 </div>
                 <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">Lead Quente</span>
             </motion.div>
-
         </div>
 
-        {/* 3. Fundo: Ação Interativa */}
+        {/* Action Button - REFACTORED */}
         <motion.button 
            initial={{ opacity: 0, y: 5 }}
            whileInView={{ opacity: 1, y: 0 }}
@@ -226,63 +135,52 @@ const IsisAnalysisWidget = () => {
            onClick={handleActionClick}
            disabled={actionStatus !== 'idle'}
            className={`
-               relative w-full border rounded-lg p-3 flex items-center justify-between transition-all duration-300 overflow-hidden group outline-none shrink-0
+               relative w-full border rounded-xl p-3 flex items-center justify-between transition-all duration-300 group outline-none shrink-0 overflow-hidden
                ${actionStatus === 'idle' 
-                    ? 'bg-black/40 border-cyan-500/20 text-cyan-400 hover:bg-cyan-950/20 hover:border-cyan-500/40' 
+                    ? 'bg-gradient-to-r from-cyan-950/40 to-blue-900/30 border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:border-cyan-400 hover:scale-[1.02] active:scale-95 cursor-pointer' 
                     : actionStatus === 'success' 
-                        ? 'bg-emerald-950/30 border-emerald-500/50 text-emerald-400' 
-                        : 'bg-black/40 border-zinc-700 text-zinc-400'}
+                        ? 'bg-emerald-950/30 border-emerald-500/50 text-emerald-400 cursor-default' 
+                        : 'bg-black/40 border-zinc-700 text-zinc-400 cursor-wait'}
            `}
         >
+            {actionStatus === 'idle' && (
+                <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-10 animate-shine" />
+            )}
+
             <AnimatePresence mode="wait">
                 {actionStatus === 'idle' && (
-                    <motion.div 
-                        key="idle"
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        className="flex items-center justify-between w-full"
-                    >
-                        <div className="flex items-center gap-2">
-                            <Code2 size={12} className="text-cyan-600"/>
-                            <span className="font-mono tracking-tight text-[11px] font-bold">{`> Trigger: Agenda_API.exec()`}</span>
+                    <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-between w-full px-1">
+                        <div className="flex flex-col items-start">
+                             <div className="flex items-center gap-2 mb-0.5">
+                                <Code2 size={12} className="text-cyan-400"/>
+                                <span className="font-mono tracking-tight text-[11px] font-bold text-cyan-100">{`> Agenda_API.exec()`}</span>
+                             </div>
+                             <span className="text-[9px] text-cyan-500/70 font-mono uppercase tracking-widest pl-5">Manual Trigger</span>
                         </div>
-                        <Zap size={14} className="fill-cyan-500/20 animate-pulse group-hover:fill-cyan-400 transition-colors" />
+                        <div className="flex items-center gap-2 bg-cyan-500/10 px-2 py-1 rounded border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors">
+                            <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-wider">EXECUTAR</span>
+                            <Play size={10} className="fill-cyan-400 text-cyan-400" />
+                        </div>
                     </motion.div>
                 )}
-
                 {actionStatus === 'loading' && (
-                    <motion.div 
-                        key="loading"
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        className="flex items-center justify-center w-full gap-2"
-                    >
+                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-center w-full gap-2">
                         <Loader2 size={14} className="animate-spin" />
                         <span className="font-mono text-[11px]">Processando requisição...</span>
                     </motion.div>
                 )}
-
                 {actionStatus === 'success' && (
-                    <motion.div 
-                        key="success"
-                        initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-                        className="flex items-center justify-center w-full gap-2"
-                    >
+                    <motion.div key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-center w-full gap-2">
                         <Check size={14} className="stroke-[3]" />
                         <span className="font-mono text-[11px] font-bold">Convite Enviado!</span>
                     </motion.div>
                 )}
             </AnimatePresence>
             
-            {/* Background Progress Bar for Loading */}
             {actionStatus === 'loading' && (
-                <motion.div 
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 1.5, ease: "easeInOut" }}
-                    className="absolute bottom-0 left-0 h-[2px] bg-cyan-500"
-                />
+                <motion.div initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 1.5, ease: "easeInOut" }} className="absolute bottom-0 left-0 h-[2px] bg-cyan-500" />
             )}
         </motion.button>
-
     </div>
   );
 };
@@ -325,10 +223,7 @@ const GrowthWidget = () => {
                                     className="absolute left-1/2 z-30 flex flex-col items-center pointer-events-none"
                                 >
                                     <div className="relative bg-[#09090b] border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2.5 py-1.5 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.5)] whitespace-nowrap">
-                                        {/* Valor Formatado como Moeda (R$ X.Xk) */}
                                         {`R$ ${(height * 0.15).toFixed(1).replace('.', ',')}k`}
-                                        
-                                        {/* Seta do Tooltip */}
                                         <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#09090b] border-r border-b border-emerald-500/30 transform rotate-45"></div>
                                     </div>
                                 </motion.div>
@@ -347,7 +242,6 @@ const GrowthWidget = () => {
                                 ${hoveredIndex === i ? 'bg-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.5)]' : 'bg-zinc-800'}
                             `}
                         >
-                            {/* Bar Gradient & Glow */}
                             <div className={`absolute inset-0 bg-gradient-to-t from-emerald-900/40 to-emerald-400 opacity-80 ${hoveredIndex === i ? 'opacity-100' : ''}`} />
                             <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-300 shadow-[0_0_10px_2px_rgba(52,211,153,0.5)]" />
                         </motion.div>
@@ -356,13 +250,7 @@ const GrowthWidget = () => {
             </div>
             
             <div className="mt-2 flex justify-between text-[8px] md:text-[10px] text-zinc-600 font-mono">
-                <span>SEG</span>
-                <span>TER</span>
-                <span>QUA</span>
-                <span>QUI</span>
-                <span>SEX</span>
-                <span>SAB</span>
-                <span>DOM</span>
+                <span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SAB</span><span>DOM</span>
             </div>
         </div>
     );
@@ -370,26 +258,21 @@ const GrowthWidget = () => {
 
 // --- WIDGET 3: Analytics Waveform ---
 const AnalyticsWidget = () => {
-    // Optimization: Reduce points count to reduce SVG complexity
     const pointsCount = 25;
     const width = 500;
     const height = 200;
     const stepX = width / (pointsCount - 1);
     
-    // State for the "scrolling" noise array
     const [noiseData, setNoiseData] = useState<number[]>([]);
     const [roi, setRoi] = useState(450);
     const [savings, setSavings] = useState(12.1);
     
-    // Initialize noise
     useEffect(() => {
         const initialNoise = Array.from({ length: pointsCount }, () => (Math.random() * 40 - 20));
         setNoiseData(initialNoise);
     }, []);
 
-    // Staccato Tick Animation & Number Updates
     useEffect(() => {
-        // Optimization: Reduced update frequency from 800ms to 1200ms
         const interval = setInterval(() => {
             setNoiseData(prev => {
                 const next = [...prev];
@@ -416,10 +299,9 @@ const AnalyticsWidget = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const startY = 170; // Bottom Left
-    const endY = 40;    // Top Right
+    const startY = 170;
+    const endY = 40;
     
-    // Optimization: Memoize path calculation to avoid re-computing on every render if noiseData hasn't changed
     const { d, fillD } = useMemo(() => {
         let d = "";
         let fillD = "";
@@ -453,7 +335,6 @@ const AnalyticsWidget = () => {
 
     return (
         <div className="h-full flex flex-col relative overflow-hidden z-10 min-h-[220px] md:min-h-0">
-             {/* Content Container with Z-Index higher than chart */}
              <div className="flex items-center justify-between p-4 md:p-5 relative z-20">
                 <div className="flex gap-8">
                     <div>
@@ -472,8 +353,6 @@ const AnalyticsWidget = () => {
                 </div>
              </div>
 
-            {/* Staccato Chart - Absolute Positioned to Bottom - Percentage Height for Responsiveness */}
-            {/* Added will-change-transform for performance hint */}
             <div className="absolute bottom-0 left-0 right-0 h-[65%] w-full overflow-hidden pointer-events-none z-10 will-change-transform">
                 <svg viewBox="0 0 500 200" className="w-full h-full preserve-3d absolute bottom-0" preserveAspectRatio="none">
                     <defs>
@@ -520,14 +399,11 @@ const SecurityWidget = () => {
                 const logToAdd = allLogs[currentIndex];
                 setLines(prev => {
                     const newLines = [...prev, logToAdd];
-                    // Keep a reasonable buffer history so scrolling is visible
-                    // 50 ensures lines aren't removed too quickly, forcing scroll
                     if (newLines.length > 50) newLines.shift(); 
                     return newLines;
                 });
                 currentIndex++;
             } else if (currentIndex < allLogs.length + 4) {
-                // Pause for ~3.2 seconds (4 * 800ms) showing the full state
                 currentIndex++;
             } else {
                 currentIndex = 0;
@@ -537,7 +413,6 @@ const SecurityWidget = () => {
         return () => clearInterval(interval);
     }, [isInView]);
 
-    // Auto-scroll to bottom whenever lines change
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTo({
@@ -549,11 +424,10 @@ const SecurityWidget = () => {
 
     return (
         <div ref={containerRef} className="flex flex-col h-[200px] md:h-full bg-[#050505] relative z-10">
-             {/* Terminal Logs */}
              <div 
                 ref={scrollRef}
                 className="flex-1 p-4 font-mono text-[10px] text-zinc-400 space-y-2 overflow-y-auto flex flex-col [&::-webkit-scrollbar]:hidden"
-                style={{ scrollbarWidth: 'none' }} // Firefox
+                style={{ scrollbarWidth: 'none' }}
              >
                 {lines.map((line, idx) => (
                     <motion.div 
@@ -561,7 +435,7 @@ const SecurityWidget = () => {
                       initial={{ opacity: 0, x: -10 }} 
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="flex gap-2 shrink-0" // shrink-0 ensures lines are not compressed
+                      className="flex gap-2 shrink-0"
                     >
                         <span className="text-zinc-600 shrink-0">{`>`}</span>
                         <span className={`truncate ${line && line.includes("permitido") ? "text-emerald-400 font-bold" : "text-zinc-400"}`}>
@@ -577,7 +451,6 @@ const SecurityWidget = () => {
                     />
                 )}
              </div>
-             {/* Footer Status */}
              <div className="h-10 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between px-4 shrink-0">
                  <div className="flex items-center gap-2">
                      <Lock size={12} className="text-emerald-500" />
@@ -680,7 +553,6 @@ const TeamWidget = () => {
     )
 }
 
-// --- WIDGET 6 (Part 2): Uptime Counter ---
 const UptimeWidget = () => {
     const [percent, setPercent] = useState("99.98");
     
@@ -714,13 +586,13 @@ export const BentoGrid: React.FC = () => {
   return (
     <section id="system" className="py-16 md:py-32 bg-[#050505] relative overflow-hidden">
        {/* Seamless Radial Gradient Background */}
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,78,99,0.15)_0%,transparent_70%)] pointer-events-none z-0" />
+       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,78,99,0.15)_0%,transparent_70%)] pointer-events-none z-0" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
           <div>
             {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 bg-black/50">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 bg-black/50" role="status">
                 <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
                 <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Monitoramento: Online</span>
             </div>
@@ -734,10 +606,9 @@ export const BentoGrid: React.FC = () => {
           </div>
         </div>
 
-        {/* GRID LAYOUT - Increased height on desktop to prevent cramping, auto on mobile */}
+        {/* GRID LAYOUT */}
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 h-auto md:h-[800px]">
           
-          {/* 1. Ísis Analysis HUD (Redesigned Modular) */}
           <DashboardCard 
             title="Conversão de Vendas" 
             icon={<BrainCircuit size={16}/>} 
@@ -747,7 +618,6 @@ export const BentoGrid: React.FC = () => {
              <IsisAnalysisWidget />
           </DashboardCard>
 
-          {/* 2. Growth (Vertical) */}
           <DashboardCard 
             title="Máquina de Receita" 
             icon={<Zap size={16}/>} 
@@ -757,7 +627,6 @@ export const BentoGrid: React.FC = () => {
             <GrowthWidget />
           </DashboardCard>
 
-          {/* 3. Governance (Pequeno) */}
           <DashboardCard 
             title="Segurança & Compliance" 
             icon={<ShieldCheck size={16}/>} 
@@ -768,7 +637,6 @@ export const BentoGrid: React.FC = () => {
             <SecurityWidget />
           </DashboardCard>
           
-           {/* 4. Server Health (Pequeno) */}
            <DashboardCard 
             title="Performance Operacional" 
             icon={<Server size={16}/>} 
@@ -778,7 +646,6 @@ export const BentoGrid: React.FC = () => {
             <ServerWidget />
           </DashboardCard>
 
-          {/* 5. Team Nodes (Largo) */}
           <DashboardCard 
             title="Equipe Digital Ativa" 
             icon={<Users size={16}/>} 
@@ -791,7 +658,6 @@ export const BentoGrid: React.FC = () => {
             </div>
           </DashboardCard>
 
-          {/* 6. Analytics (Largo) */}
           <DashboardCard 
             title="Retorno Sobre Investimento (ROI)" 
             icon={<Activity size={16}/>} 
