@@ -249,6 +249,8 @@ export const ChatDemo: React.FC = () => {
           </article>
         </div>
       </div>
+      {/* Bottom Gradient for Smooth Transition */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
     </section>
   );
 };

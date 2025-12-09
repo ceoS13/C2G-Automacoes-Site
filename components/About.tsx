@@ -1,5 +1,8 @@
-import React from 'react';
+
+import React, { useRef, useEffect } from 'react';
 import { getOptimizedImageUrl } from '../lib/utils';
+import { AlertTriangle, Workflow, Cpu } from 'lucide-react';
+import { motion, useMotionTemplate, useMotionValue, useInView, animate, useTransform } from 'framer-motion';
 
 const TeamCard: React.FC<{
   name: string;
@@ -15,14 +18,8 @@ const TeamCard: React.FC<{
     <div className="h-full bg-black border border-zinc-800 rounded-[2.5rem] px-6 md:px-8 pb-10 pt-20 text-center relative mt-12 md:mt-0 transition-all duration-500 hover:-translate-y-3 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.15)]">
        {/* Image Overlay - Absolute on top border */}
        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-black p-2 z-10">
-          {/* 
-             Fix Visual Bug: Wrap image and border in a container to ensure border is always on top.
-             Using a separate div for the border avoids z-fighting or clipping issues with the img tag.
-          */}
           <div className="relative w-full h-full rounded-full transition-all duration-500 group-hover:scale-105 group-hover:rotate-3 bg-zinc-900">
-             
              <img 
-               // Otimização: Crop quadrado (400x400) focado no rosto
                src={getOptimizedImageUrl(imageSrc, 400, 400, true)} 
                alt={name} 
                className="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 relative z-0"
@@ -31,7 +28,6 @@ const TeamCard: React.FC<{
                width="400"
                height="400"
              />
-
              {/* Border Overlay - Ensures visibility above image */}
              <div className="absolute inset-0 rounded-full border-2 border-zinc-800/80 group-hover:border-cyan-500/50 transition-colors duration-500 z-10 pointer-events-none" />
           </div>
@@ -45,41 +41,222 @@ const TeamCard: React.FC<{
   </article>
 );
 
+const MANIFESTO_NODES = [
+    {
+        id: "problem",
+        label: "INPUT: O PROBLEMA",
+        title: "A Inconformidade",
+        icon: AlertTriangle,
+        description: "Vimos um abismo no mercado: de um lado, o hype da IA prometendo milagres. Do outro, empresas reais travadas com ferramentas desconectadas e chatbots que falham na primeira complexidade.",
+        color: "red",
+        delay: 0
+    },
+    {
+        id: "solution",
+        label: "PROCESS: A ENGENHARIA",
+        title: "Infraestrutura Real",
+        icon: Workflow,
+        description: "Não vendemos 'prompts'. Fechamos o 'Execution Gap' combinando LLMs com engenharia robusta (n8n, Supabase) para criar um ecossistema que não apenas conversa, mas executa e gera receita.",
+        color: "cyan",
+        delay: 150
+    },
+    {
+        id: "mission",
+        label: "OUTPUT: O FUTURO",
+        title: "Força de Trabalho Digital",
+        icon: Cpu,
+        description: "Codificamos o futuro do trabalho autônomo. Entregamos uma operação 24/7 segura que devolve ao empresário o ativo mais valioso de todos: a liberdade.",
+        color: "purple",
+        delay: 300
+    }
+];
+
+// Configuration for colors and neon effects
+const COLORS_CONFIG: Record<string, { text: string; border: string; bg: string; hoverBorder: string; hoverShadow: string; rgb: string }> = {
+    red: {
+        text: "text-red-400",
+        border: "border-red-500/20",
+        bg: "bg-red-500/10",
+        hoverBorder: "group-hover/card:border-red-500/50",
+        hoverShadow: "group-hover/card:shadow-[0_0_30px_-10px_rgba(239,68,68,0.3)]",
+        rgb: "239, 68, 68"
+    },
+    cyan: {
+        text: "text-cyan-400",
+        border: "border-cyan-500/20",
+        bg: "bg-cyan-500/10",
+        hoverBorder: "group-hover/card:border-cyan-500/50",
+        hoverShadow: "group-hover/card:shadow-[0_0_30px_-10px_rgba(6,182,212,0.3)]",
+        rgb: "6, 182, 212"
+    },
+    purple: {
+        text: "text-purple-400",
+        border: "border-purple-500/20",
+        bg: "bg-purple-500/10",
+        hoverBorder: "group-hover/card:border-purple-500/50",
+        hoverShadow: "group-hover/card:shadow-[0_0_30px_-10px_rgba(168,85,247,0.3)]",
+        rgb: "168, 85, 247"
+    }
+};
+
+const ManifestoCard: React.FC<{
+    node: typeof MANIFESTO_NODES[0];
+    isLast: boolean;
+    index: number;
+    total: number;
+}> = ({ node, isLast, index, total }) => {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+        // Optimization: Disable calculation on mobile touches to save resources, rely on active state
+        if (window.matchMedia("(pointer: coarse)").matches) return;
+
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    }
+
+    const config = COLORS_CONFIG[node.color];
+
+    return (
+        <div 
+            className="relative group" 
+            style={{ zIndex: 10 }} // Keep cards above the line
+            data-aos="fade-up" 
+            data-aos-delay={node.delay}
+        >
+            {/* Node Card Container - Interactive */}
+            <div 
+                onMouseMove={handleMouseMove}
+                className={`
+                    h-full bg-[#0a0a0a] border ${config.border} rounded-2xl p-6 md:p-8 
+                    transition-all duration-300 relative z-10 overflow-hidden group/card
+                    hover:-translate-y-1 ${config.hoverBorder} ${config.hoverShadow}
+                `}
+            >
+                {/* 0. Static Tint (Subtle background color) */}
+                <div className={`absolute inset-0 ${config.bg} opacity-50 pointer-events-none transition-opacity duration-300 group-hover/card:opacity-30`} />
+
+                {/* 1. Desktop Spotlight (Follows Mouse) */}
+                <motion.div
+                    className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover/card:opacity-100 z-0"
+                    style={{
+                        background: useMotionTemplate`
+                            radial-gradient(
+                                600px circle at ${mouseX}px ${mouseY}px,
+                                rgba(${config.rgb}, 0.15),
+                                transparent 80%
+                            )
+                        `,
+                    }}
+                />
+
+                {/* 2. Mobile Tap Glow (Static on Touch/Active) */}
+                <div className={`md:hidden absolute inset-0 bg-[rgba(${config.rgb},0.15)] opacity-0 transition-opacity duration-300 active:opacity-100 pointer-events-none z-0`} />
+
+                {/* Content Wrapper */}
+                <div className="relative z-10">
+                    
+                    <div className={`inline-flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest mb-4 px-2 py-1 rounded border transition-colors ${config.text} ${config.border} ${config.bg}`}>
+                        <node.icon size={12} />
+                        {node.label}
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-white mb-3">{node.title}</h3>
+                    <p className="text-zinc-400 text-sm leading-relaxed">
+                        {node.description}
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export const About: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef, { amount: 0.2, once: false });
+  
+  // Global Progress Value (0 to 100)
+  const beamProgress = useMotionValue(0);
+
+  useEffect(() => {
+    let controls;
+
+    if (isInView) {
+        beamProgress.set(0);
+        
+        controls = animate(beamProgress, 100, {
+            duration: 5,
+            ease: "linear",
+            repeat: Infinity,
+            repeatDelay: 0
+        });
+    }
+
+    return () => controls?.stop();
+  }, [isInView, beamProgress]);
+
+  const beamLeft = useTransform(beamProgress, (value) => `${value}%`);
+
   return (
     <section id="about" className="py-24 md:py-40 bg-[#050505] relative border-t border-white/5 overflow-visible">
       {/* Decorative Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />
+      
+      {/* Feathering Gradients */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
-        {/* Manifesto Section */}
-        <div className="max-w-4xl mx-auto text-center mb-24" data-aos="fade-up">
+        {/* Header */}
+        <div className="max-w-4xl mx-auto text-center mb-20" data-aos="fade-up">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
               <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
               <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Sobre Nós</span>
           </div>
           
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 tracking-tight">
-            A Engenharia por trás da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Autonomia</span>.
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+            Engenharia por trás da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Autonomia</span>
           </h2>
+          <p className="text-zinc-400 text-lg">
+              Transformamos o caos operacional em processos estruturados via código.
+          </p>
+        </div>
 
-          <div className="space-y-6 text-lg md:text-xl text-zinc-300 font-light leading-relaxed">
-            <p>
-              A C2G nasceu de uma inconformidade. Olhamos para o mercado e vimos um abismo: de um lado, o hype da Inteligência Artificial prometendo milagres. Do outro, empresas reais travadas com ferramentas que não se conversam e chatbots que não resolvem problemas.
-            </p>
-            <p>
-              Decidimos construir a ponte. Não vendemos "prompts". Construímos <span className="font-semibold text-white">Infraestrutura de Automação</span>. Nossa missão é fechar o Execution Gap a distância entre saber que a IA existe e fazê-la gerar receita no seu caixa.
-            </p>
-            <p className="font-medium text-white">
-              Nós codificamos o futuro do trabalho autônomo.
-            </p>
-          </div>
+        {/* BLUEPRINT MANIFESTO */}
+        {/* Increased gap from md:gap-12 to md:gap-24 for wider spacing */}
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 relative mb-32">
+            
+            {/* Connecting Line (Desktop) - The "Rail" */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full">
+                {/* The Active Beam moving across */}
+                <motion.div 
+                    style={{ left: beamLeft }}
+                    className="absolute top-0 w-[40%] h-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent blur-[2px] shadow-[0_0_15px_rgba(34,211,238,0.8)]" 
+                />
+                 {/* The Head of the beam (Brighter) */}
+                 <motion.div 
+                    style={{ left: beamLeft }}
+                    className="absolute top-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,1)]" 
+                />
+            </div>
+            
+            {MANIFESTO_NODES.map((node, index) => (
+                <ManifestoCard 
+                    key={node.id} 
+                    node={node} 
+                    index={index} 
+                    total={MANIFESTO_NODES.length} 
+                    isLast={index === MANIFESTO_NODES.length - 1} 
+                />
+            ))}
         </div>
 
         {/* Leadership Grid Title */}
-        <div id="team" className="text-center pt-8 mb-16" data-aos="fade-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50">
+        <div id="team" className="text-center pt-8 mb-16 border-t border-white/5" data-aos="fade-up">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 -mt-5">
                 <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
                 <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Nossa Equipe</span>
             </div>

@@ -1,8 +1,8 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Rocket, Code2, Zap, ArrowRight } from 'lucide-react';
 import { WHATSAPP_LINK } from '../lib/constants';
-import { motion, useMotionValue, useTransform, animate, MotionValue } from 'framer-motion';
+import { motion, useMotionValue, useTransform, animate, MotionValue, useInView } from 'framer-motion';
 
 const STEPS = [
   {
@@ -12,7 +12,8 @@ const STEPS = [
     duration: 'Semana 1',
     icon: Rocket,
     color: 'cyan',
-    shadowColor: 'rgba(6,182,212,0.6)', // Cyan glow
+    hexColor: '#22d3ee', // Cyan-400
+    shadowColor: 'rgba(6,182,212,0.6)', 
     gradient: 'from-cyan-500 to-blue-500',
     // Ranges: [Start, Peak, End] of the beam progress (0-100)
     activationRange: [0, 16, 32],
@@ -30,7 +31,8 @@ const STEPS = [
     duration: 'Semana 2-3',
     icon: Code2,
     color: 'purple',
-    shadowColor: 'rgba(168,85,247,0.6)', // Purple glow
+    hexColor: '#c084fc', // Purple-400
+    shadowColor: 'rgba(168,85,247,0.6)',
     gradient: 'from-purple-500 to-indigo-500',
     activationRange: [34, 50, 66],
     features: [
@@ -47,7 +49,8 @@ const STEPS = [
     duration: 'Semana 4',
     icon: Zap,
     color: 'emerald',
-    shadowColor: 'rgba(16,185,129,0.6)', // Emerald glow
+    hexColor: '#34d399', // Emerald-400
+    shadowColor: 'rgba(16,185,129,0.6)',
     gradient: 'from-emerald-400 to-teal-500',
     activationRange: [68, 84, 100],
     features: [
@@ -59,27 +62,43 @@ const STEPS = [
   }
 ];
 
-// Sub-componente para isolar a lógica de transformação de cada card
-const JourneyCard = ({ step, progress, index }: { step: typeof STEPS[0], progress: MotionValue<number>, index: number }) => {
-    
-    // Transforma o progresso (0-100) em opacidade (0-1-0) baseada no range do card
-    const activeOpacity = useTransform(
-        progress,
-        step.activationRange, 
-        [0, 1, 0] 
-    );
+interface JourneyCardProps {
+    step: typeof STEPS[0];
+    progress: MotionValue<number>;
+    index: number;
+}
 
-    // Borda Brilhante: Controla a opacidade da borda colorida
-    const borderOpacity = useTransform(progress, step.activationRange, [0, 1, 0]);
+const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
     
-    // Sombra Neon: Cria um "Glow" externo quando a luz passa
+    // 1. Logic for Beam Activation (0 -> 1 -> 0)
+    const activeOpacity = useTransform(progress, step.activationRange, [0, 1, 0]);
+
+    // 2. Border & Glow Effects
+    const borderOpacity = useTransform(progress, step.activationRange, [0, 1, 0]);
     const boxShadow = useTransform(
         progress, 
         step.activationRange, 
         [`0 0 0px transparent`, `0 0 30px ${step.shadowColor}`, `0 0 0px transparent`]
     );
-
     const scale = useTransform(progress, step.activationRange, [1, 1.02, 1]);
+
+    // 3. Text Content Synchronization (The "Acender e Crescer" Effect)
+    
+    // Move Right: 0px -> 6px -> 0px
+    const contentTranslateX = useTransform(progress, step.activationRange, [0, 6, 0]);
+    
+    // Description Color: Zinc-400 (#a1a1aa) -> Zinc-200 (#e4e4e7) -> Zinc-400
+    const descColor = useTransform(progress, step.activationRange, ["#a1a1aa", "#e4e4e7", "#a1a1aa"]);
+    
+    // Features Color: Zinc-500 (#71717a) -> White (#ffffff) -> Zinc-500
+    const featureColor = useTransform(progress, step.activationRange, ["#71717a", "#ffffff", "#71717a"]);
+    
+    // Bullet Point Color: Zinc-700 (#3f3f46) -> Step Color -> Zinc-700
+    const bulletColor = useTransform(progress, step.activationRange, ["#3f3f46", step.hexColor, "#3f3f46"]);
+
+    // Title Scale: 1 -> 1.05 -> 1
+    const titleScale = useTransform(progress, step.activationRange, [1, 1.05, 1]);
+
 
     return (
         <motion.div 
@@ -89,23 +108,18 @@ const JourneyCard = ({ step, progress, index }: { step: typeof STEPS[0], progres
             data-aos-delay={index * 150}
         >
             {/* Card Structure */}
-            <div className="relative h-full bg-[#0a0a0a]/90 backdrop-blur-xl rounded-[2rem] p-8 overflow-hidden transition-all duration-500 z-10 flex flex-col group/card">
+            <div className="relative h-full bg-[#0a0a0a]/90 backdrop-blur-xl rounded-[2rem] p-8 overflow-hidden transition-all duration-500 z-10 flex flex-col group/card hover:bg-[#0a0a0a]">
                 
-                {/* 1. THE ACTIVE BORDER (Neon Effect) */}
-                {/* Esta div fica por cima e acende com a cor específica e sombra */}
+                {/* Neon Border */}
                 <motion.div 
                     className={`absolute inset-0 rounded-[2rem] border-2 border-${step.color}-500 transition-colors duration-100 pointer-events-none`}
-                    style={{ 
-                        opacity: borderOpacity,
-                        boxShadow: boxShadow
-                    }} 
+                    style={{ opacity: borderOpacity, boxShadow: boxShadow }} 
                 />
                 
-                {/* 2. Static Border (Always visible, faint) */}
+                {/* Static Border */}
                 <div className="absolute inset-0 rounded-[2rem] border border-white/10 pointer-events-none" />
 
-                {/* 3. Top Neon Strip (Controlled by Beam) */}
-                {/* Mantemos a faixa superior pois ela conecta visualmente com o fio */}
+                {/* Top Neon Strip */}
                 <motion.div style={{ opacity: activeOpacity }} className="absolute top-0 left-0 w-full z-20">
                     <div className={`w-full h-[2px] bg-gradient-to-r ${step.gradient}`} />
                     <div className={`absolute top-0 left-0 w-full h-[15px] bg-gradient-to-r ${step.gradient} blur-[10px]`} />
@@ -118,52 +132,51 @@ const JourneyCard = ({ step, progress, index }: { step: typeof STEPS[0], progres
 
                 {/* Card Header */}
                 <div className="relative z-10 mb-6">
-                    {/* Icon Container */}
+                    {/* Icon Container - STATIC */}
                     <div className="relative w-14 h-14 mb-6 flex items-center justify-center">
-                        
-                        {/* Icon Background Glow (Controlled by Beam) */}
-                        <motion.div 
-                            style={{ opacity: activeOpacity }}
-                            className={`absolute inset-0 bg-gradient-to-br ${step.gradient} rounded-2xl blur-md opacity-40`} 
-                        />
-                        
                         <div className="absolute inset-0 border border-white/10 rounded-2xl bg-white/5" />
                         <step.icon size={28} className={`relative z-10 text-${step.color}-400`} />
                     </div>
 
                     <div className="flex items-center justify-between mb-2">
-                        <motion.span 
-                            style={{ 
-                                borderColor: useTransform(activeOpacity, [0, 1], ['rgba(255,255,255,0.1)', `rgba(var(--${step.color}-rgb), 0.5)`]),
-                                color: useTransform(activeOpacity, [0, 1], ['rgba(113, 113, 122, 1)', `rgba(var(--${step.color}-rgb), 1)`]) // Zinc-500 to Color-500
-                            }}
-                            className={`text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 rounded transition-colors duration-300`}
-                        >
+                        <span className={`text-[10px] font-bold uppercase tracking-wider border border-white/10 text-zinc-500 px-2 py-0.5 rounded transition-all duration-300`}>
                             Fase {step.id}
-                        </motion.span>
+                        </span>
                         <span className="text-xs font-mono text-zinc-500">{step.duration}</span>
                     </div>
                     
-                    <h3 className="text-2xl font-bold text-white group-hover:text-cyan-50 transition-colors">
+                    {/* Title - Grows and moves */}
+                    <motion.h3 
+                        style={{ x: contentTranslateX, scale: titleScale, originX: 0 }}
+                        className="text-2xl font-bold text-white transition-colors"
+                    >
                         {step.title}
-                    </h3>
+                    </motion.h3>
                 </div>
 
                 {/* Content */}
                 <div className="relative z-10 flex-1 flex flex-col">
-                    <p className="text-zinc-400 leading-relaxed text-sm mb-6 flex-1 border-l-2 border-white/5 pl-4 ml-1">
+                    {/* Description - Lights up and moves */}
+                    <motion.p 
+                        style={{ x: contentTranslateX, color: descColor }}
+                        className="text-zinc-400 leading-relaxed text-sm mb-6 flex-1 border-l-2 border-white/5 pl-4 ml-1 transition-colors"
+                    >
                         {step.description}
-                    </p>
+                    </motion.p>
                     
                     <div className="space-y-3 pt-6 border-t border-white/5">
                         {step.features.map((feature, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors">
+                            <motion.div 
+                                key={i} 
+                                style={{ x: contentTranslateX, color: featureColor }}
+                                className="flex items-center gap-2 text-xs text-zinc-500"
+                            >
                                 <motion.div 
-                                    style={{ opacity: useTransform(activeOpacity, [0, 0.5, 1], [0.3, 1, 1]) }}
-                                    className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${step.gradient}`} 
+                                    style={{ backgroundColor: bulletColor }}
+                                    className="w-1.5 h-1.5 rounded-full bg-zinc-700" 
                                 />
                                 {feature}
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
@@ -173,29 +186,44 @@ const JourneyCard = ({ step, progress, index }: { step: typeof STEPS[0], progres
 };
 
 export const ImplementationJourney: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef, { amount: 0.2, once: false });
+  
   // Global Progress Value (0 to 100)
   const beamProgress = useMotionValue(0);
 
   useEffect(() => {
-    // Slower animation (10 seconds) for the "Scanning" effect
-    const controls = animate(beamProgress, 100, {
-      duration: 10,
-      ease: "linear",
-      repeat: Infinity,
-      repeatDelay: 1 // Small pause before restarting
-    });
-    return controls.stop;
-  }, []);
+    let controls;
 
-  // Map beam progress to the visual line position (0% to 100% width/left)
+    if (isInView) {
+        beamProgress.set(0);
+        
+        controls = animate(beamProgress, 100, {
+            duration: 10,
+            ease: "linear",
+            repeat: Infinity,
+            repeatDelay: 1
+        });
+    }
+
+    return () => controls?.stop();
+  }, [isInView, beamProgress]);
+
   const beamLeft = useTransform(beamProgress, (value) => `${value}%`);
 
   return (
-    <section id="process" className="py-24 md:py-32 bg-[#050505] relative overflow-hidden border-t border-white/5">
-        
+    <section 
+        id="process" 
+        ref={containerRef}
+        className="py-24 md:py-32 bg-[#050505] relative overflow-hidden border-t border-white/5"
+    >
         {/* Background Atmosphere */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(6,182,212,0.05)_0%,transparent_60%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] opacity-30 pointer-events-none" />
+
+        {/* Feathering Gradients */}
+        <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
             

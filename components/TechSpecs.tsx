@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Database, Workflow, Shield, Server, Webhook, BrainCircuit, Globe, MessageSquare, Zap, ChevronRight, MousePointerClick, Layers, Smartphone, Bot, Calendar, Send } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import React, { useState, useRef, useEffect } from 'react';
+import { Database, Shield, Server, Webhook, Bot, Calendar, Send, MousePointerClick, Zap, Globe } from 'lucide-react';
+import { motion, AnimatePresence, useInView, useMotionValue, animate, useTransform } from 'framer-motion';
 
 // Node Data Structure reflects the REAL n8n workflow provided (Agente principal c2g v6.3)
 const WORKFLOW_NODES = [
@@ -80,12 +81,38 @@ const WORKFLOW_NODES = [
 
 export const TechSpecs: React.FC = () => {
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
-
   const activeNode = WORKFLOW_NODES.find(n => n.id === activeNodeId);
   const cardDelays = ['0s', '2s', '1s', '3s'];
 
+  // Beam Animation Logic
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { amount: 0.2, once: false });
+  const beamProgress = useMotionValue(0);
+
+  useEffect(() => {
+    let controls;
+    if (isInView) {
+        beamProgress.set(0);
+        controls = animate(beamProgress, 100, {
+            duration: 3, 
+            ease: "linear",
+            repeat: Infinity,
+            repeatDelay: 0
+        });
+    }
+    return () => controls?.stop();
+  }, [isInView, beamProgress]);
+
+  const beamLeft = useTransform(beamProgress, (value) => `${value}%`);
+
   return (
     <section id="tech" className="py-12 md:py-32 bg-[#050505] relative overflow-hidden">
+      
+      {/* Background Grid & Feathering */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0 opacity-20" />
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] to-transparent z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent z-10 pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Why C2G - Top Section */}
@@ -129,17 +156,31 @@ export const TechSpecs: React.FC = () => {
         </div>
         
         {/* n8n Workflow Simulation - INTERACTIVE (Full Width) */}
-        <div className="relative w-full" data-aos="fade-up" data-aos-delay="200">
+        <div className="relative w-full" data-aos="fade-up" data-aos-delay="200" ref={containerRef}>
              <span id="cases" className="absolute -top-32 invisible"></span>
             
-            {/* Adjusted vertical padding for mobile to be less huge */}
-            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-20 md:p-12 shadow-2xl overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-center h-auto">
+            {/* Main Container - Centered Vertically */}
+            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-20 md:p-12 shadow-2xl overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-center">
                 {/* Grid Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] z-0" />
                 
-                {/* Workflow Nodes */}
-                <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start justify-between gap-0 md:gap-0 w-full max-w-6xl mx-auto">
+                {/* Workflow Nodes Container */}
+                {/* Items aligned to top (items-start) to ensure icons align perfectly with the absolute beam line */}
+                <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start justify-between w-full max-w-6xl mx-auto">
                     
+                    {/* THE BEAM LINE (Desktop Only) */}
+                    {/* Positioned at top-8 (32px), which is the exact center of the h-16 (64px) icons */}
+                    <div className="hidden md:block absolute top-8 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 rounded-full overflow-hidden">
+                        <motion.div 
+                            style={{ left: beamLeft }}
+                            className="absolute top-0 w-[40%] h-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent blur-[2px] shadow-[0_0_15px_rgba(34,211,238,0.8)]" 
+                        />
+                         <motion.div 
+                            style={{ left: beamLeft }}
+                            className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,1)]" 
+                        />
+                    </div>
+
                     {WORKFLOW_NODES.map((node, index) => {
                       const isActive = activeNodeId === node.id;
                       const Icon = node.icon;
@@ -149,7 +190,7 @@ export const TechSpecs: React.FC = () => {
                           {/* Node Item */}
                           <div 
                             className={`
-                              flex flex-col items-center gap-2 md:gap-3 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none p-2 -m-2 w-28
+                              flex flex-col items-center gap-3 group shrink-0 cursor-pointer !outline-none focus:!outline-none focus:!ring-0 focus:!border-none focus-visible:!outline-none select-none p-2 -m-2 w-28 relative z-10
                             `}
                             style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}
                             onClick={() => setActiveNodeId(node.id)}
@@ -162,8 +203,8 @@ export const TechSpecs: React.FC = () => {
                               <div 
                                 className={`
                                   relative flex items-center justify-center z-10 transition-all duration-300 group-hover:scale-105 pointer-events-none
-                                  w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-[#111]
-                                  ${isActive ? `${node.shadowColor} scale-105 bg-opacity-100` : 'bg-opacity-80 backdrop-blur-sm'}
+                                  w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-[#111] border border-white/5
+                                  ${isActive ? `${node.shadowColor} scale-105 bg-opacity-100 border-${node.color}-500/50` : 'bg-opacity-80 backdrop-blur-sm'}
                                 `}
                               >
                                   <Icon 
@@ -172,15 +213,11 @@ export const TechSpecs: React.FC = () => {
                                       ${isActive ? node.textColor : 'text-zinc-500 group-hover:text-zinc-300'}
                                     `} 
                                   />
-
-                                  {/* Pulse Dots */}
-                                  {isActive && (
-                                    <div className={`absolute -top-1 -right-1 w-2.5 h-2.5 ${node.bgColor} rounded-full animate-pulse`} />
-                                  )}
+                                  {/* Pulse dot removed as requested */}
                               </div>
                               
                               {/* Label below */}
-                              <div className="text-center pointer-events-none">
+                              <div className="text-center pointer-events-none mt-1">
                                   <span className={`
                                     block text-[9px] md:text-[10px] font-mono px-2 py-0.5 rounded-full transition-colors duration-300 whitespace-nowrap
                                     ${isActive 
@@ -193,14 +230,11 @@ export const TechSpecs: React.FC = () => {
                               </div>
                           </div>
 
-                          {/* Connector (Render for all except last item) */}
+                          {/* Mobile Connector (Vertical Only) - Hidden on Desktop */}
                           {index < WORKFLOW_NODES.length - 1 && (
-                            <div className="relative flex items-center justify-center -my-1 md:my-0 md:-mx-6 md:mt-8 flex-1 w-full md:w-auto pointer-events-none">
-                                <div className="h-14 md:h-0.5 w-0.5 md:w-full bg-zinc-800 relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 animate-flow" />
-                                </div>
-                                <div className="absolute bg-[#0a0a0a] border border-zinc-800 rounded-full p-0.5 text-zinc-500 shadow-sm z-10">
-                                    <ChevronRight size={10} className="transform rotate-90 md:rotate-0" />
+                            <div className="relative flex items-center justify-center -my-1 md:hidden flex-1 w-full pointer-events-none h-14">
+                                <div className="h-full w-0.5 bg-zinc-800 relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500 to-transparent opacity-50 animate-flow" />
                                 </div>
                             </div>
                           )}
@@ -277,10 +311,6 @@ export const TechSpecs: React.FC = () => {
       
       {/* Custom CSS for flow animation injected here for component isolation */}
       <style>{`
-        @keyframes flow-horizontal {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
         @keyframes flow-vertical {
             0% { transform: translateY(-100%); }
             100% { transform: translateY(100%); }
@@ -289,13 +319,8 @@ export const TechSpecs: React.FC = () => {
         .animate-flow {
             animation: flow-vertical 1.5s linear infinite;
         }
-        /* Desktop: Horizontal Flow */
-        @media (min-width: 768px) {
-            .animate-flow {
-                animation: flow-horizontal 1.5s linear infinite;
-            }
-        }
       `}</style>
     </section>
   );
 };
+import { Workflow } from 'lucide-react';

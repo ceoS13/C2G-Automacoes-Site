@@ -90,8 +90,12 @@ export const FAQ: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 md:py-32 bg-[#080808]">
-      <div className="max-w-3xl mx-auto px-6 md:px-8" data-aos="fade-up">
+    <section id="faq" className="py-20 md:py-32 bg-[#050505] relative">
+      
+      {/* Top transition gradient */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] to-transparent z-10 pointer-events-none" />
+      
+      <div className="max-w-3xl mx-auto px-6 md:px-8 relative z-10" data-aos="fade-up">
         
         {/* Standardized Header Badge */}
         <div className="text-center mb-16">

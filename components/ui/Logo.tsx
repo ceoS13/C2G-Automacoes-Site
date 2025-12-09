@@ -6,9 +6,10 @@ import { getOptimizedImageUrl } from '../../lib/utils';
 interface LogoProps {
   className?: string;
   size?: number;
+  showFullText?: boolean;
 }
 
-export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24 }) => {
+export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24, showFullText = false }) => {
   const [imgError, setImgError] = useState(false);
   
   // Só tenta usar a imagem se houver URL e não tiver dado erro anterior
@@ -49,9 +50,9 @@ export const Logo: React.FC<LogoProps> = ({ className = "h-10 w-auto", size = 24
         </div>
       )}
 
-      {/* Texto da Marca - Exibido apenas se o container for grande o suficiente ou em telas maiores */}
-      <span className="font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors hidden sm:inline-block ml-1 relative z-10">
-          C2G <span className="text-zinc-500 font-normal group-hover:text-zinc-400 hidden lg:inline">Automações</span>
+      {/* Texto da Marca */}
+      <span className={`font-bold text-lg tracking-tight text-white group-hover:text-white transition-colors ml-1 relative z-10 ${showFullText ? 'inline-block' : 'hidden sm:inline-block'}`}>
+          C2G <span className={`text-zinc-500 font-normal group-hover:text-zinc-400 ${showFullText ? 'inline' : 'hidden lg:inline'}`}>Automações</span>
       </span>
     </div>
   );

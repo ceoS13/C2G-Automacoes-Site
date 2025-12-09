@@ -86,6 +86,10 @@ export const Partners: React.FC = () => {
   return (
     <section className="py-12 md:py-24 bg-[#050505] relative overflow-hidden z-20 select-none">
       
+      {/* Feathering Gradients - Vertical */}
+      <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
+
       {/* 1. Capsule Header - Floating above */}
       <div className="max-w-7xl mx-auto px-6 md:px-8 mb-10 text-center relative z-10" data-aos="fade-in">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50">

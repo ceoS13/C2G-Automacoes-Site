@@ -142,6 +142,10 @@ export const Solutions: React.FC = () => {
       
       {/* Background decoration: Subtle moving grid or noise */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none opacity-50" />
+      
+      {/* Feathering Gradients */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
       <div className="max-w-[95rem] mx-auto px-6 md:px-8 relative z-10">
         <div className="text-center mb-20" data-aos="fade-up">

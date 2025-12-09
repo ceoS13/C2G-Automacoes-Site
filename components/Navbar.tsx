@@ -37,8 +37,10 @@ export const Navbar: React.FC = () => {
           x: "-50%",
           opacity: isVisible ? 1 : 0 
         }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-4 md:top-6 left-1/2 w-[95%] md:w-full max-w-7xl z-50"
+        // Fix: Changed from custom bezier to standard easeOut for snappy finish (fixes blur delay)
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        // Fix: Added will-change-transform to force GPU layer promotion
+        className="fixed top-4 md:top-6 left-1/2 w-[95%] md:w-full max-w-7xl z-50 will-change-transform"
       >
         <nav className="relative bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/10 rounded-full pl-4 pr-2 py-2 shadow-2xl shadow-black/50 flex items-center justify-between transition-all duration-300 hover:border-white/20 hover:shadow-black/70">
           
