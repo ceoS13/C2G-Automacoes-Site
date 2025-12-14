@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Rocket, Code2, Zap, ArrowRight } from 'lucide-react';
 import { WHATSAPP_LINK } from '../lib/constants';
-import { motion, useMotionValue, useTransform, animate, MotionValue, useInView } from 'framer-motion';
+import { motion, useMotionValue, useTransform, animate, MotionValue, useInView, useMotionTemplate } from 'framer-motion';
 
 const STEPS = [
   {
@@ -11,11 +11,9 @@ const STEPS = [
     description: 'Alinhamento estratégico e liberação de acessos. Mapeamos suas regras de negócio para garantir que a IA siga seus processos.',
     duration: 'Semana 1',
     icon: Rocket,
-    color: 'cyan',
     hexColor: '#22d3ee', // Cyan-400
     shadowColor: 'rgba(6,182,212,0.6)', 
-    gradient: 'from-cyan-500 to-blue-500',
-    // Ranges: [Start, Peak, End] of the beam progress (0-100)
+    gradientStyle: 'linear-gradient(to right, #06b6d4, #3b82f6)', // Cyan-500 to Blue-500
     activationRange: [0, 16, 32],
     features: [
         "Reunião de Alinhamento",
@@ -30,10 +28,9 @@ const STEPS = [
     description: 'Nossos engenheiros constroem os fluxos no n8n, integram os bancos de dados e configuram os guard-rails de segurança.',
     duration: 'Semana 2-3',
     icon: Code2,
-    color: 'purple',
     hexColor: '#c084fc', // Purple-400
     shadowColor: 'rgba(168,85,247,0.6)',
-    gradient: 'from-purple-500 to-indigo-500',
+    gradientStyle: 'linear-gradient(to right, #a855f7, #6366f1)', // Purple-500 to Indigo-500
     activationRange: [34, 50, 66],
     features: [
         "Desenvolvimento de Fluxos (n8n)",
@@ -48,10 +45,9 @@ const STEPS = [
     description: 'Virada de chave. O ecossistema entra no ar. Monitoramos as primeiras interações em tempo real para calibração fina.',
     duration: 'Semana 4',
     icon: Zap,
-    color: 'emerald',
     hexColor: '#34d399', // Emerald-400
     shadowColor: 'rgba(16,185,129,0.6)',
-    gradient: 'from-emerald-400 to-teal-500',
+    gradientStyle: 'linear-gradient(to right, #34d399, #14b8a6)', // Emerald-400 to Teal-500
     activationRange: [68, 84, 100],
     features: [
         "Deploy em Produção",
@@ -80,25 +76,30 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
         step.activationRange, 
         [`0 0 0px transparent`, `0 0 30px ${step.shadowColor}`, `0 0 0px transparent`]
     );
+    // Card Scale (Container)
     const scale = useTransform(progress, step.activationRange, [1, 1.02, 1]);
 
     // 3. Text Content Synchronization (The "Acender e Crescer" Effect)
     
-    // Move Right: 0px -> 6px -> 0px
-    const contentTranslateX = useTransform(progress, step.activationRange, [0, 6, 0]);
-    
-    // Description Color: Zinc-400 (#a1a1aa) -> Zinc-200 (#e4e4e7) -> Zinc-400
-    const descColor = useTransform(progress, step.activationRange, ["#a1a1aa", "#e4e4e7", "#a1a1aa"]);
-    
-    // Features Color: Zinc-500 (#71717a) -> White (#ffffff) -> Zinc-500
-    const featureColor = useTransform(progress, step.activationRange, ["#71717a", "#ffffff", "#71717a"]);
-    
-    // Bullet Point Color: Zinc-700 (#3f3f46) -> Step Color -> Zinc-700
-    const bulletColor = useTransform(progress, step.activationRange, ["#3f3f46", step.hexColor, "#3f3f46"]);
-
-    // Title Scale: 1 -> 1.05 -> 1
+    // Title Scale: 1 -> 1.05 -> 1 (Ensures text grows on all cards)
     const titleScale = useTransform(progress, step.activationRange, [1, 1.05, 1]);
+    
+    // Title Color: Zinc-300 -> White -> Zinc-300
+    const titleColor = useTransform(progress, step.activationRange, ["#d4d4d8", "#ffffff", "#d4d4d8"]);
 
+    // Description Color: Zinc-400 -> White -> Zinc-400
+    // Changed to pure white peak to ensure visibility on all cards
+    const descColor = useTransform(progress, step.activationRange, ["#a1a1aa", "#ffffff", "#a1a1aa"]);
+    // Description Scale: Add pulse to mimic movement
+    const descScale = useTransform(progress, step.activationRange, [1, 1.02, 1]);
+    
+    // Features Color: Zinc-500 -> White -> Zinc-500
+    const featureColor = useTransform(progress, step.activationRange, ["#71717a", "#ffffff", "#71717a"]);
+    // Feature X Shift: Add slight movement
+    const featureX = useTransform(progress, step.activationRange, [0, 4, 0]);
+    
+    // Bullet Point Color: Zinc-700 -> Step Color -> Zinc-700
+    const bulletColor = useTransform(progress, step.activationRange, ["#3f3f46", step.hexColor, "#3f3f46"]);
 
     return (
         <motion.div 
@@ -112,8 +113,12 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
                 
                 {/* Neon Border */}
                 <motion.div 
-                    className={`absolute inset-0 rounded-[2rem] border-2 border-${step.color}-500 transition-colors duration-100 pointer-events-none`}
-                    style={{ opacity: borderOpacity, boxShadow: boxShadow }} 
+                    className="absolute inset-0 rounded-[2rem] border-2 transition-colors duration-100 pointer-events-none"
+                    style={{ 
+                        opacity: borderOpacity, 
+                        boxShadow: boxShadow,
+                        borderColor: step.hexColor
+                    }} 
                 />
                 
                 {/* Static Border */}
@@ -121,8 +126,14 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
 
                 {/* Top Neon Strip */}
                 <motion.div style={{ opacity: activeOpacity }} className="absolute top-0 left-0 w-full z-20">
-                    <div className={`w-full h-[2px] bg-gradient-to-r ${step.gradient}`} />
-                    <div className={`absolute top-0 left-0 w-full h-[15px] bg-gradient-to-r ${step.gradient} blur-[10px]`} />
+                    <div 
+                        className="w-full h-[2px]" 
+                        style={{ background: step.gradientStyle }}
+                    />
+                    <div 
+                        className="absolute top-0 left-0 w-full h-[15px] blur-[10px]"
+                        style={{ background: step.gradientStyle }}
+                    />
                 </motion.div>
 
                 {/* Giant Background Number */}
@@ -135,7 +146,7 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
                     {/* Icon Container - STATIC */}
                     <div className="relative w-14 h-14 mb-6 flex items-center justify-center">
                         <div className="absolute inset-0 border border-white/10 rounded-2xl bg-white/5" />
-                        <step.icon size={28} className={`relative z-10 text-${step.color}-400`} />
+                        <step.icon size={28} className="relative z-10" style={{ color: step.hexColor }} />
                     </div>
 
                     <div className="flex items-center justify-between mb-2">
@@ -145,10 +156,10 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
                         <span className="text-xs font-mono text-zinc-500">{step.duration}</span>
                     </div>
                     
-                    {/* Title - Grows and moves */}
+                    {/* Title - Grows and Lights Up (OriginX: 0 prevents lateral shift) */}
                     <motion.h3 
-                        style={{ x: contentTranslateX, scale: titleScale, originX: 0 }}
-                        className="text-2xl font-bold text-white transition-colors"
+                        style={{ scale: titleScale, color: titleColor, originX: 0 }}
+                        className="text-2xl font-bold"
                     >
                         {step.title}
                     </motion.h3>
@@ -156,10 +167,10 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
 
                 {/* Content */}
                 <div className="relative z-10 flex-1 flex flex-col">
-                    {/* Description - Lights up and moves */}
+                    {/* Description - Lights up and pulses */}
                     <motion.p 
-                        style={{ x: contentTranslateX, color: descColor }}
-                        className="text-zinc-400 leading-relaxed text-sm mb-6 flex-1 border-l-2 border-white/5 pl-4 ml-1 transition-colors"
+                        style={{ color: descColor, scale: descScale, originX: 0 }}
+                        className="leading-relaxed text-sm mb-6 flex-1 border-l-2 border-white/5 pl-4 ml-1"
                     >
                         {step.description}
                     </motion.p>
@@ -168,8 +179,8 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
                         {step.features.map((feature, i) => (
                             <motion.div 
                                 key={i} 
-                                style={{ x: contentTranslateX, color: featureColor }}
-                                className="flex items-center gap-2 text-xs text-zinc-500"
+                                style={{ color: featureColor, x: featureX }}
+                                className="flex items-center gap-2 text-xs"
                             >
                                 <motion.div 
                                     style={{ backgroundColor: bulletColor }}
@@ -211,6 +222,37 @@ export const ImplementationJourney: React.FC = () => {
 
   const beamLeft = useTransform(beamProgress, (value) => `${value}%`);
 
+  // Dynamic Beam Color - Transitions: Cyan -> Purple -> Green
+  const beamColor = useTransform(
+      beamProgress,
+      [0, 32, 34, 66, 68, 100], // Ranges matching card activation
+      [
+          "rgba(34, 211, 238, 1)", // Cyan (Start - Card 1)
+          "rgba(34, 211, 238, 1)", // Cyan (End - Card 1)
+          "rgba(192, 132, 252, 1)", // Purple (Start - Card 2)
+          "rgba(192, 132, 252, 1)", // Purple (End - Card 2)
+          "rgba(52, 211, 153, 1)", // Green (Start - Card 3)
+          "rgba(52, 211, 153, 1)"  // Green (End - Card 3)
+      ]
+  );
+  
+  // Dynamic Beam Shadow
+  const beamShadowColor = useTransform(
+      beamProgress,
+      [0, 32, 34, 66, 68, 100],
+      [
+          "rgba(34, 211, 238, 0.8)", 
+          "rgba(34, 211, 238, 0.8)", 
+          "rgba(168, 85, 247, 0.8)", 
+          "rgba(168, 85, 247, 0.8)", 
+          "rgba(16, 185, 129, 0.8)", 
+          "rgba(16, 185, 129, 0.8)" 
+      ]
+  );
+
+  const beamGradient = useMotionTemplate`linear-gradient(to right, transparent, ${beamColor}, transparent)`;
+  const beamBoxShadow = useMotionTemplate`0 0 15px ${beamShadowColor}`;
+
   return (
     <section 
         id="process" 
@@ -247,10 +289,14 @@ export const ImplementationJourney: React.FC = () => {
                 
                 {/* Connecting Line (Desktop Only) - The "Rail" */}
                 <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full">
-                    {/* The Active Beam moving across */}
+                    {/* The Active Beam moving across - Now with Dynamic Colors */}
                     <motion.div 
-                        style={{ left: beamLeft }}
-                        className="absolute top-0 w-[20%] h-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent blur-[2px] shadow-[0_0_15px_rgba(34,211,238,0.8)]" 
+                        style={{ 
+                            left: beamLeft,
+                            background: beamGradient,
+                            boxShadow: beamBoxShadow
+                        }}
+                        className="absolute top-0 w-[20%] h-full blur-[2px]" 
                     />
                      {/* The Head of the beam (Brighter) */}
                      <motion.div 
