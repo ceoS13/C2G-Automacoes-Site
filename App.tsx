@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -48,8 +49,9 @@ const App: React.FC = () => {
     // 1. Configuração do Scroll
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // 2. Inicialização do AOS
-    const initAOS = () => {
+    // 2. Inicialização do AOS (Animate On Scroll) com Retry Logic
+    // Isso é crítico para evitar "tela preta" se o script do CDN demorar a carregar
+    const initAOS = (retryCount = 0) => {
       if (window.AOS) {
         window.AOS.init({
           duration: 1000,
@@ -62,17 +64,26 @@ const App: React.FC = () => {
         setTimeout(() => {
           window.AOS.refresh();
         }, 500);
+      } else {
+        // Se o AOS não carregou, tenta novamente em 500ms (até 5 tentativas)
+        if (retryCount < 5) {
+            setTimeout(() => initAOS(retryCount + 1), 500);
+        } else {
+            console.warn("AOS failed to load after multiple attempts.");
+            // Opcional: Remover classes de visibilidade se o AOS falhar totalmente (fallback)
+        }
       }
     };
 
     if (document.readyState === 'complete') {
       initAOS();
     } else {
-      window.addEventListener('load', initAOS);
+      window.addEventListener('load', () => initAOS());
     }
     
+    // Limpeza
     return () => {
-      window.removeEventListener('load', initAOS);
+       // Nada crítico para limpar do AOS
     };
   }, []);
 
