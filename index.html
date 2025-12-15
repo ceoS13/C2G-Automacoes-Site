@@ -4,9 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- SECURITY HEADERS -->
+    <!-- SECURITY HEADERS (Meta Tag Simulation) -->
+    <!-- 1. Referrer Policy: Protege dados de navegação ao clicar em links externos -->
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     
+    <!-- 2. Frame Buster: Previne Clickjacking (Impede que o site abra em iframes) -->
+    <script>
+      if (window.top !== window.self) {
+        window.top.location = window.self.location;
+      }
+    </script>
+
     <title>C2G Automações | Engenharia de Agentes de IA</title>
     <meta name="description" content="Ecossistemas de negócios autônomos. Transforme custos fixos em receita com agentes de IA que prospectam, vendem e atendem 24/7." />
     
@@ -14,6 +22,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="C2G Automações | A Força de Trabalho Digital" />
     <meta property="og:description" content="Engenharia de software aplicada a inteligência artificial. Automatize vendas, atendimento e processos com agentes autônomos." />
+    <!-- Dynamic OG Image: Uses proxy to create a 1200x630 banner with dark background and logo -->
     <meta property="og:image" content="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=1200&h=630&fit=contain&bg=050505&output=png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -24,35 +33,151 @@
     <meta name="twitter:description" content="Ecossistemas de negócios autônomos. A inteligência que trabalha." />
     <meta name="twitter:image" content="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=1200&h=630&fit=contain&bg=050505&output=png" />
 
-    <!-- Performance Optimization -->
+    <!-- Performance Optimization: Preconnect to Image CDN -->
     <link rel="preconnect" href="https://wsrv.nl" />
+    
+    <!-- Favicon Optimized: Use Proxy URL directly for fast load -->
     <link rel="icon" href="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=128&h=128&output=png" type="image/png">
     
-    <!-- Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Inter Tight"', 'sans-serif'],
+              mono: ['"Space Mono"', 'monospace'],
+            },
+            colors: {
+              brand: {
+                dark: '#050505',
+                panel: '#0f0f0f',
+                accent: '#06b6d4', // Cyan 500
+                blue: '#2563eb',   // Blue 600
+              }
+            },
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'float-subtle': 'float-subtle 6s ease-in-out infinite',
+              'meteor': 'meteor 5s linear infinite',
+              'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
+              'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+              'shine': 'shine 5s ease-in-out infinite',
+              'grid-scroll': 'grid-scroll 20s linear infinite',
+              'text-shimmer': 'text-shimmer 5s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              'float-subtle': {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-6px)' },
+              },
+              meteor: {
+                "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+                "70%": { opacity: "1" },
+                "100%": {
+                  transform: "rotate(215deg) translateX(-500px)",
+                  opacity: "0",
+                },
+              },
+              'border-beam': {
+                '100%': {
+                  'offset-distance': '100%',
+                },
+              },
+              'pulse-glow': {
+                '0%, 100%': { boxShadow: '0 0 20px -5px rgba(6,182,212,0.3)', borderColor: 'rgba(6,182,212,0.3)' },
+                '50%': { boxShadow: '0 0 40px -5px rgba(6,182,212,0.6)', borderColor: 'rgba(6,182,212,0.8)' },
+              },
+              'shine': {
+                '0%': { left: '-100%', opacity: '0' },
+                '5%': { opacity: '0.5' },
+                '20%': { left: '100%', opacity: '0.5' },
+                '21%': { opacity: '0' },
+                '100%': { left: '100%', opacity: '0' },
+              },
+              'grid-scroll': {
+                '0%': { backgroundPosition: '0 0' },
+                '100%': { backgroundPosition: '0 -50px' },
+              },
+              'text-shimmer': {
+                '0%': { 'background-position': '200% center' },
+                '100%': { 'background-position': '-200% center' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html {
+        touch-action: manipulation;
+      }
+      body {
+        background-color: #050505;
+        color: #ffffff; /* Updated to Pure White */
+        cursor: default;
+        overflow-x: hidden;
+      }
+      
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #050505;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 3px;
+      }
+
+      /* Glassmorphism Utilities - Darker Smoke Glass */
+      .glass-panel {
+        background: rgba(10, 10, 10, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      }
+      
+      .glass-panel:hover {
+        background: rgba(20, 20, 20, 0.7);
+        border: 1px solid rgba(6, 182, 212, 0.2); /* Cyan border hint */
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+      }
+
+      /* Glow Text - Cyan */
+      .text-glow {
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+      }
+    </style>
   <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "react-scroll": "https://esm.sh/react-scroll@^1.9.3",
-    "aos": "https://esm.sh/aos@^2.3.4",
-    "aos/": "https://esm.sh/aos@^2.3.4/",
-    "vite": "https://esm.sh/vite@^7.3.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "path": "https://esm.sh/path@^0.12.7",
-    "url": "https://esm.sh/url@^0.11.4"
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-scroll": "https://aistudiocdn.com/react-scroll@^1.9.0"
   }
 }
 </script>
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
   </body>
 </html>

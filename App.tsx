@@ -3,10 +3,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
-// Importação correta do AOS para build no Vercel
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
 // Eager Load (Carregamento Padrão)
 // Garante que o AOS calcule corretamente a altura da página e as animações funcionem.
 // Lazy Loading em Landing Pages verticais com AOS frequentemente causa "conteúdo invisível".
@@ -26,6 +22,22 @@ const TermsPage = React.lazy(() =>
   import('./components/TermsPage').then(module => ({ default: module.TermsPage }))
 );
 
+// Define AOS type to avoid @ts-ignore
+declare global {
+  interface Window {
+    AOS: {
+      init: (options: {
+        duration?: number;
+        once?: boolean;
+        easing?: string;
+        offset?: number;
+      }) => void;
+      refresh: () => void;
+      refreshHard: () => void;
+    };
+  }
+}
+
 type PageView = 'home' | 'terms';
 
 const App: React.FC = () => {
@@ -36,20 +48,32 @@ const App: React.FC = () => {
     // 1. Configuração do Scroll
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // 2. Inicialização do AOS via Importação
-    AOS.init({
-      duration: 1000,
-      once: true, // Anima apenas uma vez para melhor performance
-      easing: 'ease-out-cubic',
-      offset: 50, 
-    });
-    
-    // Garante que o layout esteja calculado
-    const timeout = setTimeout(() => {
-      AOS.refresh();
-    }, 500);
+    // 2. Inicialização do AOS
+    const initAOS = () => {
+      if (window.AOS) {
+        window.AOS.init({
+          duration: 1000,
+          once: true, // Anima apenas uma vez para melhor performance
+          easing: 'ease-out-cubic',
+          offset: 50, 
+        });
+        
+        // Garante que o layout esteja calculado
+        setTimeout(() => {
+          window.AOS.refresh();
+        }, 500);
+      }
+    };
 
-    return () => clearTimeout(timeout);
+    if (document.readyState === 'complete') {
+      initAOS();
+    } else {
+      window.addEventListener('load', initAOS);
+    }
+    
+    return () => {
+      window.removeEventListener('load', initAOS);
+    };
   }, []);
 
   const handleNavigateToTerms = useCallback((section?: string) => {
@@ -64,7 +88,7 @@ const App: React.FC = () => {
     
     // Força refresh do AOS ao voltar para Home
     setTimeout(() => {
-        AOS.refreshHard();
+        if(window.AOS) window.AOS.refreshHard();
     }, 100);
   }, []);
 

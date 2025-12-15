@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Hero } from './Hero';
 import { Partners } from './Partners';
@@ -10,7 +11,6 @@ import { ImplementationJourney } from './ImplementationJourney';
 import { FAQ } from './FAQ';
 import { About } from './About';
 import { Footer } from './Footer';
-import AOS from 'aos';
 
 interface HomeProps {
   onTermsClick: (section?: string) => void;
@@ -21,12 +21,14 @@ export const Home: React.FC<HomeProps> = ({ onTermsClick }) => {
   useEffect(() => {
     // Força o AOS a recalcular (hard refresh) a posição dos elementos assim que a Home é montada
     // Isso garante que os elementos 'fade-up' não fiquem invisíveis (opacity: 0) ao voltar de outra página
-    AOS.refreshHard();
+    if (window.AOS) {
+      window.AOS.refreshHard();
       
-    // Fallback de segurança para garantir que elementos pesados carregaram
-    setTimeout(() => {
-      AOS.refreshHard();
-    }, 500); 
+      // Fallback de segurança para garantir que elementos pesados carregaram
+      setTimeout(() => {
+        window.AOS.refreshHard();
+      }, 500); 
+    }
   }, []);
 
   return (

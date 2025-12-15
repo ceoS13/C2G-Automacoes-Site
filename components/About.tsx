@@ -72,31 +72,29 @@ const MANIFESTO_NODES = [
 ];
 
 // Configuration for colors and neon effects
-// ATUALIZADO: Estilo Neon Glass (Fundo transparente, Borda Brilhante)
-const COLORS_CONFIG: Record<string, { text: string; border: string; badgeBg: string; hoverBorder: string; hoverShadow: string; rgb: string }> = {
+const COLORS_CONFIG: Record<string, { text: string; border: string; bg: string; hoverBorder: string; hoverShadow: string; rgb: string }> = {
     red: {
         text: "text-red-400",
-        border: "border-red-500/30",
-        badgeBg: "bg-red-500/10",
-        hoverBorder: "group-hover/card:border-red-500",
-        // Shadow externo + Shadow interno para efeito neon profundo
-        hoverShadow: "group-hover/card:shadow-[0_0_40px_-10px_rgba(239,68,68,0.5),inset_0_0_20px_-10px_rgba(239,68,68,0.3)]",
+        border: "border-red-500/20",
+        bg: "bg-red-500/10",
+        hoverBorder: "group-hover/card:border-red-500/50",
+        hoverShadow: "group-hover/card:shadow-[0_0_30px_-10px_rgba(239,68,68,0.3)]",
         rgb: "239, 68, 68"
     },
     cyan: {
         text: "text-cyan-400",
-        border: "border-cyan-500/30",
-        badgeBg: "bg-cyan-500/10",
-        hoverBorder: "group-hover/card:border-cyan-500",
-        hoverShadow: "group-hover/card:shadow-[0_0_40px_-10px_rgba(6,182,212,0.5),inset_0_0_20px_-10px_rgba(6,182,212,0.3)]",
+        border: "border-cyan-500/20",
+        bg: "bg-cyan-500/10",
+        hoverBorder: "group-hover/card:border-cyan-500/50",
+        hoverShadow: "group-hover/card:shadow-[0_0_30px_-10px_rgba(6,182,212,0.3)]",
         rgb: "6, 182, 212"
     },
     purple: {
         text: "text-purple-400",
-        border: "border-purple-500/30",
-        badgeBg: "bg-purple-500/10",
-        hoverBorder: "group-hover/card:border-purple-500",
-        hoverShadow: "group-hover/card:shadow-[0_0_40px_-10px_rgba(168,85,247,0.5),inset_0_0_20px_-10px_rgba(168,85,247,0.3)]",
+        border: "border-purple-500/20",
+        bg: "bg-purple-500/10",
+        hoverBorder: "group-hover/card:border-purple-500/50",
+        hoverShadow: "group-hover/card:shadow-[0_0_30px_-10px_rgba(168,85,247,0.3)]",
         rgb: "168, 85, 247"
     }
 };
@@ -129,23 +127,25 @@ const ManifestoCard: React.FC<{
             data-aos-delay={node.delay}
         >
             {/* Node Card Container - Interactive */}
-            {/* GLASSMORPHISM APPLIED: bg-white/[0.02] backdrop-blur-xl */}
             <div 
                 onMouseMove={handleMouseMove}
                 className={`
-                    h-full bg-white/[0.02] backdrop-blur-xl border ${config.border} rounded-2xl p-6 md:p-8 
-                    transition-all duration-500 relative z-10 overflow-hidden group/card
-                    hover:-translate-y-2 ${config.hoverBorder} ${config.hoverShadow}
+                    h-full bg-[#0a0a0a] border ${config.border} rounded-2xl p-6 md:p-8 
+                    transition-all duration-300 relative z-10 overflow-hidden group/card
+                    hover:-translate-y-1 ${config.hoverBorder} ${config.hoverShadow}
                 `}
             >
+                {/* 0. Static Tint (Subtle background color) */}
+                <div className={`absolute inset-0 ${config.bg} opacity-50 pointer-events-none transition-opacity duration-300 group-hover/card:opacity-30`} />
+
                 {/* 1. Desktop Spotlight (Follows Mouse) */}
                 <motion.div
-                    className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-500 group-hover/card:opacity-100 z-0"
+                    className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover/card:opacity-100 z-0"
                     style={{
                         background: useMotionTemplate`
                             radial-gradient(
                                 600px circle at ${mouseX}px ${mouseY}px,
-                                rgba(${config.rgb}, 0.10),
+                                rgba(${config.rgb}, 0.15),
                                 transparent 80%
                             )
                         `,
@@ -153,18 +153,18 @@ const ManifestoCard: React.FC<{
                 />
 
                 {/* 2. Mobile Tap Glow (Static on Touch/Active) */}
-                <div className={`md:hidden absolute inset-0 bg-[rgba(${config.rgb},0.05)] opacity-0 transition-opacity duration-300 active:opacity-100 pointer-events-none z-0`} />
+                <div className={`md:hidden absolute inset-0 bg-[rgba(${config.rgb},0.15)] opacity-0 transition-opacity duration-300 active:opacity-100 pointer-events-none z-0`} />
 
                 {/* Content Wrapper */}
                 <div className="relative z-10">
                     
-                    <div className={`inline-flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest mb-4 px-2 py-1 rounded border transition-colors ${config.text} ${config.border} ${config.badgeBg}`}>
+                    <div className={`inline-flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest mb-4 px-2 py-1 rounded border transition-colors ${config.text} ${config.border} ${config.bg}`}>
                         <node.icon size={12} />
                         {node.label}
                     </div>
                     
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover/card:text-white transition-colors">{node.title}</h3>
-                    <p className="text-zinc-400 text-sm leading-relaxed group-hover/card:text-zinc-300 transition-colors">
+                    <h3 className="text-xl font-bold text-white mb-3">{node.title}</h3>
+                    <p className="text-zinc-400 text-sm leading-relaxed">
                         {node.description}
                     </p>
                 </div>
@@ -231,14 +231,7 @@ export const About: React.FC = () => {
         <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32 relative mb-32">
             
             {/* Connecting Line (Desktop) - The "Rail" */}
-            {/* UPDATED: Converted to motion.div for synchronized entrance animation (ScaleX) */}
-            <motion.div 
-                initial={{ scaleX: 0, opacity: 0 }}
-                whileInView={{ scaleX: 1, opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1.2, ease: "circOut" }}
-                className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full origin-left"
-            >
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full">
                 {/* The Active Beam moving across */}
                 <motion.div 
                     style={{ left: beamLeft }}
@@ -249,7 +242,7 @@ export const About: React.FC = () => {
                     style={{ left: beamLeft }}
                     className="absolute top-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,1)]" 
                 />
-            </motion.div>
+            </div>
             
             {MANIFESTO_NODES.map((node, index) => (
                 <ManifestoCard 

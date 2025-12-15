@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
@@ -54,32 +53,24 @@ export const Hero: React.FC = () => {
       />
 
       {/* Logo Watermark - High Priority LCP Candidate */}
-      {/* ATUALIZADO: Agora com animação de ENTRADA (Blur + Scale) antes do loop de respiração */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none mix-blend-screen" aria-hidden="true">
         <motion.div
-          initial={{ opacity: 0, scale: 0.5, filter: "blur(20px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="w-full h-full"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: [0.04, 0.08, 0.04], scale: [1, 1.05, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-full h-full will-change-transform"
         >
-           <motion.div
-             // Loop contínuo (Respiração)
-             animate={{ opacity: [0.04, 0.08, 0.04], scale: [1, 1.05, 1] }}
-             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} // Delay para esperar a entrada terminar
-             className="w-full h-full will-change-transform"
-           >
-               <img 
-                  src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)} 
-                  alt="C2G Watermark" 
-                  className="w-full h-full object-contain mix-blend-screen" 
-                  width="1200"
-                  height="1200"
-                  // @ts-ignore
-                  fetchPriority="high"
-                  loading="eager"
-                  decoding="sync"
-               />
-           </motion.div>
+           <img 
+              src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)} 
+              alt="C2G Watermark" 
+              className="w-full h-full object-contain mix-blend-screen" 
+              width="1200"
+              height="1200"
+              // @ts-ignore
+              fetchPriority="high"
+              loading="eager"
+              decoding="sync"
+           />
         </motion.div>
       </div>
 
