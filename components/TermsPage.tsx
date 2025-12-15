@@ -1,10 +1,10 @@
-
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ArrowLeft, ShieldCheck, Scale, Lock, FileText, AlertTriangle, Cpu } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { scroller } from 'react-scroll';
 import { Logo } from './ui/Logo';
 import { WHATSAPP_LINK } from '../lib/constants';
+import AOS from 'aos';
 
 interface TermsPageProps {
   onBack: () => void;
@@ -39,12 +39,10 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
 
   useEffect(() => {
     // Força o AOS a reconhecer os novos elementos da página de termos
-    if (window.AOS) {
-      // Pequeno delay para garantir que o React renderizou o conteúdo
-      setTimeout(() => {
-        window.AOS.refreshHard();
-      }, 100);
-    }
+    // Pequeno delay para garantir que o React renderizou o conteúdo
+    setTimeout(() => {
+      AOS.refreshHard();
+    }, 100);
 
     // Se houver uma seção específica, rola até ela suavemente
     if (initialSection) {

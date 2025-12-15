@@ -1,8 +1,11 @@
-
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
+
+// Importação correta do AOS para build no Vercel
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Eager Load (Carregamento Padrão)
 // Garante que o AOS calcule corretamente a altura da página e as animações funcionem.
@@ -23,22 +26,6 @@ const TermsPage = React.lazy(() =>
   import('./components/TermsPage').then(module => ({ default: module.TermsPage }))
 );
 
-// Define AOS type to avoid @ts-ignore
-declare global {
-  interface Window {
-    AOS: {
-      init: (options: {
-        duration?: number;
-        once?: boolean;
-        easing?: string;
-        offset?: number;
-      }) => void;
-      refresh: () => void;
-      refreshHard: () => void;
-    };
-  }
-}
-
 type PageView = 'home' | 'terms';
 
 const App: React.FC = () => {
@@ -49,42 +36,20 @@ const App: React.FC = () => {
     // 1. Configuração do Scroll
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // 2. Inicialização do AOS (Animate On Scroll) com Retry Logic
-    // Isso é crítico para evitar "tela preta" se o script do CDN demorar a carregar
-    const initAOS = (retryCount = 0) => {
-      if (window.AOS) {
-        window.AOS.init({
-          duration: 1000,
-          once: true, // Anima apenas uma vez para melhor performance
-          easing: 'ease-out-cubic',
-          offset: 50, 
-        });
-        
-        // Garante que o layout esteja calculado
-        setTimeout(() => {
-          window.AOS.refresh();
-        }, 500);
-      } else {
-        // Se o AOS não carregou, tenta novamente em 500ms (até 5 tentativas)
-        if (retryCount < 5) {
-            setTimeout(() => initAOS(retryCount + 1), 500);
-        } else {
-            console.warn("AOS failed to load after multiple attempts.");
-            // Opcional: Remover classes de visibilidade se o AOS falhar totalmente (fallback)
-        }
-      }
-    };
-
-    if (document.readyState === 'complete') {
-      initAOS();
-    } else {
-      window.addEventListener('load', () => initAOS());
-    }
+    // 2. Inicialização do AOS via Importação
+    AOS.init({
+      duration: 1000,
+      once: true, // Anima apenas uma vez para melhor performance
+      easing: 'ease-out-cubic',
+      offset: 50, 
+    });
     
-    // Limpeza
-    return () => {
-       // Nada crítico para limpar do AOS
-    };
+    // Garante que o layout esteja calculado
+    const timeout = setTimeout(() => {
+      AOS.refresh();
+    }, 500);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const handleNavigateToTerms = useCallback((section?: string) => {
@@ -99,7 +64,7 @@ const App: React.FC = () => {
     
     // Força refresh do AOS ao voltar para Home
     setTimeout(() => {
-        if(window.AOS) window.AOS.refreshHard();
+        AOS.refreshHard();
     }, 100);
   }, []);
 
