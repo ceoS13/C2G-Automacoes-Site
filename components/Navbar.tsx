@@ -71,7 +71,7 @@ export const Navbar: React.FC = () => {
                   to={link.href.replace('#', '')}
                   spy={true}
                   smooth={true}
-                  offset={-140}
+                  offset={-40}
                   duration={1000}
                   className="cursor-pointer px-3 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/10 transition-all duration-300 whitespace-nowrap focus:outline-none"
                   activeClass="!text-white !bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
@@ -129,7 +129,7 @@ export const Navbar: React.FC = () => {
                     to={link.href.replace('#', '')}
                     spy={true}
                     smooth={true}
-                    offset={-140}
+                    offset={-40}
                     duration={1000}
                     onClick={() => setIsOpen(false)}
                     className="cursor-pointer block px-4 py-3 rounded-xl text-sm font-medium text-zinc-400 hover:text-white hover:bg-white/10 transition-all border border-transparent hover:border-white/5"

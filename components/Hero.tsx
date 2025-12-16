@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
@@ -18,7 +19,7 @@ export const Hero: React.FC = () => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: -140,
+      offset: -40,
     });
   };
 
