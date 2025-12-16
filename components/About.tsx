@@ -235,7 +235,12 @@ export const About: React.FC = () => {
         <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32 relative mb-32">
             
             {/* Connecting Line (Desktop) - The "Rail" */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full">
+            <motion.div 
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+                transition={{ duration: 1.5, ease: "circOut" }}
+                className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full origin-left"
+            >
                 {/* The Active Beam moving across */}
                 <motion.div 
                     style={{ left: beamLeft }}
@@ -246,7 +251,7 @@ export const About: React.FC = () => {
                     style={{ left: beamLeft }}
                     className="absolute top-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,1)]" 
                 />
-            </div>
+            </motion.div>
             
             {MANIFESTO_NODES.map((node, index) => (
                 <ManifestoCard 
