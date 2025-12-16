@@ -1,5 +1,5 @@
-
 import React, { useEffect } from 'react';
+import AOS from 'aos';
 import { Hero } from './Hero';
 import { Partners } from './Partners';
 import { ChatDemo } from './ChatDemo';
@@ -21,14 +21,14 @@ export const Home: React.FC<HomeProps> = ({ onTermsClick }) => {
   useEffect(() => {
     // Força o AOS a recalcular (hard refresh) a posição dos elementos assim que a Home é montada
     // Isso garante que os elementos 'fade-up' não fiquem invisíveis (opacity: 0) ao voltar de outra página
-    if (window.AOS) {
-      window.AOS.refreshHard();
+    AOS.refreshHard();
       
-      // Fallback de segurança para garantir que elementos pesados carregaram
-      setTimeout(() => {
-        window.AOS.refreshHard();
-      }, 500); 
-    }
+    // Fallback de segurança para garantir que elementos pesados carregaram
+    const timer = setTimeout(() => {
+      AOS.refreshHard();
+    }, 500); 
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (

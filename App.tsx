@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
+import AOS from 'aos';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
 // Eager Load (Carregamento Padrão)
-// Garante que o AOS calcule corretamente a altura da página e as animações funcionem.
-// Lazy Loading em Landing Pages verticais com AOS frequentemente causa "conteúdo invisível".
 import { ChatDemo } from './components/ChatDemo';
 import { Solutions } from './components/Solutions';
 import { BentoGrid } from './components/BentoGrid';
@@ -17,24 +16,15 @@ import { About } from './components/About';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 
-// Mantemos Lazy Load apenas para páginas/modais secundários que não afetam o scroll inicial
+// Mantemos Lazy Load apenas para páginas/modais secundários
 const TermsPage = React.lazy(() => 
   import('./components/TermsPage').then(module => ({ default: module.TermsPage }))
 );
 
-// Define AOS type to avoid @ts-ignore
+// Define AOS type globally for debugging access via window.AOS
 declare global {
   interface Window {
-    AOS: {
-      init: (options: {
-        duration?: number;
-        once?: boolean;
-        easing?: string;
-        offset?: number;
-      }) => void;
-      refresh: () => void;
-      refreshHard: () => void;
-    };
+    AOS: typeof AOS;
   }
 }
 
@@ -48,32 +38,23 @@ const App: React.FC = () => {
     // 1. Configuração do Scroll
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // 2. Inicialização do AOS
-    const initAOS = () => {
-      if (window.AOS) {
-        window.AOS.init({
-          duration: 1000,
-          once: true, // Anima apenas uma vez para melhor performance
-          easing: 'ease-out-cubic',
-          offset: 50, 
-        });
-        
-        // Garante que o layout esteja calculado
-        setTimeout(() => {
-          window.AOS.refresh();
-        }, 500);
-      }
-    };
+    // 2. Inicialização do AOS (Migrado para NPM)
+    AOS.init({
+      duration: 1000,
+      once: true, // Anima apenas uma vez para melhor performance
+      easing: 'ease-out-cubic',
+      offset: 50, 
+    });
 
-    if (document.readyState === 'complete') {
-      initAOS();
-    } else {
-      window.addEventListener('load', initAOS);
-    }
+    // Expose AOS to window for debugging or legacy checks
+    window.AOS = AOS;
     
-    return () => {
-      window.removeEventListener('load', initAOS);
-    };
+    // Garante que o layout esteja calculado e força refresh inicial
+    const timer = setTimeout(() => {
+      AOS.refresh();
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleNavigateToTerms = useCallback((section?: string) => {
@@ -88,7 +69,7 @@ const App: React.FC = () => {
     
     // Força refresh do AOS ao voltar para Home
     setTimeout(() => {
-        if(window.AOS) window.AOS.refreshHard();
+        AOS.refreshHard();
     }, 100);
   }, []);
 
@@ -104,10 +85,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       
-      {/* 
-        Renderização Direta (Sem Suspense para seções principais)
-        Isso corrige o bug de elementos desaparecidos.
-      */}
+      {/* Renderização Direta */}
       <Hero />
       <ChatDemo />
       <Solutions />

@@ -1,8 +1,8 @@
-
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ArrowLeft, ShieldCheck, Scale, Lock, FileText, AlertTriangle, Cpu } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { scroller } from 'react-scroll';
+import AOS from 'aos';
 import { Logo } from './ui/Logo';
 import { WHATSAPP_LINK } from '../lib/constants';
 
@@ -29,9 +29,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
   // CRITICAL: Scroll Reset Logic
-  // Use useLayoutEffect to ensure DOM is painted starting at top before user sees it
   useLayoutEffect(() => {
-    // Reset para todos os navegadores (Chrome, Safari, Firefox)
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -39,25 +37,23 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
 
   useEffect(() => {
     // Força o AOS a reconhecer os novos elementos da página de termos
-    if (window.AOS) {
-      // Pequeno delay para garantir que o React renderizou o conteúdo
-      setTimeout(() => {
-        window.AOS.refreshHard();
-      }, 100);
-    }
+    // Pequeno delay para garantir que o React renderizou o conteúdo
+    const timer = setTimeout(() => {
+      AOS.refreshHard();
+    }, 100);
 
     // Se houver uma seção específica, rola até ela suavemente
     if (initialSection) {
       setTimeout(() => {
         scroller.scrollTo(initialSection, {
-          duration: 800, // Slightly faster for better mobile feel
+          duration: 800, 
           delay: 0,
           smooth: 'easeInOutQuart',
-          // Menor offset no mobile para aproveitar melhor a tela
           offset: window.innerWidth < 768 ? -100 : -120, 
         });
-      }, 500); // Delay seguro para garantir que o scroll reset (0,0) já ocorreu
+      }, 500); 
     }
+    return () => clearTimeout(timer);
   }, [initialSection]);
 
   return (
@@ -74,7 +70,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
             onClick={onBack}
             className="flex items-center gap-2 group hover:opacity-80 transition-opacity focus:outline-none"
           >
-            {/* Aumentado o tamanho do logo conforme solicitado: h-12 no mobile, h-16 no desktop */}
             <Logo className="h-12 md:h-16 w-auto" />
           </button>
 
@@ -99,7 +94,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
       </header>
 
       <main className="flex-1 pt-32 pb-20 px-6 relative z-10">
-        {/* Usando motion.article para o parallax sutil (Apenas Desktop) */}
         <motion.article 
             style={{ y: isMobile ? 0 : parallaxY }}
             className="max-w-3xl mx-auto"
