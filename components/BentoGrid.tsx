@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   BrainCircuit, 
@@ -113,6 +114,13 @@ export const BentoGrid: React.FC = () => {
             <AnalyticsWidget />
           </DashboardCard>
           
+        </div>
+
+        {/* Disclaimer - Ethical UX Pattern */}
+        <div className="mt-6 flex justify-end" data-aos="fade-in" data-aos-delay="600">
+            <p className="text-[10px] text-zinc-600 italic font-mono flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity cursor-default">
+                <span>*</span> Painéis visuais meramente ilustrativos. Os dados são reais, mas a interface depende da implementação contratada.
+            </p>
         </div>
       </div>
     </section>
