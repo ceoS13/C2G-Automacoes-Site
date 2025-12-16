@@ -19,7 +19,7 @@ export const Hero: React.FC = () => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: -40,
+      offset: 0,
     });
   };
 
