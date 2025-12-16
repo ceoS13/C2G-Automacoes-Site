@@ -55,8 +55,12 @@ export const Hero: React.FC = () => {
       {/* Logo Watermark - High Priority LCP Candidate */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none" aria-hidden="true">
         
-        {/* Mask Wrapper: Resolve o problema do "quadrado visível" cortando as bordas duras da imagem/container */}
-        <div className="w-full h-full [mask-image:radial-gradient(circle_at_center,black_60%,transparent_100%)]">
+        {/* 
+           Mask Wrapper: CORREÇÃO DO QUADRADO 
+           Ajustei o degradê para 'transparent_70%'. Isso força o fade-out a acontecer
+           DENTRO do quadrado, eliminando as bordas retas visíveis durante o blur.
+        */}
+        <div className="w-full h-full [mask-image:radial-gradient(circle,black_30%,transparent_70%)]">
             
             {/* Camada Externa: Responsável pela ENTRADA (Blur -> Nítido) */}
             <motion.div
@@ -67,7 +71,7 @@ export const Hero: React.FC = () => {
                 filter: "blur(0px)" 
               }}
               transition={{ 
-                duration: 1.5, // Mais rápido (antes era 2.5s)
+                duration: 1.5,
                 ease: "easeOut" 
               }}
               className="w-full h-full will-change-[opacity,filter,transform]"
