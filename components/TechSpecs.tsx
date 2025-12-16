@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Database, Shield, Webhook, Bot, Calendar, Send, MousePointerClick, Zap, Globe, Workflow, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -61,6 +60,7 @@ export const TechSpecs: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] to-transparent z-10 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent z-10 pointer-events-none" />
 
+      {/* ABERTURA DA DIV PRINCIPAL (Faltava fechar esta aqui embaixo) */}
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Why C2G - Top Section */}
@@ -217,13 +217,13 @@ export const TechSpecs: React.FC = () => {
                         transition={{ duration: 0.2 }}
                         className="w-full max-w-2xl bg-[#111] border border-white/10 rounded-xl p-4 md:p-5 flex items-start gap-4 shadow-2xl shadow-black z-20"
                       >
-                         <div className="p-2.5 rounded-lg bg-black border border-white/5 text-cyan-400 shrink-0">
+                          <div className="p-2.5 rounded-lg bg-black border border-white/5 text-cyan-400 shrink-0">
                             <activeNode.icon size={20} />
-                         </div>
-                         <div>
+                          </div>
+                          <div>
                             <h5 className="text-sm md:text-base font-bold text-white mb-1">{activeNode.title}</h5>
                             <p className="text-xs md:text-sm text-zinc-400 leading-relaxed">{activeNode.description}</p>
-                         </div>
+                          </div>
                       </motion.div>
                     ) : (
                       <motion.div
@@ -233,8 +233,8 @@ export const TechSpecs: React.FC = () => {
                         exit={{ opacity: 0 }}
                         className="flex flex-col items-center text-zinc-600 gap-3 text-center"
                       >
-                         <MousePointerClick size={24} className="animate-bounce text-zinc-500" />
-                         <span className="text-xs md:text-sm font-mono">Clique nos nós acima para ver detalhes da engenharia</span>
+                          <MousePointerClick size={24} className="animate-bounce text-zinc-500" />
+                          <span className="text-xs md:text-sm font-mono">Clique nos nós acima para ver detalhes da engenharia</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -269,6 +269,9 @@ export const TechSpecs: React.FC = () => {
                 <div className="text-xl md:text-2xl font-bold text-white">200+</div>
             </div>
         </div>
+
+      </div> {/* <--- AQUI ESTAVA O ERRO! ESTA DIV ESTAVA FALTANDO */}
+
     </section>
   );
 };
