@@ -235,11 +235,16 @@ export const About: React.FC = () => {
         <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32 relative mb-32">
             
             {/* Connecting Line (Desktop) - The "Rail" */}
+            
+            {/* 1. VISUAL FIX: Background Blocker (The "Cleaner") */}
+            {/* This div sits BEHIND the rail and erases the background grid lines to prevent visual conflict/double lines */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-12 -translate-y-1/2 bg-[#050505] blur-xl z-0 pointer-events-none opacity-90" />
+            
             <motion.div 
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
                 transition={{ duration: 1.5, ease: "circOut" }}
-                className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/5 -translate-y-1/2 z-0 overflow-hidden rounded-full origin-left"
+                className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/10 -translate-y-1/2 z-0 overflow-hidden rounded-full origin-left"
             >
                 {/* The Active Beam moving across */}
                 <motion.div 
