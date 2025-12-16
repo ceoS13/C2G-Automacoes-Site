@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MessageSquare, Rocket, Lock, Settings, Sparkles } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
@@ -159,7 +160,7 @@ export const Solutions: React.FC = () => {
             Nossos Agentes
           </h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Não contrate mais funcionários. Contrate inteligência que gera receita.
+            Adicione inteligência autônoma ao seu ecossistema de negócios.
           </p>
         </div>
 

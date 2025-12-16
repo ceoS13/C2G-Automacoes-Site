@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Bot, Loader2, Database, CheckCircle2, Check, DollarSign, Headphones, Calendar } from 'lucide-react';
@@ -105,14 +106,14 @@ export const ChatDemo: React.FC = () => {
                 </span>
                 </h2>
                 <p className="text-base md:text-xl text-zinc-400 mb-8 leading-relaxed">
-                Substitua tarefas manuais repetitivas por agentes que não dormem, não erram e custam uma fração de um funcionário. Nossos sistemas operam seu Financeiro, Logística e Vendas com autonomia de Nível 4.
+                Delegue tarefas manuais para agentes que operam 24/7, com precisão consistente e alta eficiência de custos. Nossos sistemas orquestram seu Financeiro, Logística e Vendas com autonomia de Nível 4, permitindo que sua empresa cresça sem gargalos operacionais.
                 </p>
                 
                 <ul className="space-y-4">
                     <li className="flex items-center gap-4 text-zinc-300">
                         <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0"><Database size={24} /></div>
                         <div>
-                        <h4 className="font-bold text-sm md:text-base">Elimine Erro Humano</h4>
+                        <h4 className="font-bold text-sm md:text-base">Maximize a Precisão Operacional</h4>
                         <p className="text-xs md:text-sm text-zinc-500">Dados cruzados entre WhatsApp, E-mail e ERP sem falhas de digitação.</p>
                         </div>
                     </li>

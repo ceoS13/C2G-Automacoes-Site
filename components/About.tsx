@@ -281,7 +281,7 @@ export const About: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-24 gap-x-8 max-w-6xl mx-auto pt-10">
           <TeamCard 
             name="Guilherme C."
-            description="Mente por trás da engenharia, Guilherme C. é o arquiteto de soluções de IA. Especialista em construir as robustas e inovadoras arquiteturas multiagente que são o coração da C2G."
+            description="Idealizador por trás da engenharia, Guilherme C. é o arquiteto de soluções de IA. Especialista em construir as robustas e inovadoras arquiteturas multiagente que são o coração da C2G."
             imageSrc="https://lh3.googleusercontent.com/d/12YdaYeZh-7ZUe-GOKvK0za10O68mYOd3"
             delay="0"
           />
