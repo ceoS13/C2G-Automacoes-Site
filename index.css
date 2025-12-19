@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,12 +6,16 @@
 @layer base {
   html {
     touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
   }
   body {
     background-color: #050505;
     color: #ffffff;
     cursor: default;
     overflow-x: hidden;
+    /* Reduz overhead de antialiasing em alguns sistemas */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   /* Custom Scrollbar */
@@ -27,29 +32,30 @@
 }
 
 @layer components {
-  /* Glassmorphism Utilities - Darker Smoke Glass */
+  /* Glassmorphism Utilities - Otimizado para performance */
   .glass-panel {
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(10, 10, 10, 0.7);
+    /* Blur reduzido de 20px para 8px para diminuir "Other Time" no Linux */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    /* Força aceleração de hardware */
+    transform: translateZ(0);
+    will-change: transform, opacity;
   }
   
   .glass-panel:hover {
-    background: rgba(20, 20, 20, 0.7);
-    border: 1px solid rgba(6, 182, 212, 0.2); /* Cyan border hint */
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+    background: rgba(15, 15, 15, 0.8);
+    border: 1px solid rgba(6, 182, 212, 0.2);
   }
 }
 
 @layer utilities {
-  /* Glow Text - Cyan */
   .text-glow {
-    text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+    /* Otimizado: Filtros de texto são pesados, use sparingly */
+    text-shadow: 0 0 15px rgba(6,182,212,0.3);
   }
   
-  /* Utilities for hiding scrollbar but allowing scroll */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -60,5 +66,12 @@
 
   .preserve-3d {
     transform-style: preserve-3d;
+  }
+
+  /* GPU Layer Promotion */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
