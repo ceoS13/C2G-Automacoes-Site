@@ -119,7 +119,9 @@ export const TechSpecs: React.FC = () => {
                                   {isActive && <div className="absolute inset-0 rounded-2xl border border-cyan-400/30 animate-pulse" />}
                               </div>
                               <div className="mt-4 text-center">
-                                  <span className={`block text-[10px] font-mono px-2 py-1 rounded-full border transition-all duration-300 uppercase tracking-wider ${isActive ? 'bg-cyan-950/20 border-cyan-500/30 text-cyan-400' : 'bg-transparent border-transparent text-zinc-600 group-hover:text-zinc-400'}`}>{node.short}</span>
+                                  <span className={`block text-[10px] font-mono px-3 py-1 rounded-full border transition-all duration-300 uppercase tracking-widest ${isActive ? 'bg-cyan-950/30 border-cyan-500/50 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'bg-white/5 border-white/10 text-zinc-500 group-hover:border-white/20 group-hover:text-zinc-300'}`}>
+                                    {node.short}
+                                  </span>
                               </div>
                           </div>
 
