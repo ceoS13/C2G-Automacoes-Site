@@ -16,51 +16,61 @@
     <title>C2G Automações</title>
     <meta name="description" content="Ecossistemas de negócios autônomos. Transforme custos fixos em receita com agentes de IA que prospectam, vendem e atendem 24/7." />
     
-    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- CRITICAL CSS INLINE FOR PERFORMANCE -->
+    <style>
+      :root { --bg-color: #050505; }
+      body { background-color: var(--bg-color); margin: 0; padding: 0; color: #fff; font-family: sans-serif; }
+      #root { min-height: 100vh; }
+      .critical-hide { content-visibility: auto; contain-intrinsic-size: 1px 500px; }
+      @keyframes shine {
+        0% { left: -100%; opacity: 0; }
+        5% { opacity: 0.5; }
+        20% { left: 100%; opacity: 0.5; }
+        21% { opacity: 0; }
+        100% { left: 100%; opacity: 0; }
+      }
+    </style>
+
+    <!-- PERFORMANCE: PRECONNECT & PRELOAD -->
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- PRELOAD LCP IMAGE (Watermark) -->
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1a7v7opGKCyBswnFPse_lDUfuTKzKQhuB&output=webp&q=80&w=1200" fetchpriority="high" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="C2G Automações | A Força de Trabalho Digital" />
     <meta property="og:description" content="Engenharia de software aplicada a inteligência artificial. Automatize vendas, atendimento e processos com agentes autônomos." />
     <meta property="og:image" content="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=1200&h=630&fit=contain&bg=050505&output=png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="C2G Automações | Engenharia de Agentes de IA" />
-    <meta name="twitter:description" content="Ecossistemas de negócios autônomos. A inteligência que trabalha." />
-    <meta name="twitter:image" content="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=1200&h=630&fit=contain&bg=050505&output=png" />
-
-    <!-- Performance Optimization -->
-    <link rel="preconnect" href="https://wsrv.nl" />
-    <!-- Updated Favicon: Added &trim=20 to remove empty borders and force 'zoom' beyond limits -->
-    <link rel="icon" href="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=128&h=128&fit=cover&a=top&trim=20&output=png" type="image/png">
-    
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <script type="importmap">
-{
-  "imports": {
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "tailwindcss": "https://esm.sh/tailwindcss@^4.1.18",
-    "react-scroll": "https://esm.sh/react-scroll@^1.9.3",
-    "aos/": "https://esm.sh/aos@^2.3.4/",
-    "aos": "https://esm.sh/aos@^2.3.4",
-    "@vercel/speed-insights": "https://esm.sh/@vercel/speed-insights@^1.3.1"
-  }
-}
-</script>
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <link rel="icon" href="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=128&h=128&fit=cover&a=top&trim=20&output=png" type="image/png">
+
+    <script type="importmap">
+    {
+      "imports": {
+        "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+        "vite": "https://esm.sh/vite@^7.3.0",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
+        "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "tailwindcss": "https://esm.sh/tailwindcss@^4.1.18",
+        "react-scroll": "https://esm.sh/react-scroll@^1.9.3",
+        "aos/": "https://esm.sh/aos@^2.3.4/",
+        "aos": "https://esm.sh/aos@^2.3.4",
+        "@vercel/speed-insights": "https://esm.sh/@vercel/speed-insights@^1.3.1"
+      }
+    }
+    </script>
+  </head>
   <body>
     <div id="root"></div>
-    <!-- Vite Entry Point -->
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

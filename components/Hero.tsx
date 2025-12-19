@@ -9,7 +9,6 @@ import { getOptimizedImageUrl } from '../lib/utils';
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   
-  // Parallax Values - Optimized with will-change in CSS
   const yTitle = useTransform(scrollY, [0, 500], [0, 50]);
   const yText = useTransform(scrollY, [0, 500], [0, 100]);
   const yButtons = useTransform(scrollY, [0, 500], [0, 150]);
@@ -26,10 +25,8 @@ export const Hero: React.FC = () => {
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       
-      {/* 1. Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-900/20 via-black to-black md:hidden -z-10" aria-hidden="true" />
 
-      {/* Optimized Background Animations with will-change */}
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
@@ -53,17 +50,8 @@ export const Hero: React.FC = () => {
         aria-hidden="true"
       />
 
-      {/* Logo Watermark - High Priority LCP Candidate */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none" aria-hidden="true">
-        
-        {/* 
-           Mask Wrapper: CORREÇÃO DO QUADRADO 
-           Ajustei o degradê para 'transparent_70%'. Isso força o fade-out a acontecer
-           DENTRO do quadrado, eliminando as bordas retas visíveis durante o blur.
-        */}
         <div className="w-full h-full [mask-image:radial-gradient(circle,black_30%,transparent_70%)]">
-            
-            {/* Camada Externa: Responsável pela ENTRADA (Blur -> Nítido) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
               animate={{ 
@@ -77,7 +65,6 @@ export const Hero: React.FC = () => {
               }}
               className="w-full h-full will-change-[opacity,filter,transform]"
             >
-               {/* Camada Interna: Responsável pelo LOOP (Respiração) */}
                <motion.div
                  animate={{ scale: [1, 1.05, 1] }}
                  transition={{ 
@@ -89,12 +76,11 @@ export const Hero: React.FC = () => {
                >
                   <img 
                       src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)} 
-                      alt="C2G Watermark" 
+                      alt="" 
                       className="w-full h-full object-contain mix-blend-screen" 
                       width="1200"
                       height="1200"
-                      // @ts-ignore
-                      fetchPriority="high"
+                      fetchpriority="high"
                       loading="eager"
                       decoding="sync"
                   />
@@ -103,11 +89,9 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Neural Network Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none" aria-hidden="true" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
-        
         <div 
             data-aos="fade-down"
             data-aos-duration="1500"
@@ -155,7 +139,6 @@ export const Hero: React.FC = () => {
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               type="button"
               className="group relative px-6 py-3.5 md:px-8 md:py-4 bg-zinc-100 text-black font-bold text-base md:text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
-              // Scroll to Pricing section
               onClick={() => scrollToSection('pricing')}
               aria-label="Automatizar Minha Empresa (Ver Preços)"
             >
@@ -177,7 +160,6 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Abstract Footer Decoration */}
       <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" aria-hidden="true" />
     </header>
   );

@@ -1,29 +1,35 @@
+
 import { WHATSAPP_LINK } from './constants';
 
 export const openWhatsApp = () => {
-  // Security Fix: Explicit feature strings
   window.open(WHATSAPP_LINK, '_blank', 'noopener=yes,noreferrer=yes');
 };
 
 /**
- * Otimiza imagens do Google Drive usando o proxy gratuito wsrv.nl (antigo images.weserv.nl).
- * - Converte para WebP (mais leve).
- * - Redimensiona para o tamanho necessário (economiza dados).
- * - Faz cache em CDN global (Cloudflare).
+ * Otimiza imagens do Google Drive usando o proxy gratuito wsrv.nl.
+ * Implementa lógica de dimensionamento inteligente para mobile.
  */
 export const getOptimizedImageUrl = (url: string, width?: number, height?: number, crop: boolean = false) => {
   if (!url) return '';
   
-  // Passamos a URL completa (com https://) para garantir que o proxy consiga resolver o Google Drive corretamente
-  const cleanUrl = url;
+  // Detecção básica de mobile para reduzir largura se não especificado
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  // Parâmetros base: output webp, qualidade 80%
-  let query = `?url=${cleanUrl}&output=webp&q=80`;
+  let targetWidth = width;
   
-  if (width) query += `&w=${width}`;
+  // Se estiver no mobile e pedir uma imagem muito grande, reduzimos para economizar bytes
+  if (isMobile && width && width > 800) {
+    targetWidth = 800;
+  } else if (isMobile && !width) {
+    targetWidth = 480; // Default seguro para mobile
+  }
+
+  // Parâmetros base: output webp, qualidade 80% (Sweet spot performance/qualidade)
+  let query = `?url=${url}&output=webp&q=80`;
+  
+  if (targetWidth) query += `&w=${targetWidth}`;
   if (height) query += `&h=${height}`;
   
-  // Se for crop (ex: fotos de perfil), foca no topo (rosto) e corta
   if (crop) query += `&fit=cover&a=top`;
 
   return `https://wsrv.nl/${query}`;

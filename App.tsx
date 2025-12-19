@@ -1,27 +1,23 @@
+
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import AOS from 'aos';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { ChatDemo } from './components/ChatDemo';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
-// Eager Load (Carregamento Padrão)
-import { ChatDemo } from './components/ChatDemo';
-import { Solutions } from './components/Solutions';
-import { BentoGrid } from './components/BentoGrid';
-import { TechSpecs } from './components/TechSpecs';
-import { Partners } from './components/Partners';
-import { Pricing } from './components/Pricing';
-import { ImplementationJourney } from './components/ImplementationJourney';
-import { About } from './components/About';
-import { FAQ } from './components/FAQ';
-import { Footer } from './components/Footer';
+// Lazy Loading para componentes abaixo da dobra para reduzir o JS inicial
+const Solutions = React.lazy(() => import('./components/Solutions').then(m => ({ default: m.Solutions })));
+const BentoGrid = React.lazy(() => import('./components/BentoGrid').then(m => ({ default: m.BentoGrid })));
+const TechSpecs = React.lazy(() => import('./components/TechSpecs').then(m => ({ default: m.TechSpecs })));
+const Partners = React.lazy(() => import('./components/Partners').then(m => ({ default: m.Partners })));
+const Pricing = React.lazy(() => import('./components/Pricing').then(m => ({ default: m.Pricing })));
+const ImplementationJourney = React.lazy(() => import('./components/ImplementationJourney').then(m => ({ default: m.ImplementationJourney })));
+const About = React.lazy(() => import('./components/About').then(m => ({ default: m.About })));
+const FAQ = React.lazy(() => import('./components/FAQ').then(m => ({ default: m.FAQ })));
+const Footer = React.lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
+const TermsPage = React.lazy(() => import('./components/TermsPage').then(module => ({ default: module.TermsPage })));
 
-// Mantemos Lazy Load apenas para páginas/modais secundários
-const TermsPage = React.lazy(() => 
-  import('./components/TermsPage').then(module => ({ default: module.TermsPage }))
-);
-
-// Define AOS type globally for debugging access via window.AOS
 declare global {
   interface Window {
     AOS: typeof AOS;
@@ -35,21 +31,17 @@ const App: React.FC = () => {
   const [targetTermsSection, setTargetTermsSection] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    // 1. Configuração do Scroll
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // 2. Inicialização do AOS (Migrado para NPM)
     AOS.init({
       duration: 1000,
-      once: true, // Anima apenas uma vez para melhor performance
+      once: true,
       easing: 'ease-out-cubic',
       offset: 50, 
     });
 
-    // Expose AOS to window for debugging or legacy checks
     window.AOS = AOS;
     
-    // Garante que o layout esteja calculado e força refresh inicial
     const timer = setTimeout(() => {
       AOS.refresh();
     }, 500);
@@ -67,7 +59,6 @@ const App: React.FC = () => {
     setTargetTermsSection(undefined);
     window.scrollTo(0, 0);
     
-    // Força refresh do AOS ao voltar para Home
     setTimeout(() => {
         AOS.refreshHard();
     }, 100);
@@ -85,19 +76,22 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       
-      {/* Renderização Direta */}
+      {/* Componentes Críticos (Eager Load) */}
       <Hero />
       <ChatDemo />
-      <Solutions />
-      <BentoGrid />
-      <TechSpecs />
-      <Partners />
-      <Pricing />
-      <ImplementationJourney />
-      <About />
-      <FAQ />
-      <Footer onTermsClick={handleNavigateToTerms} />
 
+      {/* Componentes Não Críticos (Lazy Load com Suspense para evitar layout shift) */}
+      <Suspense fallback={<div className="h-96 bg-[#050505]" />}>
+        <Solutions />
+        <div className="critical-hide"><BentoGrid /></div>
+        <div className="critical-hide"><TechSpecs /></div>
+        <Partners />
+        <Pricing />
+        <ImplementationJourney />
+        <About />
+        <FAQ />
+        <Footer onTermsClick={handleNavigateToTerms} />
+      </Suspense>
     </div>
   );
 };
