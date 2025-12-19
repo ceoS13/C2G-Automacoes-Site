@@ -2,13 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { SpeedInsights } from "@vercel/speed-insights/react";
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
 // Import Global CSS (Tailwind)
 import './index.css';
 
 // Import AOS Styles
 import 'aos/dist/aos.css';
+
+// Initialize Vercel Speed Insights
+injectSpeedInsights();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -19,6 +22,5 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <App />
-    <SpeedInsights />
   </React.StrictMode>
 );

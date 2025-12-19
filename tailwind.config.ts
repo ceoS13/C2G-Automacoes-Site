@@ -1,4 +1,3 @@
-
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -29,7 +28,7 @@ const config: Config = {
         'float-subtle': 'float-subtle 6s ease-in-out infinite',
         'meteor': 'meteor 5s linear infinite',
         'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
-        'pulse-glow-fast': 'pulse-glow 2s ease-in-out infinite',
+        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
         'shine': 'shine 5s ease-in-out infinite',
         'grid-scroll': 'grid-scroll 20s linear infinite',
         'text-shimmer': 'text-shimmer 5s ease-in-out infinite',
@@ -57,8 +56,8 @@ const config: Config = {
           },
         },
         'pulse-glow': {
-          '0%, 100%': { opacity: '0.3' },
-          '50%': { opacity: '0.7' },
+          '0%, 100%': { boxShadow: '0 0 20px -5px rgba(6,182,212,0.3)', borderColor: 'rgba(6,182,212,0.3)' },
+          '50%': { boxShadow: '0 0 40px -5px rgba(6,182,212,0.6)', borderColor: 'rgba(6,182,212,0.8)' },
         },
         'shine': {
           '0%': { left: '-100%', opacity: '0' },
