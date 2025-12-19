@@ -1,9 +1,13 @@
+
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
     "./index.html",
-    "./**/*.{js,ts,jsx,tsx}",
+    "./*.{js,ts,jsx,tsx}",           // Arquivos na raiz (App.tsx, index.tsx, etc)
+    "./components/**/*.{js,ts,jsx,tsx}", // Pasta de componentes
+    "./lib/**/*.{js,ts,jsx,tsx}",        // Pasta de utilitários
+    "./data/**/*.{js,ts,jsx,tsx}",       // Pasta de dados/configurações
   ],
   theme: {
     extend: {

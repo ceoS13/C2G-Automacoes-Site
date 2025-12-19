@@ -79,7 +79,7 @@ export const Hero: React.FC = () => {
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel mb-8 bg-black/50"
         >
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-[10px] font-mono text-cyan-200/80 uppercase tracking-widest">SISTEMA: OTIMIZADO</span>
+            <span className="text-[10px] font-mono text-cyan-200/80 uppercase tracking-widest">ONLINE</span>
         </div>
 
         <motion.div style={{ y: yTitle }} className="will-change-transform">
