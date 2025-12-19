@@ -5,14 +5,27 @@
 @layer base {
   html {
     touch-action: manipulation;
+    /* Melhora a legibilidade e performance de renderização de texto */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  
   body {
     background-color: #050505;
     color: #ffffff;
     cursor: default;
     overflow-x: hidden;
+    /* Evita jitter em scrolls rápidos */
+    overscroll-behavior-y: none;
   }
   
+  /* Força aceleração de hardware em elementos críticos */
+  img, svg, canvas {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
@@ -27,29 +40,34 @@
 }
 
 @layer components {
-  /* Glassmorphism Utilities - Darker Smoke Glass */
   .glass-panel {
     background: rgba(10, 10, 10, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    /* Dica para o navegador que este elemento terá transformações */
+    will-change: transform, opacity;
   }
   
-  .glass-panel:hover {
-    background: rgba(20, 20, 20, 0.7);
-    border: 1px solid rgba(6, 182, 212, 0.2); /* Cyan border hint */
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+  /* Otimização de Performance: Content Visibility */
+  /* Isso faz com que o navegador não renderize a seção até que ela chegue perto do viewport */
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+  }
+
+  /* Exceção para a Hero para evitar pop-in visual */
+  header, section:first-of-type {
+    content-visibility: visible;
   }
 }
 
 @layer utilities {
-  /* Glow Text - Cyan */
   .text-glow {
     text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
   }
   
-  /* Utilities for hiding scrollbar but allowing scroll */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -60,5 +78,11 @@
 
   .preserve-3d {
     transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+  
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
   }
 }
