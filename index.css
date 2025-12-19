@@ -8,28 +8,58 @@
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
     background-color: #050505;
+    scroll-behavior: smooth;
   }
+  
   body {
     background-color: #050505;
     color: #ffffff;
     cursor: default;
     overflow-x: hidden;
+    /* Melhor renderização de fontes em Windows (Cleartype) e macOS */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Scrollbar Customizado (Windows/Chrome/Safari) */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #050505;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #06b6d4; /* Cyan 500 */
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  }
+
+  /* Otimização de Performance */
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+  }
+  
+  header {
+    content-visibility: visible;
   }
 }
 
 @layer components {
-  /* Ultra-Optimized Glass Panel */
   .glass-panel {
     background: rgba(10, 10, 10, 0.8);
-    /* Blur reduzido para o mínimo funcional (4px) para salvar a GPU no Linux */
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    /* Layer Promotion */
     transform: translateZ(0);
-    backface-visibility: hidden;
     will-change: transform;
   }
 }
@@ -39,9 +69,5 @@
     transform: translateZ(0);
     backface-visibility: hidden;
     will-change: transform, opacity;
-  }
-  
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
   }
 }

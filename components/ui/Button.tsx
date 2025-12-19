@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
@@ -14,10 +15,10 @@ export const Button: React.FC<ButtonProps> = ({
   icon = false, 
   fullWidth = false,
   className = '',
-  type = 'button', // Default type to button for accessibility
+  type = 'button',
   ...props 
 }) => {
-  const baseStyles = "inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a]";
+  const baseStyles = "inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 transform active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]";
   
   const variants = {
     primary: "bg-gradient-to-r from-blue-700 to-cyan-500 hover:from-blue-600 hover:to-cyan-400 text-white shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] border border-transparent hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)]",
@@ -29,11 +30,11 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button 
       type={type}
-      className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className} gpu-accelerated`}
       {...props}
     >
       {children}
-      {icon && <ArrowRight size={18} />}
+      {icon && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
     </button>
   );
 };
