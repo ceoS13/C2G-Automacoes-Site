@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import AOS from 'aos';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
+// Eager Load (Carregamento Padrão)
 import { ChatDemo } from './components/ChatDemo';
 import { Solutions } from './components/Solutions';
 import { BentoGrid } from './components/BentoGrid';
@@ -16,10 +16,12 @@ import { About } from './components/About';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 
+// Mantemos Lazy Load apenas para páginas/modais secundários
 const TermsPage = React.lazy(() => 
   import('./components/TermsPage').then(module => ({ default: module.TermsPage }))
 );
 
+// Define AOS type globally for debugging access via window.AOS
 declare global {
   interface Window {
     AOS: typeof AOS;
@@ -33,22 +35,24 @@ const App: React.FC = () => {
   const [targetTermsSection, setTargetTermsSection] = useState<string | undefined>(undefined);
 
   useEffect(() => {
+    // 1. Configuração do Scroll
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // Otimização AOS: Desativar em mobile se necessário ou reduzir frequência
+    // 2. Inicialização do AOS (Migrado para NPM)
     AOS.init({
-      duration: 800,
-      once: true,
-      easing: 'ease-out',
-      offset: 50,
-      disable: window.innerWidth < 768, // Desativa AOS em mobile para ganho massivo de FPS
+      duration: 1000,
+      once: true, // Anima apenas uma vez para melhor performance
+      easing: 'ease-out-cubic',
+      offset: 50, 
     });
 
+    // Expose AOS to window for debugging or legacy checks
     window.AOS = AOS;
     
+    // Garante que o layout esteja calculado e força refresh inicial
     const timer = setTimeout(() => {
       AOS.refresh();
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -62,6 +66,8 @@ const App: React.FC = () => {
     setCurrentView('home');
     setTargetTermsSection(undefined);
     window.scrollTo(0, 0);
+    
+    // Força refresh do AOS ao voltar para Home
     setTimeout(() => {
         AOS.refreshHard();
     }, 100);
@@ -78,6 +84,8 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
+      
+      {/* Renderização Direta */}
       <Hero />
       <ChatDemo />
       <Solutions />
@@ -89,6 +97,7 @@ const App: React.FC = () => {
       <About />
       <FAQ />
       <Footer onTermsClick={handleNavigateToTerms} />
+
     </div>
   );
 };

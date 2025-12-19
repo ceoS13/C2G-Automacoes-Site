@@ -1,13 +1,11 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Import Global CSS (Tailwind)
 import './index.css';
 
-// Import AOS Styles
+// Import AOS Styles (installed via npm)
 import 'aos/dist/aos.css';
 
 const rootElement = document.getElementById('root');
@@ -19,6 +17,5 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <App />
-    <SpeedInsights />
   </React.StrictMode>
 );

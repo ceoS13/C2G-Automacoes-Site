@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,68 +5,60 @@
 @layer base {
   html {
     touch-action: manipulation;
-    -webkit-text-size-adjust: 100%;
-    background-color: #050505;
-    scroll-behavior: smooth;
   }
-  
   body {
     background-color: #050505;
     color: #ffffff;
     cursor: default;
     overflow-x: hidden;
-    /* Melhor renderização de fontes em Windows (Cleartype) e macOS */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
   }
-
-  /* Scrollbar Customizado (Windows/Chrome/Safari) */
+  
+  /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
   }
-
   ::-webkit-scrollbar-track {
     background: #050505;
   }
-
   ::-webkit-scrollbar-thumb {
-    background: #1a1a1a;
-    border-radius: 10px;
-    transition: background 0.3s ease;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #06b6d4; /* Cyan 500 */
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-  }
-
-  /* Otimização de Performance */
-  section {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 500px;
-  }
-  
-  header {
-    content-visibility: visible;
+    background: #333;
+    border-radius: 3px;
   }
 }
 
 @layer components {
+  /* Glassmorphism Utilities - Darker Smoke Glass */
   .glass-panel {
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    transform: translateZ(0);
-    will-change: transform;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  .glass-panel:hover {
+    background: rgba(20, 20, 20, 0.7);
+    border: 1px solid rgba(6, 182, 212, 0.2); /* Cyan border hint */
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
   }
 }
 
 @layer utilities {
-  .gpu-accelerated {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform, opacity;
+  /* Glow Text - Cyan */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+  }
+  
+  /* Utilities for hiding scrollbar but allowing scroll */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
   }
 }

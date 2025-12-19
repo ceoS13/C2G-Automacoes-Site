@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Check, Building2, ArrowRight, Activity } from 'lucide-react';
 import { CONSULTANT_NUMBER, ISIS_NUMBER } from '../lib/constants';
@@ -16,7 +15,7 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
 
   return (
     <article 
-      className={`relative rounded-3xl flex flex-col h-full transition-all duration-300 animate-float-subtle group/card will-change-transform gpu-accelerated`}
+      className={`relative rounded-3xl flex flex-col h-full transition-all duration-300 animate-float-subtle group/card will-change-transform`}
       style={{ animationDelay: floatDelay }}
       data-aos="fade-up"
       data-aos-delay={delay}
@@ -28,24 +27,26 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
           </div>
       )}
 
-      {/* Optimized Glow Effect (GPU Layer) */}
-      {highlight && (
-        <div className="absolute inset-0 -m-[2px] rounded-[26px] bg-cyan-500/40 blur-md opacity-0 animate-pulse-glow pointer-events-none z-0" />
-      )}
-
       {/* Inner Card Container */}
-      <div className={`relative h-full flex flex-col p-8 rounded-3xl overflow-hidden border transition-all duration-500 z-10
+      <div className={`relative h-full flex flex-col p-8 rounded-3xl overflow-hidden border transition-all duration-500
           ${highlight 
-              ? 'bg-[#0a0a0a] border-cyan-500/40 shadow-2xl shadow-cyan-900/10' 
+              ? 'bg-[#0a0a0a] border-cyan-500/30 shadow-2xl shadow-cyan-900/20 z-10 animate-pulse-glow' 
               : 'bg-[#0a0a0a]/50 border-white/10 hover:border-white/20'
           }
       `}>
           
-          {/* Animated Tech Grid Background - Reduced opacity for performance */}
+          {/* Animated Tech Grid Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
-              <div className={`absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] ${highlight ? 'opacity-20' : 'opacity-10'}`} />
+              <div className={`absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-scroll ${highlight ? 'opacity-30' : 'opacity-10'}`} />
               <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
           </div>
+
+          {/* Highlight Effects - Background Spinner */}
+          {highlight && (
+              <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none z-0" aria-hidden="true">
+                  <div className="absolute -inset-[100%] bg-[conic-gradient(from_90deg_at_50%_50%,#0000_0%,#06b6d4_50%,#0000_100%)] animate-[spin_4s_linear_infinite] opacity-10" />
+              </div>
+          )}
 
           <div className="relative z-10 flex flex-col h-full">
               <header className="mb-2 flex items-center gap-2">
@@ -103,19 +104,26 @@ export const Pricing: React.FC = () => {
   };
 
   return (
-    <section id="pricing" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden [contain:content]">
+    <section id="pricing" className="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
       
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.1)_0%,transparent:70%)] pointer-events-none z-0" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.12)_0%,transparent_70%)] pointer-events-none z-0" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] pointer-events-none z-0" aria-hidden="true" />
       
+      {/* Feathering Gradients */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
+
       <div className="max-w-[100rem] mx-auto px-6 md:px-8 relative z-10">
         
         {/* Header */}
         <header className="text-center mb-16 relative" data-aos="fade-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
-                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0:10px_rgba(34,211,238,0.5)]" />
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
                 <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Análise de Custos: Online</span>
             </div>
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-32 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent blur-xl animate-[pulse_4s_ease-in-out_infinite] -z-10" aria-hidden="true" />
 
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Realidade <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400"><HyperText text="Comercial" /></span>
@@ -132,9 +140,9 @@ export const Pricing: React.FC = () => {
             <PricingCard key={plan.id} {...plan} />
           ))}
 
-          {/* Enterprise Card - Optimized */}
+          {/* Enterprise Card - Custom Layout */}
           <article 
-            className="relative rounded-3xl flex flex-col h-full bg-[#0a0a0a] border border-zinc-800 px-5 py-8 transition-all duration-300 hover:border-white/30 animate-float-subtle group/card overflow-hidden gpu-accelerated"
+            className="relative rounded-3xl flex flex-col h-full bg-[#0a0a0a] border border-zinc-800 px-5 py-8 transition-all duration-300 hover:border-white/30 animate-float-subtle group/card overflow-hidden"
             style={{ animationDelay: "3s" }}
             data-aos="fade-up"
             data-aos-delay="300"
@@ -175,6 +183,7 @@ export const Pricing: React.FC = () => {
 
         </div>
         
+        {/* Footer Note */}
         <div className="mt-12 text-center" data-aos="fade-up" data-aos-delay="400">
             <p className="text-zinc-500 text-sm flex items-center justify-center gap-2">
                 <Activity size={14} className="text-emerald-500" aria-hidden="true" />

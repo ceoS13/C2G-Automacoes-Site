@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Activity } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const AnalyticsWidget = () => {
-    const pointsCount = 20; // Reduzido de 25 para 20
+    const pointsCount = 25;
     const width = 500;
     const height = 200;
     const stepX = width / (pointsCount - 1);
@@ -14,35 +13,34 @@ export const AnalyticsWidget = () => {
     const [savings, setSavings] = useState(12.1);
     
     useEffect(() => {
-        const initialNoise = Array.from({ length: pointsCount }, () => (Math.random() * 30 - 15));
+        const initialNoise = Array.from({ length: pointsCount }, () => (Math.random() * 40 - 20));
         setNoiseData(initialNoise);
     }, []);
 
     useEffect(() => {
-        // Aumentado o intervalo de 1.2s para 3s para reduzir "Other Time"
         const interval = setInterval(() => {
             setNoiseData(prev => {
                 const next = [...prev];
                 next.shift();
-                next.push((Math.random() * 40 - 20)); 
+                next.push((Math.random() * 50 - 25)); 
                 return next;
             });
             setRoi(prev => {
-                const change = Math.floor(Math.random() * 10) - 5; 
+                const change = Math.floor(Math.random() * 15) - 7; 
                 let next = prev + change;
                 if (next > 490) next = 490;
                 if (next < 420) next = 420;
                 return next;
             });
             setSavings(prev => {
-                const change = (Math.random() * 0.2) - 0.1; 
+                const change = (Math.random() * 0.4) - 0.2; 
                 let next = prev + change;
                 if (next > 13.5) next = 13.5;
                 if (next < 11.0) next = 11.0;
                 return next;
             });
 
-        }, 3000);
+        }, 1200);
         return () => clearInterval(interval);
     }, []);
 
@@ -66,12 +64,8 @@ export const AnalyticsWidget = () => {
             fillD = `M ${points[0].x},${points[0].y}`;
             
             for (let i = 1; i < points.length; i++) {
-                // Usando Curvas de Bezier suaves para reduzir a complexidade visual do path
-                const prev = points[i - 1];
-                const curr = points[i];
-                const cp1x = prev.x + (curr.x - prev.x) / 2;
-                d += ` C ${cp1x},${prev.y} ${cp1x},${curr.y} ${curr.x},${curr.y}`;
-                fillD += ` C ${cp1x},${prev.y} ${cp1x},${curr.y} ${curr.x},${curr.y}`;
+                d += ` L ${points[i].x},${points[i].y}`;
+                fillD += ` L ${points[i].x},${points[i].y}`;
             }
             
             fillD += ` L ${width},${height} L 0,${height} Z`;
@@ -85,13 +79,14 @@ export const AnalyticsWidget = () => {
     };
 
     return (
-        <div className="h-full flex flex-col relative overflow-hidden z-10 min-h-[220px] md:min-h-0 [contain:strict]">
+        <div className="h-full flex flex-col relative overflow-hidden z-10 min-h-[220px] md:min-h-0">
              <div className="flex items-center justify-between p-4 md:p-5 relative z-20">
                 <div className="flex gap-8">
                     <div>
                         <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-mono">ROI Atual</div>
                         <div className="text-2xl md:text-3xl font-bold text-emerald-400 flex items-center gap-2">
                           {roi}%
+                          <Activity size={16} className="animate-pulse" />
                         </div>
                     </div>
                     <div>
@@ -107,13 +102,14 @@ export const AnalyticsWidget = () => {
                 <svg viewBox="0 0 500 200" className="w-full h-full preserve-3d absolute bottom-0" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="financial-gradient" x1="0" x2="0" y1="0" y2="1">
-                            <stop offset="0%" stopColor="#10b981" stopOpacity="0.2" />
-                            <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                            <stop offset="0%" stopColor="#34d399" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="#34d399" stopOpacity="0" />
                         </linearGradient>
                     </defs>
-                    <path d={fillD} fill="url(#financial-gradient)" className="transition-all duration-1000" />
-                    <path d={d} fill="none" stroke="#10b981" strokeWidth="2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" className="transition-all duration-1000"/>
-                    <motion.circle cx={lastPoint.x} cy={lastPoint.y} r="3" fill="#fff" />
+                    <path d={fillD} fill="url(#financial-gradient)" className="transition-none" />
+                    <path d={d} fill="none" stroke="#34d399" strokeWidth="2" strokeLinejoin="miter" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_rgba(52,211,153,0.5)] transition-none"/>
+                    <motion.circle cx={lastPoint.x} cy={lastPoint.y} r="3" fill="#fff" animate={{ y: [-2, 2, -1, 3, 0], opacity: [1, 0.7, 1]}} transition={{ duration: 0.5, repeat: Infinity, repeatType: "mirror" }}/>
+                    <motion.circle cx={lastPoint.x} cy={lastPoint.y} r="8" fill="#34d399" opacity="0.4" animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 0.5, repeat: Infinity }}/>
                 </svg>
             </div>
         </div>
