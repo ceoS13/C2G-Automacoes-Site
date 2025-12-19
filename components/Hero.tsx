@@ -9,10 +9,8 @@ import { getOptimizedImageUrl } from '../lib/utils';
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   
-  // Usando Spring para suavizar o scroll sem forçar re-renders bruscos
   const smoothY = useSpring(scrollY, { stiffness: 100, damping: 30, restDelta: 0.001 });
   
-  // Parallax Values - Otimizados para rodar na GPU
   const yTitle = useTransform(smoothY, [0, 500], [0, 50]);
   const yText = useTransform(smoothY, [0, 500], [0, 80]);
   const yButtons = useTransform(smoothY, [0, 500], [0, 120]);
@@ -27,12 +25,10 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0 [contain:content]">
+    <header id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0 [contain:content]">
       
-      {/* 1. Background Elements - Otimizados com will-change */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-900/10 via-black to-black md:hidden -z-10" aria-hidden="true" />
 
-      {/* Background Blobs - Simplificados para evitar Overdraw de GPU */}
       <div className="hidden md:block absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
           animate={{
@@ -44,19 +40,8 @@ export const Hero: React.FC = () => {
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] will-change-transform"
           aria-hidden="true"
         />
-        <motion.div
-          animate={{
-            x: [0, -30, 0],
-            y: [0, 20, 0],
-            opacity: [0.2, 0.3, 0.2],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 1 }}
-          className="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-blue-600/15 rounded-full blur-[100px] will-change-transform"
-          aria-hidden="true"
-        />
       </div>
 
-      {/* Logo Watermark - Otimização de Blur (Troca de Blur por Opacidade) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none" aria-hidden="true">
         <div className="w-full h-full [mask-image:radial-gradient(circle,black_30%,transparent_75%)]">
             <motion.div
@@ -76,7 +61,8 @@ export const Hero: React.FC = () => {
                       className="w-full h-full object-contain mix-blend-screen brightness-75" 
                       width="800"
                       height="800"
-                      fetchPriority="high"
+                      // Otimização Crítica: Avisa ao navegador que esta imagem é prioridade máxima
+                      fetchpriority="high"
                       loading="eager"
                       decoding="async"
                   />
@@ -85,7 +71,6 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Neural Network Grid - Otimizado com Opacidade Estática */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">

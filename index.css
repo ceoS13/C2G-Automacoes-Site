@@ -7,15 +7,17 @@
   html {
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
+    /* Previne shift de layout quando a scrollbar aparece */
+    scrollbar-gutter: stable;
   }
   body {
     background-color: #050505;
     color: #ffffff;
     cursor: default;
     overflow-x: hidden;
-    /* Reduz overhead de antialiasing em alguns sistemas */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
   /* Custom Scrollbar */
@@ -32,14 +34,11 @@
 }
 
 @layer components {
-  /* Glassmorphism Utilities - Otimizado para performance */
   .glass-panel {
     background: rgba(10, 10, 10, 0.7);
-    /* Blur reduzido de 20px para 8px para diminuir "Other Time" no Linux */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    /* Força aceleração de hardware */
     transform: translateZ(0);
     will-change: transform, opacity;
   }
@@ -48,11 +47,21 @@
     background: rgba(15, 15, 15, 0.8);
     border: 1px solid rgba(6, 182, 212, 0.2);
   }
+
+  /* Otimização de Performance: Ignora renderização de seções fora da tela */
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px; /* Hint de tamanho aproximado para evitar saltos no scroll */
+  }
+
+  /* Seções críticas que não devem ser otimizadas com content-visibility para evitar flicker no topo */
+  header, #hero, #chat-demo {
+    content-visibility: visible;
+  }
 }
 
 @layer utilities {
   .text-glow {
-    /* Otimizado: Filtros de texto são pesados, use sparingly */
     text-shadow: 0 0 15px rgba(6,182,212,0.3);
   }
   
@@ -68,7 +77,6 @@
     transform-style: preserve-3d;
   }
 
-  /* GPU Layer Promotion */
   .gpu-accelerated {
     transform: translateZ(0);
     backface-visibility: hidden;
