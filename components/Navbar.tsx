@@ -37,9 +37,7 @@ export const Navbar: React.FC = () => {
           x: "-50%",
           opacity: isVisible ? 1 : 0 
         }}
-        // Fix: Changed from custom bezier to standard easeOut for snappy finish (fixes blur delay)
         transition={{ duration: 0.3, ease: "easeOut" }}
-        // Fix: Added will-change-transform to force GPU layer promotion
         className="fixed top-4 md:top-6 left-1/2 w-[95%] md:w-full max-w-7xl z-50 will-change-transform"
       >
         <nav className="relative bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/10 rounded-full pl-4 pr-2 py-2 shadow-2xl shadow-black/50 flex items-center justify-between transition-all duration-300 hover:border-white/20 hover:shadow-black/70">
@@ -50,7 +48,6 @@ export const Navbar: React.FC = () => {
               type="button"
               className="cursor-pointer group focus:outline-none rounded-lg" 
               onClick={() => scroll.scrollToTop()}
-              // Animação de Mola (Spring) Premium
               whileHover={{ 
                 scale: 1.1,
                 transition: { type: "spring", stiffness: 400, damping: 10 }
@@ -71,7 +68,7 @@ export const Navbar: React.FC = () => {
                   to={link.href.replace('#', '')}
                   spy={true}
                   smooth={true}
-                  offset={0}
+                  offset={-100} // Ajustado de 0 para -100
                   duration={1000}
                   className="cursor-pointer px-3 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/10 transition-all duration-300 whitespace-nowrap focus:outline-none"
                   activeClass="!text-white !bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
@@ -90,7 +87,6 @@ export const Navbar: React.FC = () => {
               rel="noopener noreferrer"
               className="hidden md:flex relative group overflow-hidden items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_35px_-5px_rgba(6,182,212,0.6)] hover:scale-105 active:scale-95 border border-white/10"
             >
-              {/* Shine Effect Overlay */}
               <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 animate-shine" />
               
               <span className="relative z-10 flex items-center gap-2">
@@ -112,7 +108,7 @@ export const Navbar: React.FC = () => {
           </div>
         </nav>
 
-        {/* Mobile Menu Dropdown (Floating Panel) */}
+        {/* Mobile Menu Dropdown */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -129,7 +125,7 @@ export const Navbar: React.FC = () => {
                     to={link.href.replace('#', '')}
                     spy={true}
                     smooth={true}
-                    offset={0}
+                    offset={-100} // Ajustado de 0 para -100
                     duration={1000}
                     onClick={() => setIsOpen(false)}
                     className="cursor-pointer block px-4 py-3 rounded-xl text-sm font-medium text-zinc-400 hover:text-white hover:bg-white/10 transition-all border border-transparent hover:border-white/5"
@@ -144,9 +140,7 @@ export const Navbar: React.FC = () => {
                   rel="noopener noreferrer"
                   className="mx-1 relative overflow-hidden group flex justify-center items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg shadow-cyan-900/20"
                 >
-                  {/* Shine Effect Mobile */}
                   <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 animate-shine" />
-                  
                   <span className="relative z-10 flex items-center gap-2">
                     Falar com Ísis <MessageCircle size={16} />
                   </span>

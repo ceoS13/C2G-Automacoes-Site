@@ -18,7 +18,7 @@ export const Hero: React.FC = () => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: 0,
+      offset: -100, // Ajustado de 0 para -100
     });
   };
 
@@ -80,7 +80,6 @@ export const Hero: React.FC = () => {
                       className="w-full h-full object-contain mix-blend-screen" 
                       width="1200"
                       height="1200"
-                      // Fix: Changed fetchpriority to fetchPriority to resolve TypeScript property error
                       fetchPriority="high"
                       loading="eager"
                       decoding="sync"

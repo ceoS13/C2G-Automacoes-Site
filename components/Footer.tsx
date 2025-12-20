@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: 0,
+      offset: -100, // Ajustado de 0 para -100
     });
   };
 
@@ -32,11 +32,6 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-                {/* 
-                   Atualizado: 
-                   1. showFullText={true} para forçar exibição do texto no mobile.
-                   2. Altura ajustada para h-14 (mobile) e h-24 (desktop) para caber na tela do celular.
-                */}
                 <Logo className="h-14 md:h-24 w-auto" showFullText={true} />
             </div>
             <p className="text-zinc-500 max-w-sm mb-6 leading-relaxed">
