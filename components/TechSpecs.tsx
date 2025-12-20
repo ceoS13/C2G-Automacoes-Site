@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Database, Shield, Webhook, Bot, Calendar, Send, MousePointerClick, Zap, Globe, Workflow, Server } from 'lucide-react';
+import { Database, Shield, Webhook, Bot, Calendar, Send, MousePointerClick, Zap, Globe, Workflow, Server, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Node Data Structure
@@ -109,8 +109,7 @@ export const TechSpecs: React.FC = () => {
                 {/* Grid Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] z-0" />
                 
-                {/* WORKFLOW CONTAINER - Flex Layout for perfect alignment */}
-                {/* items-start ensures we can align the line relative to the top (icons) */}
+                {/* WORKFLOW CONTAINER */}
                 <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start justify-between w-full max-w-6xl mx-auto">
                     
                     {WORKFLOW_NODES.map((node, index) => {
@@ -125,7 +124,6 @@ export const TechSpecs: React.FC = () => {
                             onClick={() => setActiveNodeId(node.id)}
                           >
                               {/* Icon Box */}
-                              {/* h-20 (80px) on Desktop. Center is at 40px. */}
                               <div 
                                 className={`
                                   relative flex items-center justify-center transition-all duration-300
@@ -164,15 +162,8 @@ export const TechSpecs: React.FC = () => {
                           </div>
 
                           {/* CONNECTOR LINE (Desktop) */}
-                          {/* Placed between nodes. flex-1 makes it fill space. */}
-                          {/* mt-8 on Desktop aligns it with the center of the 20 (80px) height icon (approx 40px down) */}
-                          {/* h-16 is 64px, h-20 is 80px. For h-20, center is 40px. */}
-                          {/* If icon is h-20 (80px), we want line at 40px. mt-[40px] pushes it down. */}
-                          {/* Since items-start is used, line starts at top. We add mt-8 (32px) or mt-10 (40px). */}
-                          {/* Tailwind h-20 = 5rem = 80px. Center = 40px. mt-10 = 2.5rem = 40px. */}
                           {index < WORKFLOW_NODES.length - 1 && (
                             <div className="hidden md:flex flex-1 h-[1px] bg-white/10 mx-4 relative self-start mt-10 overflow-hidden">
-                                {/* Beam of Light Animation */}
                                 <motion.div 
                                     initial={{ x: '-100%' }}
                                     animate={{ x: '100%' }}
@@ -180,7 +171,7 @@ export const TechSpecs: React.FC = () => {
                                         duration: 1.5, 
                                         repeat: Infinity, 
                                         ease: "linear",
-                                        delay: index * 0.2 // Staggered effect for flow
+                                        delay: index * 0.2
                                     }}
                                     className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent w-1/2 blur-[1px]"
                                 />
@@ -205,8 +196,47 @@ export const TechSpecs: React.FC = () => {
 
                 </div>
 
-                {/* Description Panel */}
-                <div className="relative z-10 mt-12 md:mt-24 h-32 md:h-24 flex items-center justify-center px-4 md:px-0">
+                {/* Mobile Description Overlay - NEW: To avoid scroll on mobile */}
+                <AnimatePresence>
+                  {activeNode && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="md:hidden absolute inset-0 z-40 bg-black/60 backdrop-blur-md flex items-center justify-center p-6"
+                      onClick={() => setActiveNodeId(null)}
+                    >
+                      <motion.div
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                        className="bg-[#111] border border-white/10 rounded-2xl p-6 shadow-2xl relative w-full"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                         <button 
+                            onClick={() => setActiveNodeId(null)}
+                            className="absolute top-4 right-4 p-2 text-zinc-500 hover:text-white"
+                         >
+                            <X size={20} />
+                         </button>
+                         <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 w-fit mb-4">
+                            <activeNode.icon size={24} />
+                         </div>
+                         <h5 className="text-xl font-bold text-white mb-2">{activeNode.title}</h5>
+                         <p className="text-sm text-zinc-400 leading-relaxed mb-6">{activeNode.description}</p>
+                         <button 
+                            onClick={() => setActiveNodeId(null)}
+                            className="w-full py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium"
+                         >
+                            Entendido
+                         </button>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Description Panel (Desktop) */}
+                <div className="hidden md:flex relative z-10 mt-24 h-24 items-center justify-center">
                   <AnimatePresence mode="wait">
                     {activeNode ? (
                       <motion.div
@@ -215,14 +245,14 @@ export const TechSpecs: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="w-full max-w-2xl bg-[#111] border border-white/10 rounded-xl p-4 md:p-5 flex items-start gap-4 shadow-2xl shadow-black z-20"
+                        className="w-full max-w-2xl bg-[#111] border border-white/10 rounded-xl p-5 flex items-start gap-4 shadow-2xl shadow-black z-20"
                       >
                          <div className="p-2.5 rounded-lg bg-black border border-white/5 text-cyan-400 shrink-0">
                             <activeNode.icon size={20} />
                          </div>
                          <div>
-                            <h5 className="text-sm md:text-base font-bold text-white mb-1">{activeNode.title}</h5>
-                            <p className="text-xs md:text-sm text-zinc-400 leading-relaxed">{activeNode.description}</p>
+                            <h5 className="text-base font-bold text-white mb-1">{activeNode.title}</h5>
+                            <p className="text-sm text-zinc-400 leading-relaxed">{activeNode.description}</p>
                          </div>
                       </motion.div>
                     ) : (
@@ -234,11 +264,19 @@ export const TechSpecs: React.FC = () => {
                         className="flex flex-col items-center text-zinc-600 gap-3 text-center"
                       >
                          <MousePointerClick size={24} className="animate-bounce text-zinc-500" />
-                         <span className="text-xs md:text-sm font-mono">Clique nos nós acima para ver detalhes da engenharia</span>
+                         <span className="text-sm font-mono">Clique nos nós acima para ver detalhes da engenharia</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
+
+                {/* Mobile Hint (Only if no node selected) */}
+                {!activeNode && (
+                  <div className="md:hidden relative z-10 mt-12 flex flex-col items-center text-zinc-600 gap-2">
+                      <MousePointerClick size={20} className="animate-bounce" />
+                      <span className="text-[10px] font-mono uppercase tracking-widest">Toque nos ícones acima</span>
+                  </div>
+                )}
 
                 {/* Floating Tags */}
                 <div className="absolute top-4 right-4 flex gap-2 z-20">
@@ -246,7 +284,7 @@ export const TechSpecs: React.FC = () => {
                     <div className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-mono border border-emerald-500/20">System: Online</div>
                 </div>
 
-                {/* Disclaimer Caption - Aligned to bottom LEFT with parent padding */}
+                {/* Disclaimer Caption */}
                 <div className="absolute bottom-4 left-6 md:left-12 z-20 flex items-center gap-2">
                     <span className="text-[10px] text-zinc-600 italic">* Imagem meramente ilustrativa</span>
                 </div>

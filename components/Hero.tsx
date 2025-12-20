@@ -80,7 +80,8 @@ export const Hero: React.FC = () => {
                       className="w-full h-full object-contain mix-blend-screen" 
                       width="1200"
                       height="1200"
-                      fetchpriority="high"
+                      // Fix: Changed fetchpriority to fetchPriority to resolve TypeScript property error
+                      fetchPriority="high"
                       loading="eager"
                       decoding="sync"
                   />
