@@ -6,8 +6,7 @@ import { Hero } from './components/Hero';
 import { ChatDemo } from './components/ChatDemo';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
-// Otimização: Apenas o Hero e o ChatDemo carregam inicialmente.
-// O resto da página entra via Lazy Loading para reduzir o JS de bloqueio inicial.
+// Lazy Loading para componentes abaixo da dobra para reduzir o JS inicial
 const Solutions = React.lazy(() => import('./components/Solutions').then(m => ({ default: m.Solutions })));
 const BentoGrid = React.lazy(() => import('./components/BentoGrid').then(m => ({ default: m.BentoGrid })));
 const TechSpecs = React.lazy(() => import('./components/TechSpecs').then(m => ({ default: m.TechSpecs })));
@@ -35,11 +34,10 @@ const App: React.FC = () => {
     document.documentElement.style.scrollBehavior = 'auto';
     
     AOS.init({
-      duration: 800,
+      duration: 1000,
       once: true,
-      easing: 'ease-out',
-      offset: 100,
-      disable: window.innerWidth < 768 ? 'mobile' : false // Opcional: desativar animações pesadas no mobile se necessário
+      easing: 'ease-out-cubic',
+      offset: 50, 
     });
 
     window.AOS = AOS;
@@ -60,6 +58,10 @@ const App: React.FC = () => {
     setCurrentView('home');
     setTargetTermsSection(undefined);
     window.scrollTo(0, 0);
+    
+    setTimeout(() => {
+        AOS.refreshHard();
+    }, 100);
   }, []);
 
   if (currentView === 'terms') {
@@ -74,13 +76,13 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       
-      {/* Componentes Críticos: Renderizados Imediatamente */}
+      {/* Componentes Críticos (Eager Load) */}
       <Hero />
       <ChatDemo />
 
-      {/* Componentes Abaixo da Dobra: Carregados Sob Demanda */}
+      {/* Componentes Não Críticos (Lazy Load com Suspense para evitar layout shift) */}
       <Suspense fallback={<div className="h-96 bg-[#050505]" />}>
-        <div className="critical-hide"><Solutions /></div>
+        <Solutions />
         <div className="critical-hide"><BentoGrid /></div>
         <div className="critical-hide"><TechSpecs /></div>
         <Partners />

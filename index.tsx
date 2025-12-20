@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 
-// Import Global CSS (Tailwind + Micro-AOS)
+// Import Global CSS (Tailwind)
 import './index.css';
 
-// REMOVIDO: import 'aos/dist/aos.css'; 
-// Motivo: Substituído por implementação nativa leve no index.css para performance (LCP/TBT).
+// Import AOS Styles
+import 'aos/dist/aos.css';
 
 // Initialize Vercel Speed Insights
 injectSpeedInsights();

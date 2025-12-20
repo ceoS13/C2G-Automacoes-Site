@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
@@ -81,7 +80,7 @@ export const Hero: React.FC = () => {
                       className="w-full h-full object-contain mix-blend-screen" 
                       width="1200"
                       height="1200"
-                      fetchPriority="high"
+                      fetchpriority="high"
                       loading="eager"
                       decoding="sync"
                   />
