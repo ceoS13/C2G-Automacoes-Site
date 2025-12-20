@@ -18,7 +18,7 @@ export const Hero: React.FC = () => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: -100, // Ajustado de 0 para -100
+      offset: 0, 
     });
   };
 
