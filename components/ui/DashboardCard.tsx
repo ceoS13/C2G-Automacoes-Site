@@ -27,6 +27,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   const cardRef = useRef<HTMLElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
 
+  // Cache da geometria do card apenas quando o mouse entra ou no resize
   const updateRect = useCallback(() => {
     if (cardRef.current) {
       rectRef.current = cardRef.current.getBoundingClientRect();
@@ -34,9 +35,9 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   }, []);
 
   function handleMouseMove(e: React.MouseEvent) {
+    // Desabilita em dispositivos touch para economizar CPU
     if (window.matchMedia("(pointer: coarse)").matches) return;
     
-    // Evita reflow forçado acessando rectRef em vez de chamar getBoundingClientRect no loop do mouse
     if (!rectRef.current) updateRect();
 
     if (rectRef.current) {

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -60,5 +61,43 @@
 
   .preserve-3d {
     transform-style: preserve-3d;
+  }
+
+  /* 
+    MICRO-AOS: High Performance GPU Animations 
+    Substitui a biblioteca pesada 'aos.css' (50kb+) por ~500 bytes de CSS crítico.
+    Isso reduz drasticamente o "Unused CSS" e o trabalho da thread principal.
+  */
+  [data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 800ms;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform; /* Dica para o navegador usar a GPU */
+  }
+
+  [data-aos].aos-animate {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+
+  [data-aos='fade-up'] {
+    transform: translate3d(0, 50px, 0);
+  }
+
+  [data-aos='fade-down'] {
+    transform: translate3d(0, -50px, 0);
+  }
+
+  [data-aos='fade-right'] {
+    transform: translate3d(-50px, 0, 0);
+  }
+
+  [data-aos='fade-left'] {
+    transform: translate3d(50px, 0, 0);
+  }
+
+  [data-aos='zoom-in'] {
+    transform: scale(0.9);
   }
 }
