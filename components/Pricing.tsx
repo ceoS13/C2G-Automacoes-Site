@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Check, Building2, ArrowRight, Activity } from 'lucide-react';
 import { CONSULTANT_NUMBER, ISIS_NUMBER } from '../lib/constants';
@@ -55,7 +56,7 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
               </header>
 
               <div className="text-3xl font-bold text-white mb-4">
-                <CountUp value={price} prefix="" />
+                <CountUp value={price} prefix="R$ " />
                 <span className="text-sm text-zinc-500 font-normal">/mês</span>
               </div>
               
