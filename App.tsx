@@ -6,16 +6,18 @@ import { Hero } from './components/Hero';
 import { ChatDemo } from './components/ChatDemo';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 
-// Lazy Loading para componentes abaixo da dobra para reduzir o JS inicial
-const Solutions = React.lazy(() => import('./components/Solutions').then(m => ({ default: m.Solutions })));
-const BentoGrid = React.lazy(() => import('./components/BentoGrid').then(m => ({ default: m.BentoGrid })));
-const TechSpecs = React.lazy(() => import('./components/TechSpecs').then(m => ({ default: m.TechSpecs })));
-const Partners = React.lazy(() => import('./components/Partners').then(m => ({ default: m.Partners })));
-const Pricing = React.lazy(() => import('./components/Pricing').then(m => ({ default: m.Pricing })));
-const ImplementationJourney = React.lazy(() => import('./components/ImplementationJourney').then(m => ({ default: m.ImplementationJourney })));
-const About = React.lazy(() => import('./components/About').then(m => ({ default: m.About })));
-const FAQ = React.lazy(() => import('./components/FAQ').then(m => ({ default: m.FAQ })));
-const Footer = React.lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
+// Importações Estáticas para garantir estabilidade do Layout e Scroll correto
+import { Solutions } from './components/Solutions';
+import { BentoGrid } from './components/BentoGrid';
+import { TechSpecs } from './components/TechSpecs';
+import { Partners } from './components/Partners';
+import { Pricing } from './components/Pricing';
+import { ImplementationJourney } from './components/ImplementationJourney';
+import { About } from './components/About';
+import { FAQ } from './components/FAQ';
+import { Footer } from './components/Footer';
+
+// Apenas páginas secundárias permanecem com Lazy Loading
 const TermsPage = React.lazy(() => import('./components/TermsPage').then(module => ({ default: module.TermsPage })));
 
 declare global {
@@ -76,22 +78,25 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       
-      {/* Componentes Críticos (Eager Load) */}
+      {/* Componentes da Landing Page (Renderização Síncrona) */}
       <Hero />
       <ChatDemo />
-
-      {/* Componentes Não Críticos (Lazy Load com Suspense para evitar layout shift) */}
-      <Suspense fallback={<div className="h-96 bg-[#050505]" />}>
-        <Solutions />
-        <div className="critical-hide"><BentoGrid /></div>
-        <div className="critical-hide"><TechSpecs /></div>
-        <Partners />
-        <Pricing />
-        <ImplementationJourney />
-        <About />
-        <FAQ />
-        <Footer onTermsClick={handleNavigateToTerms} />
-      </Suspense>
+      <Solutions />
+      
+      {/* Wrapper com classe utilitária para gerenciamento de performance visual se necessário */}
+      <div className="critical-hide">
+        <BentoGrid />
+      </div>
+      <div className="critical-hide">
+        <TechSpecs />
+      </div>
+      
+      <Partners />
+      <Pricing />
+      <ImplementationJourney />
+      <About />
+      <FAQ />
+      <Footer onTermsClick={handleNavigateToTerms} />
     </div>
   );
 };
