@@ -70,12 +70,12 @@ export const Partners: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-12 md:py-24 bg-[#050505] relative overflow-hidden z-20 select-none critical-hide">
+    <section className="py-12 md:py-20 bg-[#050505] relative overflow-hidden z-20 select-none critical-hide">
       
       <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8 mb-10 text-center relative z-10" data-aos="fade-in">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 mb-6 text-center relative z-10" data-aos="fade-in">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50">
               <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
               <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">
@@ -84,7 +84,7 @@ export const Partners: React.FC = () => {
           </div>
       </div>
       
-      <div className="w-full py-8 relative">
+      <div className="w-full py-4 relative">
          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none" />
          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none" />
 
@@ -93,15 +93,15 @@ export const Partners: React.FC = () => {
                 {MARQUEE_ITEMS.map((partner, index) => (
                    <div 
                      key={`${partner.name}-${index}`}
-                     className="flex items-center justify-center mx-8 md:mx-12 relative group cursor-pointer"
+                     className="flex items-center justify-center mx-3 md:mx-5 relative group cursor-pointer"
                    >
-                     <div className="flex items-center justify-center transform transition-transform duration-500 hover:scale-110 h-6 md:h-8 w-32 md:w-40">
+                     <div className="flex items-center justify-center transform transition-transform duration-500 hover:scale-110 h-6 md:h-7 w-24 md:w-32">
                         <img 
                           src={partner.logoUrl} 
                           alt={partner.name}
                           className={`h-full w-auto object-contain ${partner.className}`}
-                          width="160"
-                          height="32"
+                          width="128"
+                          height="28"
                           loading="eager"
                           decoding="async"
                         />
@@ -118,7 +118,7 @@ export const Partners: React.FC = () => {
           100% { transform: translateX(-25%); }
         }
         .animate-marquee {
-          animation: marquee 40s linear infinite;
+          animation: marquee 30s linear infinite;
         }
         .group\\/marquee:hover .animate-marquee {
           animation-play-state: paused;
