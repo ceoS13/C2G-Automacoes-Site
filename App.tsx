@@ -82,15 +82,8 @@ const App: React.FC = () => {
       <Hero />
       <ChatDemo />
       <Solutions />
-      
-      {/* Wrapper com classe utilitária para gerenciamento de performance visual se necessário */}
-      <div className="critical-hide">
-        <BentoGrid />
-      </div>
-      <div className="critical-hide">
-        <TechSpecs />
-      </div>
-      
+      <BentoGrid />
+      <TechSpecs />
       <Partners />
       <Pricing />
       <ImplementationJourney />
