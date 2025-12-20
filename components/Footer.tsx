@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
       duration: 1000,
       delay: 0,
       smooth: true,
-      offset: 0, 
+      offset: 40, 
     });
   };
 

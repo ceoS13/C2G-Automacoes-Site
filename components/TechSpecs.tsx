@@ -53,31 +53,39 @@ export const TechSpecs: React.FC = () => {
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
   const activeNode = WORKFLOW_NODES.find(n => n.id === activeNodeId);
 
-  // Cards com delays específicos para animação dessincronizada
+  // Cards com delays específicos para animação dessincronizada e cores Neon
   const WHY_CARDS = [
     { 
         icon: <Workflow size={24} />, 
         title: "Engenharia, não 'Prompt'", 
         text: "Fluxos complexos em n8n com tratamento de erros e redundância (Fallbacks).",
-        floatDelay: "0s"
+        floatDelay: "0s",
+        gradient: "from-cyan-500 to-blue-500",
+        shadow: "shadow-[0_0_20px_2px_rgba(6,182,212,0.8)]"
     },
     { 
         icon: <Server size={24} />, 
         title: "Memória Híbrida", 
         text: "Redis para velocidade instantânea e Supabase para histórico vitalício.",
-        floatDelay: "1.5s" 
+        floatDelay: "1.5s",
+        gradient: "from-purple-500 to-pink-500",
+        shadow: "shadow-[0_0_20px_2px_rgba(168,85,247,0.8)]"
     },
     { 
         icon: <Database size={24} />, 
         title: "Multicanal Real", 
         text: "Integração total: Web, CRM e Sistemas Internos via Webhooks.",
-        floatDelay: "0.5s"
+        floatDelay: "0.5s",
+        gradient: "from-blue-500 to-indigo-500",
+        shadow: "shadow-[0_0_20px_2px_rgba(59,130,246,0.8)]"
     },
     { 
         icon: <Shield size={24} />, 
         title: "Segurança Total", 
         text: "Seus dados não treinam a IA pública. Ambiente isolado e seguro.",
-        floatDelay: "2s"
+        floatDelay: "2s",
+        gradient: "from-emerald-500 to-teal-500",
+        shadow: "shadow-[0_0_20px_2px_rgba(16,185,129,0.8)]"
     }
   ];
 
@@ -115,10 +123,16 @@ export const TechSpecs: React.FC = () => {
                     className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl hover:border-cyan-500/30 hover:bg-white/10 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.15)] transition-all duration-300 group animate-float-subtle will-change-transform overflow-hidden"
                     style={{ animationDelay: item.floatDelay }}
                 >
+                  {/* Neon Lines Effect */}
+                  <div className="absolute top-0 left-0 w-full z-20">
+                     <div className={`w-full h-[1px] bg-gradient-to-r ${item.gradient} ${item.shadow} opacity-90`} />
+                     <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${item.gradient} blur-[2px] opacity-60 animate-pulse-slow`} />
+                  </div>
+
                   {/* Glass Shine Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   
-                  <div className="relative z-10">
+                  <div className="relative z-10 pt-2">
                     <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 group-hover:bg-cyan-500/20 group-hover:text-cyan-300 transition-all duration-300 shadow-inner shadow-white/5">
                         {item.icon}
                     </div>

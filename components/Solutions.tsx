@@ -116,9 +116,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
         
         <ul className="space-y-3 flex-1">
           {features.map((feature, i) => (
-            <li key={i} className="flex items-center gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
-              <div className={`w-1.5 h-1.5 shrink-0 rounded-full bg-gradient-to-r ${gradient} shadow-[0_0_5px_rgba(6,182,212,0.5)]`} />
-              {feature}
+            <li key={i} className="flex items-start gap-3 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">
+              <div className={`w-1.5 h-1.5 shrink-0 rounded-full bg-gradient-to-r ${gradient} shadow-[0_0_5px_rgba(6,182,212,0.5)] mt-1.5`} />
+              <span className="leading-snug">{feature}</span>
             </li>
           ))}
         </ul>
