@@ -53,6 +53,34 @@ export const TechSpecs: React.FC = () => {
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
   const activeNode = WORKFLOW_NODES.find(n => n.id === activeNodeId);
 
+  // Cards com delays específicos para animação dessincronizada
+  const WHY_CARDS = [
+    { 
+        icon: <Workflow size={24} />, 
+        title: "Engenharia, não 'Prompt'", 
+        text: "Fluxos complexos em n8n com tratamento de erros e redundância (Fallbacks).",
+        floatDelay: "0s"
+    },
+    { 
+        icon: <Server size={24} />, 
+        title: "Memória Híbrida", 
+        text: "Redis para velocidade instantânea e Supabase para histórico vitalício.",
+        floatDelay: "1.5s" 
+    },
+    { 
+        icon: <Database size={24} />, 
+        title: "Multicanal Real", 
+        text: "Integração total: Web, CRM e Sistemas Internos via Webhooks.",
+        floatDelay: "0.5s"
+    },
+    { 
+        icon: <Shield size={24} />, 
+        title: "Segurança Total", 
+        text: "Seus dados não treinam a IA pública. Ambiente isolado e seguro.",
+        floatDelay: "2s"
+    }
+  ];
+
   return (
     <section id="tech" className="py-12 md:py-32 bg-[#050505] relative overflow-hidden">
       
@@ -81,21 +109,22 @@ export const TechSpecs: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-             {[
-                { icon: <Workflow size={24} />, title: "Engenharia, não 'Prompt'", text: "Fluxos complexos em n8n com tratamento de erros e redundância (Fallbacks)." },
-                { icon: <Server size={24} />, title: "Memória Híbrida", text: "Redis para velocidade instantânea e Supabase para histórico vitalício." },
-                { icon: <Database size={24} />, title: "Multicanal Real", text: "Integração total: Web, CRM e Sistemas Internos via Webhooks." },
-                { icon: <Shield size={24} />, title: "Segurança Total", text: "Seus dados não treinam a IA pública. Ambiente isolado e seguro." }
-              ].map((item, i) => (
+             {WHY_CARDS.map((item, i) => (
                 <div 
                     key={i} 
-                    className="bg-[#0a0a0a] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 group animate-float-subtle will-change-transform"
+                    className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl hover:border-cyan-500/30 hover:bg-white/10 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.15)] transition-all duration-300 group animate-float-subtle will-change-transform overflow-hidden"
+                    style={{ animationDelay: item.floatDelay }}
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#111] border border-white/5 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 group-hover:bg-cyan-950/20 transition-all">
-                    {item.icon}
+                  {/* Glass Shine Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  
+                  <div className="relative z-10">
+                    <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 group-hover:bg-cyan-500/20 group-hover:text-cyan-300 transition-all duration-300 shadow-inner shadow-white/5">
+                        {item.icon}
+                    </div>
+                    <h4 className="text-white font-bold text-lg mb-3 tracking-tight">{item.title}</h4>
+                    <p className="text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors">{item.text}</p>
                   </div>
-                  <h4 className="text-white font-semibold text-lg mb-3">{item.title}</h4>
-                  <p className="text-sm text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors">{item.text}</p>
                 </div>
               ))}
           </div>
