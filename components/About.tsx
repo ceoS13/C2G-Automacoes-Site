@@ -205,7 +205,7 @@ export const About: React.FC = () => {
               <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Sobre Nós</span>
           </div>
           
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+          <h2 className="text-3xl md:text-5 font-bold text-white mb-6 tracking-tight">
             Engenharia por trás da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Autonomia</span>
           </h2>
           <p className="text-zinc-400 text-lg">
@@ -253,13 +253,13 @@ export const About: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-24 gap-x-8 max-w-6xl mx-auto pt-10">
           <TeamCard 
             name="Guilherme C."
-            description="Idealizador por trás da engenharia, Guilherme C. é o arquiteto de soluções de IA. Especialista em construir as robustas e inovadoras arquiteturas multiagente que são o coração da C2G."
+            description="Idealizador por trás da engenharia e arquiteto de soluções de IA. Especialista em construir as robustas e inovadoras arquiteturas multiagente que são o coração da C2G."
             imageSrc="https://lh3.googleusercontent.com/d/12YdaYeZh-7ZUe-GOKvK0za10O68mYOd3"
             delay="0"
           />
           <TeamCard 
             name="Caíque R."
-            description="Com um olhar estratégico afiado para negócios e parcerias, Caique R é o motor que impulsiona a C2G para novos horizontes, traduzindo a visão em oportunidades concretas."
+            description="Com um olhar estratégico afiado para negócios e parcerias, é o motor que impulsiona a C2G para novos horizontes, traduzindo a visão em oportunidades concretas."
             imageSrc="https://lh3.googleusercontent.com/d/1t5_gwVOvQEmNqj8zIdvgb86OHCdAe1Ua"
             delay="100"
           />
