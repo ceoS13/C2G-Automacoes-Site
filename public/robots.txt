@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.c2gautomacoes.com.br/sitemap.xml
