@@ -17,6 +17,7 @@ import { About } from './components/About';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 import { TerminalModal } from './components/ui/TerminalModal'; // Easter Egg
+import { IntroLoader } from './components/ui/IntroLoader'; // Boot Sequence
 
 // Apenas páginas secundárias permanecem com Lazy Loading
 const TermsPage = React.lazy(() => import('./components/TermsPage').then(module => ({ default: module.TermsPage })));
@@ -113,6 +114,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
+      <IntroLoader />
       <Navbar />
       
       {/* Componentes da Landing Page (Renderização Síncrona) */}
