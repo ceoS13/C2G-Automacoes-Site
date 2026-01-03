@@ -72,6 +72,10 @@ export const Navbar: React.FC = () => {
               type="button"
               className="cursor-pointer group focus:outline-none rounded-lg" 
               onClick={() => scroll.scrollToTop()}
+              whileHover={{ 
+                scale: 1.1,
+                transition: { type: "spring", stiffness: 400, damping: 10 }
+              }}
               whileTap={{ scale: 0.95 }}
               aria-label="Voltar ao topo - C2G Automações"
             >
@@ -205,6 +209,9 @@ export const Navbar: React.FC = () => {
                         rel="noopener noreferrer"
                         className="relative overflow-hidden group flex justify-center items-center gap-2 bg-gradient-to-r from-cyan-900 to-blue-900 text-white px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider border border-cyan-500/30 shadow-lg"
                       >
+                        {/* Light Shine Animation Added Here */}
+                        <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 animate-shine" />
+                        
                         <div className="absolute inset-0 bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <span className="relative z-10 flex items-center gap-2">
                           Iniciar Protocolo <MessageCircle size={16} />
