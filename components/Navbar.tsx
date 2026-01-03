@@ -28,21 +28,21 @@ export const Navbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  // Variantes OTIMIZADAS para Mobile (Foco em Opacity/Transform)
+  // Variantes OTIMIZADAS V2:
+  // Removemos a animação de 'filter' (blur) que causava lag.
+  // O blur agora é aplicado via classe CSS estática (backdrop-blur-md).
   const menuVariants = {
     closed: { 
       opacity: 0,
-      y: -20,
-      scaleY: 0.95,
-      filter: "blur(10px)",
+      y: -15,
+      scaleY: 0.98,
       transition: { duration: 0.2, ease: "easeInOut" }
     },
     open: { 
       opacity: 1,
       y: 0,
       scaleY: 1,
-      filter: "blur(0px)",
-      transition: { duration: 0.3, ease: "easeOut", staggerChildren: 0.05, delayChildren: 0.1 }
+      transition: { duration: 0.35, ease: "circOut", staggerChildren: 0.05, delayChildren: 0.1 }
     }
   };
 
@@ -132,7 +132,7 @@ export const Navbar: React.FC = () => {
           </div>
         </nav>
 
-        {/* Mobile Menu Dropdown - OPTIMIZED HUD STYLE */}
+        {/* Mobile Menu Dropdown - OPTIMIZED BLUR HUD STYLE */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -143,26 +143,26 @@ export const Navbar: React.FC = () => {
               className="absolute top-[calc(100%+8px)] left-0 w-full md:hidden origin-top"
             >
               {/* 
-                PERFORMANCE FIX: 
-                - Removed backdrop-blur-xl (Use solid color with 98% opacity)
-                - Removed complex clip-paths
-                - Simplified shadows 
+                VISUAL FIX: 
+                - bg-[#050505]/90: Alta opacidade para esconder o texto do Hero.
+                - backdrop-blur-md: Blur estático (leve) para o efeito de vidro sem pesar na GPU.
+                - Ring/Border: Mantém o visual tático.
               */}
-              <div className="bg-[#080808]/98 border border-cyan-900/30 rounded-2xl overflow-hidden shadow-2xl relative ring-1 ring-white/5">
+              <div className="bg-[#050505]/90 backdrop-blur-md border border-cyan-900/30 rounded-2xl overflow-hidden shadow-2xl relative ring-1 ring-white/10">
                 
-                {/* HUD Corners (Static CSS - Cheap) */}
+                {/* HUD Corners */}
                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-cyan-500/50 rounded-tl-lg" />
                 <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-cyan-500/50 rounded-tr-lg" />
                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-cyan-500/50 rounded-bl-lg" />
                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-cyan-500/50 rounded-br-lg" />
                 
-                {/* Static Grid (No Repaint) */}
+                {/* Static Grid (Decoration) */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
 
-                {/* Optimized Scanline (Uses Transform instead of Top) */}
+                {/* Scanline Animation (GPU efficient) */}
                 <motion.div 
                   initial={{ translateY: "-100%" }}
-                  animate={{ translateY: "400%" }} // 400% moves it fully across the container
+                  animate={{ translateY: "400%" }}
                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                   className="absolute top-0 left-0 w-full h-[20%] bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent pointer-events-none z-0 will-change-transform"
                 />
@@ -205,9 +205,7 @@ export const Navbar: React.FC = () => {
                         rel="noopener noreferrer"
                         className="relative overflow-hidden group flex justify-center items-center gap-2 bg-gradient-to-r from-cyan-900 to-blue-900 text-white px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider border border-cyan-500/30 shadow-lg"
                       >
-                         {/* Button Highlight */}
                         <div className="absolute inset-0 bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        
                         <span className="relative z-10 flex items-center gap-2">
                           Iniciar Protocolo <MessageCircle size={16} />
                         </span>
