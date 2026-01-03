@@ -114,12 +114,26 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
         >
             <button 
                 onClick={handleBadgeClick}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 transition-all active:scale-95 hover:border-cyan-500/30 ${clickCount > 0 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]' : ''}`}
+                className={`
+                  group inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 transition-all duration-200 active:scale-95
+                  /* EFEITO GLITCH/HINT: Borda brilha e sombra estoura no hover */
+                  hover:border-cyan-400 hover:shadow-[0_0_25px_rgba(34,211,238,0.6)] hover:bg-cyan-950/40
+                  ${clickCount > 0 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]' : ''}
+                `}
                 role="status"
                 title={clickCount > 0 ? `${5 - clickCount} cliques para acesso root...` : "Status do Sistema"}
             >
-                <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] ${clickCount > 0 ? 'animate-ping' : 'animate-pulse'}`} />
-                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">
+                <span className={`
+                  w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] 
+                  ${clickCount > 0 ? 'animate-ping' : 'animate-pulse'}
+                  /* HINT: Led fica branco e pisca rápido no hover */
+                  group-hover:bg-white group-hover:shadow-[0_0_15px_white] group-hover:animate-[ping_0.5s_linear_infinite]
+                `} />
+                <span className={`
+                  text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest transition-colors duration-200
+                  /* HINT: Texto fica branco brilhante */
+                  group-hover:text-white group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]
+                `}>
                   {clickCount >= 3 ? "Acesso Root..." : "Sistema Operacional: Online"}
                 </span>
             </button>

@@ -96,7 +96,7 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
             {/* EASTER EGG TRIGGER */}
             <button 
               onClick={onOpenTerminal}
-              className="text-zinc-800 hover:text-green-500 hover:animate-pulse transition-colors p-1"
+              className="text-zinc-600 hover:text-green-500 transition-colors p-1 animate-[pulse_3s_ease-in-out_infinite] hover:animate-none"
               aria-label="System Access"
             >
               <Terminal size={12} />
