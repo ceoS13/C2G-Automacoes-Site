@@ -94,13 +94,23 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
         <div className="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 gap-4">
           <div className="flex items-center gap-2">
             <p>&copy; {new Date().getFullYear()} {COMPANY_NAME} Ltda. Todos os direitos reservados.</p>
-            {/* EASTER EGG TRIGGER */}
+            
+            {/* EASTER EGG TRIGGER - VERDE NEON */}
             <button 
               onClick={onOpenTerminal}
-              className="text-zinc-600 hover:text-green-500 transition-colors p-1 animate-[pulse_3s_ease-in-out_infinite] hover:animate-none"
-              aria-label="System Access"
+              className="ml-1 p-1.5 rounded-md transition-all duration-300 group relative focus:outline-none"
+              aria-label="Acesso Root"
+              title="System Access"
             >
-              <Terminal size={12} />
+              {/* Glow Verde no Hover */}
+              <div className="absolute inset-0 bg-emerald-500/10 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Ícone Verde Pulsante */}
+              <Terminal 
+                size={14} 
+                className="text-emerald-700 group-hover:text-emerald-400 transition-colors animate-[pulse_2s_ease-in-out_infinite] group-hover:drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                strokeWidth={2.5} 
+              />
             </button>
           </div>
           
