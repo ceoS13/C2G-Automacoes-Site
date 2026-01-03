@@ -26,7 +26,7 @@ export const NAV_LINKS = [
 ];
 
 export const SOCIAL_LINKS = {
-  linkedin: "#",
+  linkedin: "https://www.linkedin.com/company/c2g-automações/",
   instagram: "https://www.instagram.com/c2g.automacoes/",
   twitter: "#"
 };

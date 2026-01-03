@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Instagram, Globe, Terminal } from 'lucide-react';
+import { Instagram, Globe, Terminal, Linkedin } from 'lucide-react';
 import { Logo } from './ui/Logo';
 import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../lib/constants';
 import { scroller } from 'react-scroll';
@@ -40,6 +40,7 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
             </p>
             <div className="flex gap-4">
               <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Instagram size={18} /></a>
+              <a href={SOCIAL_LINKS.linkedin} aria-label="LinkedIn" rel="noopener noreferrer" target="_blank" className="p-2 bg-[#111] border border-white/5 rounded-full text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"><Linkedin size={18} /></a>
             </div>
           </div>
 
