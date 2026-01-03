@@ -41,17 +41,17 @@ const ASCII_ART = `
   ╚═════╝    ╚══════╝    ╚═════╝ 
 `;
 
-// Agora inclui as mensagens iniciais do sistema para serem digitadas também
+// Logs recalculados para serem rápidos e sequenciais (Speed base ~5ms/char)
 const ALL_LOGS = [
-  { text: "System rebooted successfully.", delay: 200 },
-  { text: "Establishing secure connection...", delay: 1000 },
-  { text: "Iniciando conexão segura (SSH)...", delay: 2000 },
-  { text: "Bypassing firewall [Port 443]...", delay: 2800 },
-  { text: "Acesso root detectado.", delay: 3800 },
-  { text: "Descriptografando banco de dados...", delay: 4600 },
-  { text: "Analisando perfil do usuário...", delay: 5600 },
-  { text: "Gerando hash de desconto único...", delay: 6800 },
-  { text: "ACESSO CONCEDIDO.", delay: 8000, type: 'success' }
+  { text: "System rebooted successfully.", delay: 0 },
+  { text: "Establishing secure connection...", delay: 300 }, // Começa logo após o anterior terminar
+  { text: "Iniciando conexão segura (SSH)...", delay: 600 },
+  { text: "Bypassing firewall [Port 443]...", delay: 900 },
+  { text: "Acesso root detectado.", delay: 1200 },
+  { text: "Descriptografando banco de dados...", delay: 1500 },
+  { text: "Analisando perfil do usuário...", delay: 1900 },
+  { text: "Gerando hash de desconto único...", delay: 2300 },
+  { text: "ACESSO CONCEDIDO.", delay: 2900, type: 'success' }
 ];
 
 export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose }) => {
@@ -232,7 +232,8 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
                                     className={`${log.type === 'success' ? 'text-green-300 drop-shadow-[0_0_5px_rgba(74,222,128,0.8)]' : ''}`}
                                 >
                                     <span className="mr-2 opacity-50 select-none">{`>`}</span>
-                                    <Typewriter text={log.text} speed={10} />
+                                    {/* Speed 5 = Muito Rápido */}
+                                    <Typewriter text={log.text} speed={5} />
                                 </div>
                             ))}
                         </div>
