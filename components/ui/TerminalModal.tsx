@@ -1,20 +1,30 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Terminal, ShieldAlert, CheckCircle2, Copy } from 'lucide-react';
+import { X, Terminal, ShieldAlert, CheckCircle2, Copy, MessageSquare } from 'lucide-react';
 
 interface TerminalModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-// Sub-componente para o efeito de digitação (Robust Version)
-const Typewriter = ({ text, speed = 15, onComplete }: { text: string; speed?: number; onComplete?: () => void }) => {
+// Sub-componente Typewriter Otimizado
+const Typewriter = ({ 
+  text, 
+  speed = 10, 
+  onComplete 
+}: { 
+  text: string; 
+  speed?: number; 
+  onComplete?: () => void 
+}) => {
   const [displayText, setDisplayText] = useState('');
+  const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
     let i = 0;
     setDisplayText('');
+    setIsDone(false);
     
     const timer = setInterval(() => {
       if (i < text.length) {
@@ -22,12 +32,15 @@ const Typewriter = ({ text, speed = 15, onComplete }: { text: string; speed?: nu
         setDisplayText(text.substring(0, i));
       } else {
         clearInterval(timer);
-        if (onComplete) onComplete();
+        if (!isDone) {
+            setIsDone(true);
+            if (onComplete) onComplete();
+        }
       }
     }, speed);
 
     return () => clearInterval(timer);
-  }, [text, speed, onComplete]);
+  }, [text, speed]); // Removed onComplete from dependency to avoid loop if parent changes reference
 
   return <span>{displayText}</span>;
 };
@@ -41,48 +54,44 @@ const ASCII_ART = `
   ╚═════╝    ╚══════╝    ╚═════╝ 
 `;
 
-// Logs recalculados para serem rápidos e sequenciais (Speed base ~5ms/char)
+// Logs sem delay fixo - a sequência é controlada pelo término da linha anterior
 const ALL_LOGS = [
-  { text: "System rebooted successfully.", delay: 0 },
-  { text: "Establishing secure connection...", delay: 300 }, // Começa logo após o anterior terminar
-  { text: "Iniciando conexão segura (SSH)...", delay: 600 },
-  { text: "Bypassing firewall [Port 443]...", delay: 900 },
-  { text: "Acesso root detectado.", delay: 1200 },
-  { text: "Descriptografando banco de dados...", delay: 1500 },
-  { text: "Analisando perfil do usuário...", delay: 1900 },
-  { text: "Gerando hash de desconto único...", delay: 2300 },
-  { text: "ACESSO CONCEDIDO.", delay: 2900, type: 'success' }
+  { text: "System rebooted successfully." },
+  { text: "Establishing secure connection..." },
+  { text: "Iniciando conexão segura (SSH)..." },
+  { text: "Bypassing firewall [Port 443]..." },
+  { text: "Acesso root detectado." },
+  { text: "Descriptografando banco de dados..." },
+  { text: "Analisando perfil do usuário..." },
+  { text: "Gerando hash de desconto único..." },
+  { text: "ACESSO CONCEDIDO.", type: 'success' }
 ];
 
 export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose }) => {
   const [bootPhase, setBootPhase] = useState<'loading' | 'logs' | 'complete'>('loading');
   const [showProgressBar, setShowProgressBar] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [logs, setLogs] = useState<{ text: string; type?: string }[]>([]);
+  
+  // Controle Sequencial de Logs
+  const [currentLogIndex, setCurrentLogIndex] = useState(0);
+  
   const [showReward, setShowReward] = useState(false);
   const [copied, setCopied] = useState(false);
   
   const scrollRef = useRef<HTMLDivElement>(null);
-  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // 1. Sequência de Boot
+  // 1. Reset ao abrir
   useEffect(() => {
     if (isOpen) {
-      // Reset States
       setBootPhase('loading');
-      setShowProgressBar(false); // Esconde a barra inicialmente
+      setShowProgressBar(false);
       setProgress(0);
-      setLogs([]);
+      setCurrentLogIndex(0); // Reseta para a primeira linha
       setShowReward(false);
-      
-      timeoutsRef.current.forEach(clearTimeout);
-      timeoutsRef.current = [];
-
-      // A barra de progresso só inicia após a animação do logo (controlada pelo onAnimationComplete no JSX)
     }
   }, [isOpen]);
 
-  // Effect separado para controlar o incremento da barra de progresso quando ela ficar visível
+  // 2. Barra de Progresso (Fase Loading)
   useEffect(() => {
     if (isOpen && showProgressBar && bootPhase === 'loading') {
         const interval = setInterval(() => {
@@ -97,39 +106,36 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
               }
               return next;
             });
-          }, 60); // Um pouco mais rápido para compensar a intro do logo
+          }, 60);
     
           return () => clearInterval(interval);
     }
   }, [isOpen, showProgressBar, bootPhase]);
 
-  // 2. Sequência de Logs
-  useEffect(() => {
-    if (isOpen && bootPhase === 'logs') {
-      ALL_LOGS.forEach((line, index) => {
-        const timeout = setTimeout(() => {
-          setLogs(prev => [...prev, line]);
-          
-          if (index === ALL_LOGS.length - 1) {
-            setTimeout(() => {
-                setBootPhase('complete');
-                setShowReward(true);
-            }, 1000);
-          }
-        }, line.delay);
-        timeoutsRef.current.push(timeout);
-      });
-    }
-    
-    return () => timeoutsRef.current.forEach(clearTimeout);
-  }, [isOpen, bootPhase]);
-
-  // Auto-scroll
+  // Auto-scroll sempre que uma nova linha começa
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs]);
+  }, [currentLogIndex, bootPhase]);
+
+  // Callback chamado quando uma linha termina de ser digitada
+  const handleLineComplete = () => {
+     // Pequeno delay aleatório entre linhas para parecer humano/processamento
+     const randomDelay = Math.floor(Math.random() * 300) + 100;
+     
+     setTimeout(() => {
+         if (currentLogIndex < ALL_LOGS.length - 1) {
+             setCurrentLogIndex(prev => prev + 1);
+         } else {
+             // Terminou todos os logs
+             setTimeout(() => {
+                 setBootPhase('complete');
+                 setShowReward(true);
+             }, 500);
+         }
+     }, randomDelay);
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText("DEV_MODE_ON");
@@ -186,18 +192,16 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
                         exit={{ opacity: 0, scale: 1.5, filter: "blur(20px)" }}
                         transition={{ duration: 0.8 }}
                     >
-                         {/* ANIMAÇÃO DO LOGO VINDO DO FUNDO */}
                          <motion.pre 
                             initial={{ scale: 0.2, opacity: 0, filter: "blur(15px)", z: -100 }}
                             animate={{ scale: 1, opacity: 1, filter: "blur(0px)", z: 0 }}
-                            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }} // Ease-out bem suave
+                            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }} 
                             onAnimationComplete={() => setShowProgressBar(true)}
                             className="font-bold text-[10px] sm:text-xs md:text-sm leading-none text-center mb-12 whitespace-pre text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.6)]"
                          >
                             {ASCII_ART}
                          </motion.pre>
                          
-                         {/* BARRA DE PROGRESSO - SÓ APARECE DEPOIS DO LOGO */}
                          {showProgressBar && (
                              <motion.div 
                                 initial={{ opacity: 0 }}
@@ -225,17 +229,30 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
                             ref={scrollRef} 
                             className="flex-1 overflow-y-auto overflow-x-hidden space-y-2 mb-4 text-green-400/80 break-words whitespace-pre-wrap font-bold pr-2 custom-scrollbar"
                         >
-                            {/* Logs são renderizados aqui via Typewriter */}
-                            {logs.map((log, i) => (
-                                <div 
-                                    key={i}
-                                    className={`${log.type === 'success' ? 'text-green-300 drop-shadow-[0_0_5px_rgba(74,222,128,0.8)]' : ''}`}
-                                >
-                                    <span className="mr-2 opacity-50 select-none">{`>`}</span>
-                                    {/* Speed 5 = Muito Rápido */}
-                                    <Typewriter text={log.text} speed={5} />
-                                </div>
-                            ))}
+                            {/* Renderização Sequencial: Só mostra até o índice atual */}
+                            {ALL_LOGS.map((log, i) => {
+                                if (i > currentLogIndex) return null; // Ainda não chegou a vez desta linha
+
+                                return (
+                                    <div 
+                                        key={i}
+                                        className={`${log.type === 'success' ? 'text-green-300 drop-shadow-[0_0_5px_rgba(74,222,128,0.8)]' : ''}`}
+                                    >
+                                        <span className="mr-2 opacity-50 select-none">{`>`}</span>
+                                        
+                                        {/* Se for a linha anterior, mostra texto estático (otimização). Se for a atual, anima. */}
+                                        {i < currentLogIndex ? (
+                                            <span>{log.text}</span>
+                                        ) : (
+                                            <Typewriter 
+                                                text={log.text} 
+                                                speed={15} 
+                                                onComplete={handleLineComplete} 
+                                            />
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         {showReward && (
@@ -245,23 +262,28 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
                                 className="border-t border-green-500/30 pt-4 mt-auto"
                             >
                                 <div className="flex items-start gap-4">
-                                <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20 text-green-400 shrink-0 animate-pulse">
-                                    <ShieldAlert size={24} />
-                                </div>
-                                <div className="flex-1">
-                                    <h4 className="text-white font-bold mb-1">Acesso Root Concedido</h4>
-                                    <p className="text-zinc-400 text-xs mb-3">
-                                    Use este código secreto para desbloquear <strong className="text-white">5% OFF</strong> no seu setup.
-                                    </p>
-                                    
-                                    <button
-                                    onClick={handleCopy}
-                                    className="w-full bg-green-950/30 border border-green-500/30 border-dashed rounded px-3 py-2.5 text-center relative group hover:bg-green-900/30 transition-all flex items-center justify-center gap-2"
-                                    >
-                                    <span className="text-green-400 font-bold tracking-[0.2em] text-lg font-mono">DEV_MODE_ON</span>
-                                    {copied ? <CheckCircle2 size={16} className="text-green-400" /> : <Copy size={16} className="text-green-700 group-hover:text-green-400" />}
-                                    </button>
-                                </div>
+                                    <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20 text-green-400 shrink-0 animate-pulse">
+                                        <ShieldAlert size={24} />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h4 className="text-white font-bold mb-1">Acesso Root Concedido</h4>
+                                        <p className="text-zinc-400 text-xs mb-3">
+                                        Use este código secreto para desbloquear <strong className="text-white">5% OFF</strong> no seu setup.
+                                        </p>
+                                        
+                                        <button
+                                            onClick={handleCopy}
+                                            className="w-full bg-green-950/30 border border-green-500/30 border-dashed rounded px-3 py-2.5 text-center relative group hover:bg-green-900/30 transition-all flex items-center justify-center gap-2 mb-2"
+                                        >
+                                            <span className="text-green-400 font-bold tracking-[0.2em] text-lg font-mono">DEV_MODE_ON</span>
+                                            {copied ? <CheckCircle2 size={16} className="text-green-400" /> : <Copy size={16} className="text-green-700 group-hover:text-green-400" />}
+                                        </button>
+                                        
+                                        <div className="flex items-center justify-center gap-1.5 text-[10px] text-zinc-500 mt-2">
+                                            <MessageSquare size={10} />
+                                            <span>Envie este código para o consultor ou Ísis no WhatsApp</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </motion.div>
                         )}

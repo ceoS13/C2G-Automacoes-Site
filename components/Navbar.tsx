@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Menu, X, MessageCircle, ChevronRight, Terminal } from 'lucide-react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, Variants } from 'framer-motion';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import { Logo } from './ui/Logo';
 import { NAV_LINKS, WHATSAPP_LINK } from '../lib/constants';
@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
   // Variantes OTIMIZADAS V2:
   // Removemos a animação de 'filter' (blur) que causava lag.
   // O blur agora é aplicado via classe CSS estática (backdrop-blur-md).
-  const menuVariants = {
+  const menuVariants: Variants = {
     closed: { 
       opacity: 0,
       y: -15,
@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     closed: { x: -10, opacity: 0 },
     open: { x: 0, opacity: 1 }
   };
