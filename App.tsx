@@ -52,6 +52,44 @@ const App: React.FC = () => {
       AOS.refresh();
     }, 500);
 
+    // --- EASTER EGG: CONSOLE LOG ---
+    // Mensagem secreta para desenvolvedores que inspecionarem o site
+    const consoleStyles = [
+      'font-size: 12px', 
+      'font-family: monospace', 
+      'background: #050505', 
+      'color: #06b6d4', 
+      'padding: 20px', 
+      'border: 1px solid #06b6d4',
+      'border-radius: 5px',
+      'line-height: 1.5'
+    ].join(';');
+
+    const asciiArt = `
+  ██████╗    ██████╗     ██████╗ 
+ ██╔════╝    ╚════██╗   ██╔════╝ 
+ ██║          █████╔╝   ██║  ███╗
+ ██║         ██╔═══╝    ██║   ██║
+ ╚██████╗    ███████╗   ╚██████╔╝
+  ╚═════╝    ╚══════╝    ╚═════╝ 
+    `;
+
+    const consoleMessage = `
+${asciiArt}
+
+👋 Olá, Dev! Curioso sobre nossa arquitetura?
+
+Nós construímos ecossistemas autônomos que realmente funcionam.
+Estamos sempre em busca de mentes brilhantes e parceiros estratégicos.
+
+📩 Mande um ping: c2gautomacoes@gmail.com
+    `;
+
+    // Timeout para garantir que apareça depois dos logs padrões do navegador/vite
+    setTimeout(() => {
+      console.log(`%c${consoleMessage}`, consoleStyles);
+    }, 1000);
+
     return () => clearTimeout(timer);
   }, []);
 
