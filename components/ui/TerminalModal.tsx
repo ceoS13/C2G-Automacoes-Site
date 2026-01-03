@@ -8,16 +8,18 @@ interface TerminalModalProps {
   onClose: () => void;
 }
 
-// Sub-componente para o efeito de digitação
+// Sub-componente para o efeito de digitação (Robust Version)
 const Typewriter = ({ text, speed = 15, onComplete }: { text: string; speed?: number; onComplete?: () => void }) => {
   const [displayText, setDisplayText] = useState('');
 
   useEffect(() => {
     let i = 0;
+    setDisplayText('');
+    
     const timer = setInterval(() => {
       if (i < text.length) {
-        setDisplayText((prev) => prev + text.charAt(i));
         i++;
+        setDisplayText(text.substring(0, i));
       } else {
         clearInterval(timer);
         if (onComplete) onComplete();
@@ -30,7 +32,13 @@ const Typewriter = ({ text, speed = 15, onComplete }: { text: string; speed?: nu
   return <span>{displayText}</span>;
 };
 
-// Delays aumentados para acomodar o tempo da animação de escrita
+const ASCII_ART = `
+   ___ ___  ____ 
+  / __|_  )/ ___|
+ | (__ / /| (_ | 
+  \\___/___|\\___| 
+`;
+
 const LOG_LINES = [
   { text: "Iniciando conexão segura (SSH)...", delay: 100 },
   { text: "Bypassing firewall [Port 443]...", delay: 800 },
@@ -42,44 +50,84 @@ const LOG_LINES = [
 ];
 
 export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose }) => {
+  const [bootPhase, setBootPhase] = useState<'loading' | 'logs' | 'complete'>('loading');
+  const [progress, setProgress] = useState(0);
   const [logs, setLogs] = useState<{ text: string; type?: string }[]>([]);
   const [showReward, setShowReward] = useState(false);
   const [copied, setCopied] = useState(false);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
+  // 1. Sequência de Boot (Loading Bar)
   useEffect(() => {
     if (isOpen) {
+      // Reset States
+      setBootPhase('loading');
+      setProgress(0);
       setLogs([]);
       setShowReward(false);
-      let timeouts: ReturnType<typeof setTimeout>[] = [];
+      timeoutsRef.current.forEach(clearTimeout);
+      timeoutsRef.current = [];
 
+      // Animação da barra de progresso
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          const increment = Math.floor(Math.random() * 15) + 5; // Incremento aleatório
+          const next = prev + increment;
+          if (next >= 100) {
+            clearInterval(interval);
+            setTimeout(() => setBootPhase('logs'), 500); // Pequeno delay antes dos logs
+            return 100;
+          }
+          return next;
+        });
+      }, 150);
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
+
+  // 2. Sequência de Logs (Só inicia quando bootPhase === 'logs')
+  useEffect(() => {
+    if (isOpen && bootPhase === 'logs') {
       LOG_LINES.forEach((line, index) => {
         const timeout = setTimeout(() => {
           setLogs(prev => [...prev, line]);
           
           if (index === LOG_LINES.length - 1) {
-            // Delay para mostrar o reward após a última linha terminar de ser escrita
-            setTimeout(() => setShowReward(true), 1000);
+            setTimeout(() => {
+                setBootPhase('complete');
+                setShowReward(true);
+            }, 1500);
           }
         }, line.delay);
-        timeouts.push(timeout);
+        timeoutsRef.current.push(timeout);
       });
-
-      return () => timeouts.forEach(clearTimeout);
     }
-  }, [isOpen]);
+    
+    return () => timeoutsRef.current.forEach(clearTimeout);
+  }, [isOpen, bootPhase]);
 
+  // Auto-scroll
   useEffect(() => {
     if (scrollRef.current) {
-      // Scroll suave para o final sempre que novos logs entrarem
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs]); // Observa logs
+  }, [logs, progress, bootPhase]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText("DEV_MODE_ON");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Helper para desenhar a barra de progresso em texto
+  const renderProgressBar = (pct: number) => {
+    const totalBars = 20;
+    const filledBars = Math.floor((pct / 100) * totalBars);
+    const emptyBars = totalBars - filledBars;
+    return `[${'#'.repeat(filledBars)}${'.'.repeat(emptyBars)}] ${pct}%`;
   };
 
   return (
@@ -117,24 +165,46 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
             </div>
 
             {/* Content Area */}
-            <div className="p-6 min-h-[300px] flex flex-col relative">
+            <div className="p-6 min-h-[400px] flex flex-col relative">
               {/* Scanline Effect */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10 opacity-20" />
               
-              {/* Logs Container - Overflow-x-hidden e break-words previnem flicker */}
               <div 
                 ref={scrollRef} 
-                className="flex-1 overflow-y-auto overflow-x-hidden space-y-2 mb-4 max-h-[200px] text-green-400/80 break-words whitespace-pre-wrap"
+                className="flex-1 overflow-y-auto overflow-x-hidden space-y-2 mb-4 max-h-[300px] text-green-400/80 break-words whitespace-pre-wrap font-bold"
               >
-                {logs.map((log, i) => (
-                  <div 
-                    key={i}
-                    className={`${log.type === 'success' ? 'text-green-400 font-bold' : ''}`}
-                  >
-                    <span className="mr-2 opacity-50 select-none">{`>`}</span>
-                    <Typewriter text={log.text} />
-                  </div>
-                ))}
+                {/* 1. ASCII ART HEADER */}
+                <div className="text-green-500 leading-none mb-6 opacity-80 select-none">
+                    {ASCII_ART}
+                </div>
+
+                {/* 2. LOADING PHASE */}
+                {bootPhase === 'loading' && (
+                    <div className="space-y-2">
+                        <div>Inicializando módulos do sistema...</div>
+                        <div className="text-green-400">{renderProgressBar(progress)}</div>
+                    </div>
+                )}
+
+                {/* 3. LOGS PHASE - Mantém o histórico do loading visível mas foca nos logs */}
+                {bootPhase !== 'loading' && (
+                    <>
+                        <div className="text-green-500/50 mb-4 text-xs">
+                             {`> Sistema carregado com sucesso.`}
+                             <br/>
+                             {`> Executando scripts de intrusão...`}
+                        </div>
+                        {logs.map((log, i) => (
+                        <div 
+                            key={i}
+                            className={`${log.type === 'success' ? 'text-green-400 font-bold' : ''}`}
+                        >
+                            <span className="mr-2 opacity-50 select-none">{`>`}</span>
+                            <Typewriter text={log.text} />
+                        </div>
+                        ))}
+                    </>
+                )}
               </div>
 
               <AnimatePresence>
