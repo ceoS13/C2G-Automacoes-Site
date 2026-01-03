@@ -52,45 +52,40 @@ const App: React.FC = () => {
       AOS.refresh();
     }, 500);
 
-    // --- EASTER EGG: CONSOLE LOG ---
-    // Mensagem secreta para desenvolvedores que inspecionarem o site
-    const consoleStyles = [
-      'font-size: 12px', 
-      'font-family: monospace', 
-      'background: #050505', 
-      'color: #06b6d4', 
-      'padding: 20px', 
-      'border: 1px solid #06b6d4',
-      'border-radius: 5px',
-      'line-height: 1.5'
-    ].join(';');
+    // --- EASTER EGG: CONSOLE LOG FIX ---
+    // Delay aumentado para garantir que apareça por último no console
+    const consoleTimer = setTimeout(() => {
+        const asciiArt = [
+          "  ██████╗    ██████╗     ██████╗ ",
+          " ██╔════╝    ╚════██╗   ██╔════╝ ",
+          " ██║          █████╔╝   ██║  ███╗",
+          " ██║         ██╔═══╝    ██║   ██║",
+          " ╚██████╗    ███████╗   ╚██████╔╝",
+          "  ╚═════╝    ╚══════╝    ╚═════╝ "
+        ].join('\n');
 
-    const asciiArt = `
-  ██████╗    ██████╗     ██████╗ 
- ██╔════╝    ╚════██╗   ██╔════╝ 
- ██║          █████╔╝   ██║  ███╗
- ██║         ██╔═══╝    ██║   ██║
- ╚██████╗    ███████╗   ╚██████╔╝
-  ╚═════╝    ╚══════╝    ╚═════╝ 
-    `;
+        // 1. Log da Arte (Apenas cor, sem background para evitar quebra de linha feia)
+        console.log(`%c${asciiArt}`, 'color: #06b6d4; font-weight: bold; line-height: 1.2;');
 
-    const consoleMessage = `
-${asciiArt}
+        // 2. Log da Mensagem (Com formatação mista)
+        console.log(
+            `%c👋 Olá, Dev! Curioso sobre nossa arquitetura?\n\n` +
+            `%cNós construímos ecossistemas autônomos que realmente funcionam.\n` +
+            `Estamos sempre em busca de mentes brilhantes e parceiros estratégicos.\n\n` +
+            `%c📩 Mande um ping: c2gautomacoes@gmail.com`,
+            // Estilo do Título
+            'color: #ffffff; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold;',
+            // Estilo do Corpo
+            'color: #a1a1aa; font-family: system-ui, sans-serif; font-size: 12px; line-height: 1.5;',
+            // Estilo do Botão/Email (Caixa ciano)
+            'color: #06b6d4; font-family: monospace; font-size: 12px; background: #0a0a0a; border: 1px solid #06b6d4; padding: 6px; border-radius: 4px; margin-top: 10px;'
+        );
+    }, 2000);
 
-👋 Olá, Dev! Curioso sobre nossa arquitetura?
-
-Nós construímos ecossistemas autônomos que realmente funcionam.
-Estamos sempre em busca de mentes brilhantes e parceiros estratégicos.
-
-📩 Mande um ping: c2gautomacoes@gmail.com
-    `;
-
-    // Timeout para garantir que apareça depois dos logs padrões do navegador/vite
-    setTimeout(() => {
-      console.log(`%c${consoleMessage}`, consoleStyles);
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    return () => {
+        clearTimeout(timer);
+        clearTimeout(consoleTimer);
+    };
   }, []);
 
   const handleNavigateToTerms = useCallback((section?: string) => {
