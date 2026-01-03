@@ -1,15 +1,16 @@
 
 import React from 'react';
-import { Instagram, Globe } from 'lucide-react';
+import { Instagram, Globe, Terminal } from 'lucide-react';
 import { Logo } from './ui/Logo';
 import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../lib/constants';
 import { scroller } from 'react-scroll';
 
 interface FooterProps {
   onTermsClick?: (section?: string) => void;
+  onOpenTerminal?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
+export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) => {
 
   const handleScroll = (href: string) => {
     const sectionId = href.replace('#', '');
@@ -90,7 +91,18 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
         </div>
         
         <div className="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 gap-4">
-          <p>&copy; {new Date().getFullYear()} {COMPANY_NAME} Ltda. Todos os direitos reservados.</p>
+          <div className="flex items-center gap-2">
+            <p>&copy; {new Date().getFullYear()} {COMPANY_NAME} Ltda. Todos os direitos reservados.</p>
+            {/* EASTER EGG TRIGGER */}
+            <button 
+              onClick={onOpenTerminal}
+              className="text-zinc-800 hover:text-green-500 hover:animate-pulse transition-colors p-1"
+              aria-label="System Access"
+            >
+              <Terminal size={12} />
+            </button>
+          </div>
+          
           <div className="flex flex-col items-center md:items-end gap-1">
             <a 
               href={`mailto:${CONTACT_EMAIL}`} 

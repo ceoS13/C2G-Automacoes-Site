@@ -16,6 +16,7 @@ import { ImplementationJourney } from './components/ImplementationJourney';
 import { About } from './components/About';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
+import { TerminalModal } from './components/ui/TerminalModal'; // Easter Egg
 
 // Apenas páginas secundárias permanecem com Lazy Loading
 const TermsPage = React.lazy(() => import('./components/TermsPage').then(module => ({ default: module.TermsPage })));
@@ -31,6 +32,9 @@ type PageView = 'home' | 'terms';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<PageView>('home');
   const [targetTermsSection, setTargetTermsSection] = useState<string | undefined>(undefined);
+  
+  // Easter Egg State
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'auto';
@@ -79,7 +83,7 @@ const App: React.FC = () => {
       <Navbar />
       
       {/* Componentes da Landing Page (Renderização Síncrona) */}
-      <Hero />
+      <Hero onOpenTerminal={() => setIsTerminalOpen(true)} />
       <ChatDemo />
       <Solutions />
       <BentoGrid />
@@ -89,7 +93,10 @@ const App: React.FC = () => {
       <ImplementationJourney />
       <About />
       <FAQ />
-      <Footer onTermsClick={handleNavigateToTerms} />
+      <Footer onTermsClick={handleNavigateToTerms} onOpenTerminal={() => setIsTerminalOpen(true)} />
+
+      {/* Easter Egg Modal */}
+      <TerminalModal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
     </div>
   );
 };

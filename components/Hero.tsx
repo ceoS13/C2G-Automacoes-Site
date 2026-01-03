@@ -1,13 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
 import { scroller } from 'react-scroll';
 import { LOGO_HQ_URL } from '../lib/constants';
 import { getOptimizedImageUrl } from '../lib/utils';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onOpenTerminal?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
   const { scrollY } = useScroll();
+  const [clickCount, setClickCount] = useState(0);
   
   const yTitle = useTransform(scrollY, [0, 500], [0, 50]);
   const yText = useTransform(scrollY, [0, 500], [0, 100]);
@@ -20,6 +25,16 @@ export const Hero: React.FC = () => {
       smooth: true,
       offset: 40, 
     });
+  };
+
+  const handleBadgeClick = () => {
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+    
+    if (newCount >= 5) {
+      if (onOpenTerminal) onOpenTerminal();
+      setClickCount(0);
+    }
   };
 
   return (
@@ -95,11 +110,19 @@ export const Hero: React.FC = () => {
         <div 
             data-aos="fade-down"
             data-aos-duration="1500"
-            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50"
-            role="status"
+            className="flex justify-center mb-6 md:mb-8"
         >
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-            <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Sistema Operacional: Online</span>
+            <button 
+                onClick={handleBadgeClick}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 transition-all active:scale-95 hover:border-cyan-500/30 ${clickCount > 0 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]' : ''}`}
+                role="status"
+                title={clickCount > 0 ? `${5 - clickCount} cliques para acesso root...` : "Status do Sistema"}
+            >
+                <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] ${clickCount > 0 ? 'animate-ping' : 'animate-pulse'}`} />
+                <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">
+                  {clickCount >= 3 ? "Acesso Root..." : "Sistema Operacional: Online"}
+                </span>
+            </button>
         </div>
 
         <div data-aos="fade-up" data-aos-duration="1500">
