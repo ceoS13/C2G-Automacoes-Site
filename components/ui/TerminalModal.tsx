@@ -8,14 +8,37 @@ interface TerminalModalProps {
   onClose: () => void;
 }
 
+// Sub-componente para o efeito de digitação
+const Typewriter = ({ text, speed = 15, onComplete }: { text: string; speed?: number; onComplete?: () => void }) => {
+  const [displayText, setDisplayText] = useState('');
+
+  useEffect(() => {
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < text.length) {
+        setDisplayText((prev) => prev + text.charAt(i));
+        i++;
+      } else {
+        clearInterval(timer);
+        if (onComplete) onComplete();
+      }
+    }, speed);
+
+    return () => clearInterval(timer);
+  }, [text, speed, onComplete]);
+
+  return <span>{displayText}</span>;
+};
+
+// Delays aumentados para acomodar o tempo da animação de escrita
 const LOG_LINES = [
   { text: "Iniciando conexão segura (SSH)...", delay: 100 },
-  { text: "Bypassing firewall [Port 443]...", delay: 600 },
-  { text: "Acesso root detectado.", delay: 1200 },
-  { text: "Descriptografando banco de dados de ofertas...", delay: 1800 },
-  { text: "Analisando perfil do usuário...", delay: 2400 },
-  { text: "Gerando hash de desconto único...", delay: 3200 },
-  { text: "ACESSO CONCEDIDO.", delay: 3800, type: 'success' }
+  { text: "Bypassing firewall [Port 443]...", delay: 800 },
+  { text: "Acesso root detectado.", delay: 1600 },
+  { text: "Descriptografando banco de dados...", delay: 2400 },
+  { text: "Analisando perfil do usuário...", delay: 3200 },
+  { text: "Gerando hash de desconto único...", delay: 4200 },
+  { text: "ACESSO CONCEDIDO.", delay: 5200, type: 'success' }
 ];
 
 export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose }) => {
@@ -35,7 +58,8 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
           setLogs(prev => [...prev, line]);
           
           if (index === LOG_LINES.length - 1) {
-            setTimeout(() => setShowReward(true), 500);
+            // Delay para mostrar o reward após a última linha terminar de ser escrita
+            setTimeout(() => setShowReward(true), 1000);
           }
         }, line.delay);
         timeouts.push(timeout);
@@ -47,9 +71,10 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
 
   useEffect(() => {
     if (scrollRef.current) {
+      // Scroll suave para o final sempre que novos logs entrarem
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs]);
+  }, [logs]); // Observa logs
 
   const handleCopy = () => {
     navigator.clipboard.writeText("DEV_MODE_ON");
@@ -96,17 +121,19 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
               {/* Scanline Effect */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10 opacity-20" />
               
-              <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-2 mb-4 max-h-[200px] text-green-400/80">
+              {/* Logs Container - Overflow-x-hidden e break-words previnem flicker */}
+              <div 
+                ref={scrollRef} 
+                className="flex-1 overflow-y-auto overflow-x-hidden space-y-2 mb-4 max-h-[200px] text-green-400/80 break-words whitespace-pre-wrap"
+              >
                 {logs.map((log, i) => (
-                  <motion.div 
+                  <div 
                     key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
                     className={`${log.type === 'success' ? 'text-green-400 font-bold' : ''}`}
                   >
-                    <span className="mr-2 opacity-50">{`>`}</span>
-                    {log.text}
-                  </motion.div>
+                    <span className="mr-2 opacity-50 select-none">{`>`}</span>
+                    <Typewriter text={log.text} />
+                  </div>
                 ))}
               </div>
 
