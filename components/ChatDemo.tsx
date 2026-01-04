@@ -1,59 +1,60 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Bot, Loader2, Database, CheckCircle2, Check, DollarSign, Headphones, Calendar } from 'lucide-react';
+import { Bot, Loader2, Database, CheckCircle2, Check, DollarSign, Headphones, Calendar, Send } from 'lucide-react';
 
 type Message = {
   id: number;
   role: 'ai' | 'user' | 'system';
   content: string;
-  delay: number;
+  delay: number; // Agora representa o tempo de espera ANTES de começar a ação
 };
 
 type ScenarioKey = 'scheduling' | 'support' | 'finance';
 
+// Delays ajustados para serem RELATIVOS (tempo de espera antes da ação)
 const SCENARIOS: Record<ScenarioKey, Message[]> = {
   scheduling: [
-    { id: 1, role: 'user', content: "Gostaria de agendar uma demonstração.", delay: 500 },
-    { id: 2, role: 'system', content: "Verificando disponibilidade no Google Agenda...", delay: 1500 },
-    { id: 3, role: 'ai', content: "Amanhã a agenda está lotada, mas tenho disponibilidade na Quinta às 14h. Qual prefere?", delay: 3000 },
-    // Delay de leitura humano adicionado (IA termina em 4000ms, Usuário responde em 6500ms)
-    { id: 4, role: 'user', content: "Quinta às 14h.", delay: 6500 },
-    { id: 5, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 7500 },
-    { id: 6, role: 'ai', content: "Agendado! Vi que você é CTO na Vertex. Enviei o convite e nossa documentação técnica no seu e-mail.", delay: 9000 },
+    { id: 1, role: 'user', content: "Gostaria de agendar uma demonstração.", delay: 800 },
+    { id: 2, role: 'system', content: "Verificando disponibilidade no Google Agenda...", delay: 600 },
+    { id: 3, role: 'ai', content: "Amanhã a agenda está lotada, mas tenho disponibilidade na Quinta às 14h. Qual prefere?", delay: 1500 },
+    { id: 4, role: 'user', content: "Quinta às 14h.", delay: 2500 }, // Delay maior para "ler" a pergunta
+    { id: 5, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 800 },
+    { id: 6, role: 'ai', content: "Agendado! Vi que você é CTO na Vertex. Enviei o convite e nossa documentação técnica no seu e-mail.", delay: 1500 },
   ],
   support: [
-    { id: 1, role: 'user', content: "Meu pedido #4920 ainda não chegou.", delay: 500 },
-    { id: 2, role: 'system', content: "Consultando API de Logística/ERP...", delay: 1500 },
-    { id: 3, role: 'ai', content: "Consultei aqui. O pedido #4920 teve um atraso na transportadora, mas saiu para entrega hoje às 08:30.", delay: 3500 },
-    // Delay de leitura humano adicionado (IA termina em 4500ms, Usuário responde em 7000ms)
-    { id: 4, role: 'user', content: "Ah, entendi. Conseguem entregar até as 18h?", delay: 7000 },
-    { id: 5, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista priorizar sua rota.", delay: 8500 },
+    { id: 1, role: 'user', content: "Meu pedido #4920 ainda não chegou.", delay: 800 },
+    { id: 2, role: 'system', content: "Consultando API de Logística/ERP...", delay: 800 },
+    { id: 3, role: 'ai', content: "Consultei aqui. O pedido #4920 teve um atraso na transportadora, mas saiu para entrega hoje às 08:30.", delay: 1500 },
+    { id: 4, role: 'user', content: "Ah, entendi. Conseguem entregar até as 18h?", delay: 3000 }, // Leitura + Digitação
+    { id: 5, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista priorizar sua rota.", delay: 1500 },
   ],
   finance: [
-    { id: 1, role: 'user', content: "Preciso da 2ª via do boleto de Janeiro.", delay: 500 },
-    { id: 2, role: 'system', content: "Autenticando Usuário e Acessando Banco...", delay: 1500 },
-    { id: 3, role: 'ai', content: "Localizei. O boleto vencia dia 15/01. Deseja que eu gere um novo com data para hoje sem juros?", delay: 3500 },
-    // Delay de leitura humano adicionado (IA termina em 4500ms, Usuário responde em 6500ms)
-    { id: 4, role: 'user', content: "Sim, por favor.", delay: 6500 },
-    { id: 5, role: 'system', content: "Gerando PDF e Enviando para WhatsApp...", delay: 7500 },
-    { id: 6, role: 'ai', content: "Prontinho! Acabei de enviar o PDF aqui e no seu e-mail financeiro.", delay: 9000 },
+    { id: 1, role: 'user', content: "Preciso da 2ª via do boleto de Janeiro.", delay: 800 },
+    { id: 2, role: 'system', content: "Autenticando Usuário e Acessando Banco...", delay: 800 },
+    { id: 3, role: 'ai', content: "Localizei. O boleto vencia dia 15/01. Deseja que eu gere um novo com data para hoje sem juros?", delay: 1500 },
+    { id: 4, role: 'user', content: "Sim, por favor.", delay: 2000 },
+    { id: 5, role: 'system', content: "Gerando PDF e Enviando para WhatsApp...", delay: 800 },
+    { id: 6, role: 'ai', content: "Prontinho! Acabei de enviar o PDF aqui e no seu e-mail financeiro.", delay: 1500 },
   ]
 };
 
 export const ChatDemo: React.FC = () => {
   const [activeScenario, setActiveScenario] = useState<ScenarioKey>('scheduling');
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isAiTyping, setIsAiTyping] = useState(false);
+  const [inputValue, setInputValue] = useState(""); // Novo estado para o input real
   
-  // Modified to track the specific chat container instead of the whole section
   const chatRef = useRef<HTMLElement>(null);
-  const isInView = useInView(chatRef, { once: true, amount: 0.2 }); // Trigger slightly earlier on mobile
+  const isInView = useInView(chatRef, { once: true, amount: 0.2 });
   
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  
+  // Ref para controlar o cancelamento do loop assíncrono se o usuário trocar de aba/cenário
+  const abortControllerRef = useRef<AbortController | null>(null);
 
+  // Auto-scroll
   useEffect(() => {
     if (scrollAreaRef.current) {
         const scrollContainer = scrollAreaRef.current;
@@ -62,36 +63,83 @@ export const ChatDemo: React.FC = () => {
             behavior: 'smooth'
         });
     }
-  }, [messages, isTyping]);
+  }, [messages, isAiTyping]);
 
-  const runScenario = (scenario: ScenarioKey) => {
-    timeoutsRef.current.forEach(clearTimeout);
-    timeoutsRef.current = [];
-    setMessages([]);
-    setIsTyping(false);
+  // Função auxiliar para esperar tempo (promisified setTimeout)
+  const wait = (ms: number, signal: AbortSignal) => new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => resolve(), ms);
+      signal.addEventListener('abort', () => {
+          clearTimeout(timer);
+          reject(new Error('Aborted'));
+      });
+  });
 
-    const script = SCENARIOS[scenario];
-    
-    script.forEach((msg) => {
-        const t1 = setTimeout(() => {
-            if (msg.role === 'ai') setIsTyping(true);
-            const typingDelay = msg.role === 'ai' ? 1000 : 0;
-            const t2 = setTimeout(() => {
-                setIsTyping(false);
-                setMessages((prev) => [...prev, msg]);
-            }, typingDelay);
-            timeoutsRef.current.push(t2);
-        }, msg.delay);
-        timeoutsRef.current.push(t1);
-    });
+  // Função para simular digitação no input
+  const typeIntoInput = async (text: string, signal: AbortSignal) => {
+    for (let i = 1; i <= text.length; i++) {
+        if (signal.aborted) throw new Error('Aborted');
+        setInputValue(text.substring(0, i));
+        // Velocidade de digitação variável para parecer humano
+        await wait(30 + Math.random() * 40, signal); 
+    }
+    // Pausa breve antes de "enviar"
+    await wait(400, signal);
   };
 
+  const runScenario = async (scenario: ScenarioKey) => {
+    // Cancela execução anterior se houver
+    if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+    }
+    
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    const { signal } = controller;
+
+    try {
+        setMessages([]);
+        setInputValue("");
+        setIsAiTyping(false);
+
+        const script = SCENARIOS[scenario];
+
+        for (const msg of script) {
+            // 1. Delay Inicial (Leitura ou Processamento)
+            await wait(msg.delay, signal);
+
+            if (msg.role === 'user') {
+                // Simula usuário digitando no campo de input
+                await typeIntoInput(msg.content, signal);
+                setInputValue(""); // Limpa input
+                setMessages(prev => [...prev, msg]); // Envia mensagem
+            } 
+            else if (msg.role === 'ai') {
+                // Simula IA pensando
+                setIsAiTyping(true);
+                await wait(1500, signal); // Tempo de "typing..." da IA
+                setIsAiTyping(false);
+                setMessages(prev => [...prev, msg]);
+            } 
+            else {
+                // Mensagens de sistema (instantâneas após delay)
+                setMessages(prev => [...prev, msg]);
+            }
+        }
+    } catch (error) {
+        // Ignora erros de abortamento (troca de cenário)
+        if ((error as Error).message !== 'Aborted') console.error(error);
+    }
+  };
+
+  // Inicia o cenário quando visível ou quando o usuário clica nos botões
   useEffect(() => {
     if (isInView) {
       runScenario(activeScenario);
     }
     return () => {
-        timeoutsRef.current.forEach(clearTimeout);
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
     };
   }, [activeScenario, isInView]);
 
@@ -187,7 +235,7 @@ export const ChatDemo: React.FC = () => {
                 <AnimatePresence mode="wait">
                   {messages.map((msg, index) => {
                     const isLast = index === messages.length - 1;
-                    const isSystemLoading = isLast && !isTyping;
+                    const isSystemLoading = isLast && !isAiTyping && !inputValue;
 
                     return (
                     <motion.div
@@ -227,7 +275,7 @@ export const ChatDemo: React.FC = () => {
                   )})}
                 </AnimatePresence>
                 
-                {isTyping && (
+                {isAiTyping && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }} 
                     animate={{ opacity: 1, y: 0 }}
@@ -244,9 +292,26 @@ export const ChatDemo: React.FC = () => {
                 
               </div>
 
+              {/* INPUT AREA SIMULADA */}
               <div className="pt-3 md:pt-4 border-t border-white/5 mt-auto shrink-0">
-                <div className="bg-white/5 rounded-full h-10 md:h-12 flex items-center px-4 border border-white/5 opacity-50">
-                    <span className="text-zinc-500 text-xs md:text-sm">Digite uma mensagem...</span>
+                <div className="bg-white/5 rounded-full h-10 md:h-12 flex items-center justify-between px-4 border border-white/5 relative overflow-hidden transition-colors duration-300">
+                    
+                    {/* Texto digitado ou Placeholder */}
+                    <div className="flex-1 truncate mr-2 font-light">
+                        {inputValue ? (
+                            <span className="text-white text-xs md:text-sm">
+                                {inputValue}
+                                <span className="inline-block w-[1px] h-4 bg-cyan-400 ml-0.5 align-middle animate-pulse" />
+                            </span>
+                        ) : (
+                            <span className="text-zinc-600 text-xs md:text-sm animate-pulse">Digite uma mensagem...</span>
+                        )}
+                    </div>
+
+                    {/* Botão de Enviar (Visual) */}
+                    <div className={`p-2 rounded-full transition-all duration-300 ${inputValue ? 'bg-cyan-500 text-white scale-100' : 'bg-transparent text-zinc-700 scale-90'}`}>
+                        <Send size={16} />
+                    </div>
                 </div>
               </div>
             </div>
