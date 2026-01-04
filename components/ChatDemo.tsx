@@ -17,24 +17,27 @@ const SCENARIOS: Record<ScenarioKey, Message[]> = {
     { id: 1, role: 'user', content: "Gostaria de agendar uma demonstração.", delay: 500 },
     { id: 2, role: 'system', content: "Verificando disponibilidade no Google Agenda...", delay: 1500 },
     { id: 3, role: 'ai', content: "Amanhã a agenda está lotada, mas tenho disponibilidade na Quinta às 14h. Qual prefere?", delay: 3000 },
-    { id: 4, role: 'user', content: "Quinta às 14h.", delay: 4500 },
-    { id: 5, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 5500 },
-    { id: 6, role: 'ai', content: "Agendado! Vi que você é CTO na Vertex. Enviei o convite e nossa documentação técnica no seu e-mail.", delay: 7000 },
+    // Delay de leitura humano adicionado (IA termina em 4000ms, Usuário responde em 6500ms)
+    { id: 4, role: 'user', content: "Quinta às 14h.", delay: 6500 },
+    { id: 5, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 7500 },
+    { id: 6, role: 'ai', content: "Agendado! Vi que você é CTO na Vertex. Enviei o convite e nossa documentação técnica no seu e-mail.", delay: 9000 },
   ],
   support: [
     { id: 1, role: 'user', content: "Meu pedido #4920 ainda não chegou.", delay: 500 },
     { id: 2, role: 'system', content: "Consultando API de Logística/ERP...", delay: 1500 },
     { id: 3, role: 'ai', content: "Consultei aqui. O pedido #4920 teve um atraso na transportadora, mas saiu para entrega hoje às 08:30.", delay: 3500 },
-    { id: 4, role: 'user', content: "Ah, entendi. Conseguem entregar até as 18h?", delay: 5000 },
-    { id: 5, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista priorizar sua rota.", delay: 7000 },
+    // Delay de leitura humano adicionado (IA termina em 4500ms, Usuário responde em 7000ms)
+    { id: 4, role: 'user', content: "Ah, entendi. Conseguem entregar até as 18h?", delay: 7000 },
+    { id: 5, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista priorizar sua rota.", delay: 8500 },
   ],
   finance: [
     { id: 1, role: 'user', content: "Preciso da 2ª via do boleto de Janeiro.", delay: 500 },
     { id: 2, role: 'system', content: "Autenticando Usuário e Acessando Banco...", delay: 1500 },
     { id: 3, role: 'ai', content: "Localizei. O boleto vencia dia 15/01. Deseja que eu gere um novo com data para hoje sem juros?", delay: 3500 },
-    { id: 4, role: 'user', content: "Sim, por favor.", delay: 5000 },
-    { id: 5, role: 'system', content: "Gerando PDF e Enviando para WhatsApp...", delay: 6000 },
-    { id: 6, role: 'ai', content: "Prontinho! Acabei de enviar o PDF aqui e no seu e-mail financeiro.", delay: 7500 },
+    // Delay de leitura humano adicionado (IA termina em 4500ms, Usuário responde em 6500ms)
+    { id: 4, role: 'user', content: "Sim, por favor.", delay: 6500 },
+    { id: 5, role: 'system', content: "Gerando PDF e Enviando para WhatsApp...", delay: 7500 },
+    { id: 6, role: 'ai', content: "Prontinho! Acabei de enviar o PDF aqui e no seu e-mail financeiro.", delay: 9000 },
   ]
 };
 
