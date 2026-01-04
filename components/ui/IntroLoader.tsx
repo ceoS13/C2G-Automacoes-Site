@@ -27,12 +27,12 @@ export const IntroLoader: React.FC = () => {
     // Marca como visto
     sessionStorage.setItem('c2g-boot-seen', 'true');
 
-    // Sequência de Logs (Rápida: Total ~2.2s)
+    // Sequência de Logs Ajustada (Sincronizada com a animação de 2.5s)
     const sequence = [
-      { text: "BIOS_CHECK... OK", delay: 200 },
-      { text: "LOADING_KERNEL [#######.......]", delay: 800 },
-      { text: "CONNECTING_NEURAL_NET...", delay: 1400 },
-      { text: "SYSTEM_READY.", delay: 1900 },
+      { text: "BIOS_CHECK... OK", delay: 500 },
+      { text: "LOADING_KERNEL [#######.......]", delay: 1200 },
+      { text: "CONNECTING_NEURAL_NET...", delay: 1900 },
+      { text: "SYSTEM_READY.", delay: 2600 },
     ];
 
     let timeouts: ReturnType<typeof setTimeout>[] = [];
@@ -44,11 +44,11 @@ export const IntroLoader: React.FC = () => {
       timeouts.push(t);
     });
 
-    // Saída
+    // Saída (Aumentado levemente para 3.2s para permitir o efeito completo do Zoom)
     const exitTimer = setTimeout(() => {
       setIsExit(true); // Trigger exit animation
       setTimeout(() => setIsVisible(false), 800); // Remove from DOM
-    }, 2400);
+    }, 3200);
 
     return () => {
         timeouts.forEach(clearTimeout);
@@ -68,11 +68,11 @@ export const IntroLoader: React.FC = () => {
     >
         <div className="max-w-xl w-full px-6 flex flex-col items-center">
             
-            {/* ASCII ART com Gradiente Ciano (Diferente do Verde do Easter Egg) */}
+            {/* ASCII ART: Animação "Cinematográfica" idêntica ao Easter Egg (Zoom + Blur) */}
             <motion.pre
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                initial={{ scale: 0.2, opacity: 0, filter: "blur(15px)" }} 
+                animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }} // Curva suave do TerminalModal
                 className="text-[10px] sm:text-xs md:text-sm font-bold leading-none text-center mb-8 whitespace-pre text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-blue-600 select-none"
             >
                 {ASCII_LOGO}
@@ -97,7 +97,7 @@ export const IntroLoader: React.FC = () => {
             <motion.div 
                 initial={{ width: 0, opacity: 0 }}
                 animate={{ width: "200px", opacity: 1 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
+                transition={{ duration: 2.5, ease: "easeInOut" }}
                 className="h-[2px] bg-zinc-800 mt-4 relative overflow-hidden rounded-full"
             >
                 <motion.div 
