@@ -48,13 +48,18 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   return (
     <article 
       ref={cardRef}
-      className={`group/card relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 will-change-transform animate-float-subtle active:scale-[0.98] md:active:scale-100 ${className}`}
+      className={`group/card relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 will-change-transform animate-float-subtle active:scale-[0.98] md:active:scale-100 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${className}`}
       style={{ animationDelay: floatDelay }}
       data-aos="fade-up"
       data-aos-delay={delay}
       onMouseMove={handleMouseMove}
       onMouseEnter={updateRect}
     >
+      {/* Noise Texture Overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.05] mix-blend-overlay" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
+      />
+
       <motion.div
         className="hidden md:block pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover/card:opacity-100 z-0"
         style={{

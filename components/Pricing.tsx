@@ -28,11 +28,11 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
           </div>
       )}
 
-      {/* Inner Card Container */}
-      <div className={`relative h-full flex flex-col p-8 rounded-3xl overflow-hidden border transition-all duration-500
+      {/* Inner Card Container - Updated with Premium Classes */}
+      <div className={`relative h-full flex flex-col p-8 rounded-3xl overflow-hidden transition-all duration-500 card-premium
           ${highlight 
               ? 'bg-[#0a0a0a] border-cyan-500/30 shadow-2xl shadow-cyan-900/20 z-10 animate-pulse-glow' 
-              : 'bg-[#0a0a0a]/50 border-white/10 hover:border-white/20'
+              : 'hover:border-white/20'
           }
       `}>
           
@@ -55,9 +55,9 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
                 {subtitle && <span className={`text-[10px] uppercase tracking-wider border px-2 py-0.5 rounded-full whitespace-nowrap ${highlight ? 'border-cyan-500/30 text-cyan-400 bg-cyan-950/20' : 'border-white/10 text-zinc-500'}`}>{subtitle}</span>}
               </header>
 
-              <div className="text-3xl font-bold text-white mb-4">
+              <div className="text-3xl font-bold text-white mb-4 tracking-tight">
                 <CountUp value={price} prefix="R$ " />
-                <span className="text-sm text-zinc-500 font-normal">/mês</span>
+                <span className="text-sm text-zinc-500 font-normal ml-1">/mês</span>
               </div>
               
               {description && <p className="text-sm text-zinc-400 mb-6 leading-relaxed min-h-[40px] md:min-h-[60px]">{description}</p>}
@@ -143,7 +143,7 @@ export const Pricing: React.FC = () => {
 
           {/* Enterprise Card - Custom Layout */}
           <article 
-            className="relative rounded-3xl flex flex-col h-full bg-[#0a0a0a] border border-zinc-800 px-5 py-8 transition-all duration-300 hover:border-white/30 animate-float-subtle group/card overflow-hidden"
+            className="relative rounded-3xl flex flex-col h-full card-premium px-5 py-8 transition-all duration-300 hover:border-white/30 animate-float-subtle group/card overflow-hidden"
             style={{ animationDelay: "3s" }}
             data-aos="fade-up"
             data-aos-delay="300"

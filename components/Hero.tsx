@@ -37,10 +37,28 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
     }
   };
 
+  // Variantes para o Mask Reveal do Texto
+  const textRevealVariants = {
+    hidden: { y: "100%" },
+    visible: (i: number) => ({
+      y: "0%",
+      transition: {
+        delay: i * 0.1,
+        duration: 0.8,
+        ease: [0.215, 0.61, 0.355, 1], // Cubic Bezier para movimento "premium"
+      }
+    })
+  };
+
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-900/20 via-black to-black md:hidden -z-10" aria-hidden="true" />
+      {/* Global Noise Texture Overlay for Hero Depth */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
+      />
+
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-900/10 via-black to-black md:hidden -z-10" aria-hidden="true" />
 
       <motion.div
         animate={{
@@ -50,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           y: [0, -30, 30, 0],
         }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
+        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
         aria-hidden="true"
       />
       <motion.div
@@ -61,7 +79,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           y: [0, 40, -40, 0],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
+        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
         aria-hidden="true"
       />
 
@@ -141,25 +159,33 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
             </button>
         </div>
 
-        <div data-aos="fade-up" data-aos-duration="1500">
+        <div className="relative z-20">
           <motion.h1 
+            initial="hidden"
+            animate="visible"
             className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9] will-change-transform"
             style={{ y: yTitle }}
           >
-            <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 uppercase">
-              IA PARA O SEU
-            </span>
-            <span className="block relative uppercase mt-1 md:mt-0">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-white bg-[length:200%_auto] animate-text-shimmer inline-block px-2">
-                SUCESSO
-              </span>
-              <span className="text-cyan-500">.</span>
-              <div className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
-            </span>
+            {/* Mask Reveal Effect */}
+            <div className="overflow-hidden">
+                <motion.span custom={0} variants={textRevealVariants} className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 uppercase">
+                IA PARA O SEU
+                </motion.span>
+            </div>
+            
+            <div className="overflow-hidden mt-1 md:mt-0">
+                <motion.span custom={1} variants={textRevealVariants} className="block relative uppercase">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-white bg-[length:200%_auto] animate-text-shimmer inline-block px-2">
+                        SUCESSO
+                    </span>
+                    <span className="text-cyan-500">.</span>
+                    <div className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
+                </motion.span>
+            </div>
           </motion.h1>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="1500">
+        <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="1500">
           <motion.p 
             className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4 will-change-transform"
             style={{ y: yText }}
@@ -168,7 +194,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           </motion.p>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="1500">
+        <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1500">
           <motion.div 
             className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 will-change-transform"
             style={{ y: yButtons }}

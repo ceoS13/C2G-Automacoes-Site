@@ -66,7 +66,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
   return (
     <div 
       ref={cardRef}
-      className="group relative h-full bg-zinc-900/30 border border-white/10 rounded-2xl overflow-hidden animate-float-subtle will-change-transform"
+      className="group relative h-full card-premium rounded-2xl overflow-hidden animate-float-subtle will-change-transform"
       style={{ animationDelay: floatDelay }}
       onMouseMove={handleMouseMove}
       onMouseEnter={updateRect}
@@ -88,8 +88,8 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
 
       <div className="relative h-full p-6 lg:p-8 flex flex-col z-10">
         <div className="absolute top-0 left-0 w-full z-20">
-             <div className={`w-full h-[2px] bg-gradient-to-r ${gradient} ${shadowClass} opacity-90`} />
-             <div className={`absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r ${gradient} blur-[4px] opacity-60 animate-pulse-slow`} />
+             <div className={`w-full h-[1px] bg-gradient-to-r ${gradient} ${shadowClass} opacity-80`} />
+             <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${gradient} blur-[3px] opacity-60 animate-pulse-slow`} />
         </div>
         
         <div className="flex justify-between items-start mb-6">

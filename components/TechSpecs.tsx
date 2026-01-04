@@ -120,7 +120,7 @@ export const TechSpecs: React.FC = () => {
              {WHY_CARDS.map((item, i) => (
                 <div 
                     key={i} 
-                    className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl hover:border-cyan-500/30 hover:bg-white/10 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.15)] transition-all duration-300 group animate-float-subtle will-change-transform overflow-hidden"
+                    className="relative card-premium p-6 rounded-2xl hover:border-cyan-500/30 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.15)] transition-all duration-300 group animate-float-subtle will-change-transform overflow-hidden"
                     style={{ animationDelay: item.floatDelay }}
                 >
                   {/* Neon Lines Effect */}
@@ -149,6 +149,9 @@ export const TechSpecs: React.FC = () => {
             
             {/* Main Container */}
             <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-20 md:p-12 shadow-2xl overflow-hidden min-h-[500px] flex flex-col justify-center">
+                {/* CRT Scanline Overlay */}
+                <div className="absolute inset-0 scanlines opacity-30 z-0 pointer-events-none" aria-hidden="true" />
+                
                 {/* Grid Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] z-0" />
                 
