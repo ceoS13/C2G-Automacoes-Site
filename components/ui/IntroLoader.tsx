@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const ASCII_LOGO = `
   ██████╗    ██████╗     ██████╗ 
@@ -18,6 +18,7 @@ interface IntroLoaderProps {
 export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [logs, setLogs] = useState<string[]>([]);
+  const [progress, setProgress] = useState(0);
   const [isExit, setIsExit] = useState(false);
 
   useEffect(() => {
@@ -32,16 +33,17 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
     // Marca como visto
     sessionStorage.setItem('c2g-boot-seen', 'true');
 
-    // Sequência de Logs Ajustada (Sincronizada com a animação de 2.5s)
+    // Sequência de Logs 
     const sequence = [
-      { text: "BIOS_CHECK... OK", delay: 500 },
-      { text: "LOADING_KERNEL [#######.......]", delay: 1200 },
-      { text: "CONNECTING_NEURAL_NET...", delay: 1900 },
-      { text: "SYSTEM_READY.", delay: 2600 },
+      { text: "BIOS_CHECK... OK", delay: 400 },
+      { text: "LOADING_KERNEL...", delay: 1000 },
+      { text: "CONNECTING_NEURAL_NET...", delay: 1800 },
+      { text: "SYSTEM_READY.", delay: 2800 },
     ];
 
     let timeouts: ReturnType<typeof setTimeout>[] = [];
 
+    // Dispara os logs
     sequence.forEach(({ text, delay }) => {
       const t = setTimeout(() => {
         setLogs(prev => [...prev, text]);
@@ -49,8 +51,23 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       timeouts.push(t);
     });
 
-    // Saída (Aumentado levemente para 3.2s para permitir o efeito completo do Zoom)
+    // Simulação de Progresso 0% -> 100%
+    // Duração total ~3s para sincronizar com os logs
+    const progressInterval = setInterval(() => {
+        setProgress(prev => {
+            if (prev >= 100) {
+                clearInterval(progressInterval);
+                return 100;
+            }
+            // Incremento variável para parecer "processamento real"
+            const increment = Math.random() * 4; 
+            return Math.min(prev + increment, 100);
+        });
+    }, 80); // Atualiza a cada 80ms
+
+    // Saída
     const exitTimer = setTimeout(() => {
+      setProgress(100); // Garante 100% no final
       setIsExit(true); // Trigger exit animation
       setTimeout(() => {
           setIsVisible(false);
@@ -61,6 +78,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
     return () => {
         timeouts.forEach(clearTimeout);
         clearTimeout(exitTimer);
+        clearInterval(progressInterval);
     };
   }, []);
 
@@ -68,7 +86,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center font-mono cursor-default" // Cursor corrigido para Default
+      className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center font-mono cursor-default"
       initial={{ y: 0 }}
       animate={isExit ? { y: "-100%" } : { y: 0 }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }} // Curva "Expo" para saída dramática
@@ -80,7 +98,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
             <motion.pre
                 initial={{ scale: 0.2, opacity: 0, filter: "blur(15px)" }} 
                 animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }} // Curva suave do TerminalModal
+                transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
                 className="text-[10px] sm:text-xs md:text-sm font-bold leading-none text-center mb-8 whitespace-pre text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-blue-600 select-none"
             >
                 {ASCII_LOGO}
@@ -101,29 +119,20 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
                 ))}
             </div>
 
-            {/* Loading Bar Decorativa */}
-            <motion.div 
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "200px", opacity: 1 }}
-                transition={{ duration: 2.5, ease: "easeInOut" }}
-                className="h-[2px] bg-zinc-800 mt-4 relative overflow-hidden rounded-full"
-            >
-                <motion.div 
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 bg-cyan-500 w-1/2 blur-[2px]"
-                />
-            </motion.div>
+            {/* Loading Bar Real (0 a 100%) */}
+            <div className="w-full max-w-xs mt-6">
+                <div className="h-1 w-full bg-zinc-800 rounded-full overflow-hidden">
+                    <motion.div 
+                        className="h-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.6)]"
+                        style={{ width: `${progress}%` }}
+                    />
+                </div>
+                <div className="flex justify-between items-center mt-2 text-[10px] uppercase tracking-widest font-mono">
+                    <span className="text-zinc-500 animate-pulse">Carregando Sistema...</span>
+                    <span className="text-cyan-400 font-bold">{Math.floor(progress)}%</span>
+                </div>
+            </div>
             
-            <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-                className="mt-4 text-[10px] text-zinc-600 uppercase tracking-widest animate-pulse"
-            >
-                Inicializando Interface...
-            </motion.p>
         </div>
     </motion.div>
   );
