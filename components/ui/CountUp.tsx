@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 
@@ -14,6 +15,7 @@ export const CountUp: React.FC<CountUpProps> = ({ value, className, prefix = '',
   const motionValue = useMotionValue(0);
   
   // Extract numeric value (e.g. "R$ 1.499" -> 1499)
+  // Ensure value is treated as string and parsed correctly
   const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10);
   const isNumeric = !isNaN(numericValue);
 
@@ -27,7 +29,7 @@ export const CountUp: React.FC<CountUpProps> = ({ value, className, prefix = '',
     }
   }, [isInView, isNumeric, numericValue, motionValue]);
 
-  const displayValue = useTransform(motionValue, (latest) => {
+  const displayValue = useTransform(motionValue, (latest: number) => {
     if (!isNumeric) return value;
     return `${prefix}${Math.round(latest).toLocaleString('pt-BR')}${suffix}`;
   });

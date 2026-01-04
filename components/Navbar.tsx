@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 import { Menu, X, MessageCircle, ChevronRight, Terminal } from 'lucide-react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, Variants } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import { Logo } from './ui/Logo';
 import { NAV_LINKS, WHATSAPP_LINK } from '../lib/constants';

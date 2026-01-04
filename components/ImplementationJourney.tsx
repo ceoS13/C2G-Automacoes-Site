@@ -2,7 +2,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Rocket, Code2, Zap, ArrowRight } from 'lucide-react';
 import { WHATSAPP_LINK } from '../lib/constants';
-import { motion, useMotionValue, useTransform, animate, MotionValue, useInView, useMotionTemplate } from 'framer-motion';
+import { motion, useMotionValue, useTransform, animate, useInView, useMotionTemplate } from 'framer-motion';
+import type { MotionValue } from 'framer-motion';
 
 const STEPS = [
   {
