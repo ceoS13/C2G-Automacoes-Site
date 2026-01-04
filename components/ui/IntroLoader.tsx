@@ -11,7 +11,11 @@ const ASCII_LOGO = `
   ╚═════╝    ╚══════╝    ╚═════╝ 
 `;
 
-export const IntroLoader: React.FC = () => {
+interface IntroLoaderProps {
+    onComplete: () => void;
+}
+
+export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [logs, setLogs] = useState<string[]>([]);
   const [isExit, setIsExit] = useState(false);
@@ -21,6 +25,7 @@ export const IntroLoader: React.FC = () => {
     const hasSeenIntro = sessionStorage.getItem('c2g-boot-seen');
     if (hasSeenIntro) {
       setIsVisible(false);
+      onComplete(); // Notifica o App imediatamente para mostrar o conteúdo
       return;
     }
 
@@ -47,7 +52,10 @@ export const IntroLoader: React.FC = () => {
     // Saída (Aumentado levemente para 3.2s para permitir o efeito completo do Zoom)
     const exitTimer = setTimeout(() => {
       setIsExit(true); // Trigger exit animation
-      setTimeout(() => setIsVisible(false), 800); // Remove from DOM
+      setTimeout(() => {
+          setIsVisible(false);
+          onComplete(); // Notifica o App APÓS a animação terminar
+      }, 800); // Remove from DOM
     }, 3200);
 
     return () => {
@@ -60,7 +68,7 @@ export const IntroLoader: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center font-mono cursor-wait"
+      className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center font-mono cursor-default" // Cursor corrigido para Default
       initial={{ y: 0 }}
       animate={isExit ? { y: "-100%" } : { y: 0 }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }} // Curva "Expo" para saída dramática

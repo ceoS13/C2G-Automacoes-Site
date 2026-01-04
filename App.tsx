@@ -34,27 +34,36 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<PageView>('home');
   const [targetTermsSection, setTargetTermsSection] = useState<string | undefined>(undefined);
   
+  // Controle de carregamento e animações
+  const [isAppReady, setIsAppReady] = useState(false);
+  
   // Easter Egg State
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'auto';
     
-    AOS.init({
-      duration: 1000,
-      once: true,
-      easing: 'ease-out-cubic',
-      offset: 50, 
-    });
+    // Inicializa AOS apenas quando a app estiver pronta (pós-intro)
+    if (isAppReady) {
+        AOS.init({
+        duration: 1000,
+        once: true,
+        easing: 'ease-out-cubic',
+        offset: 50, 
+        });
 
-    window.AOS = AOS;
-    
-    const timer = setTimeout(() => {
-      AOS.refresh();
-    }, 500);
+        window.AOS = AOS;
+        
+        const timer = setTimeout(() => {
+            AOS.refresh();
+        }, 500);
 
-    // --- EASTER EGG: CONSOLE LOG FIX ---
-    // Delay aumentado para garantir que apareça por último no console
+        return () => clearTimeout(timer);
+    }
+  }, [isAppReady]); // Dependência isAppReady garante que animações só rodem após Intro
+
+  // Easter Egg do Console
+  useEffect(() => {
     const consoleTimer = setTimeout(() => {
         const asciiArt = [
           "  ██████╗    ██████╗     ██████╗ ",
@@ -65,28 +74,19 @@ const App: React.FC = () => {
           "  ╚═════╝    ╚══════╝    ╚═════╝ "
         ].join('\n');
 
-        // 1. Log da Arte (Apenas cor, sem background para evitar quebra de linha feia)
         console.log(`%c${asciiArt}`, 'color: #06b6d4; font-weight: bold; line-height: 1.2;');
-
-        // 2. Log da Mensagem (Com formatação mista)
         console.log(
             `%c👋 Olá, Dev! Curioso sobre nossa arquitetura?\n\n` +
             `%cNós construímos ecossistemas autônomos que realmente funcionam.\n` +
             `Estamos sempre em busca de mentes brilhantes e parceiros estratégicos.\n\n` +
             `%c📩 Mande um ping: c2gautomacoes@gmail.com`,
-            // Estilo do Título
             'color: #ffffff; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold;',
-            // Estilo do Corpo
             'color: #a1a1aa; font-family: system-ui, sans-serif; font-size: 12px; line-height: 1.5;',
-            // Estilo do Botão/Email (Caixa ciano)
             'color: #06b6d4; font-family: monospace; font-size: 12px; background: #0a0a0a; border: 1px solid #06b6d4; padding: 6px; border-radius: 4px; margin-top: 10px;'
         );
     }, 2000);
 
-    return () => {
-        clearTimeout(timer);
-        clearTimeout(consoleTimer);
-    };
+    return () => clearTimeout(consoleTimer);
   }, []);
 
   const handleNavigateToTerms = useCallback((section?: string) => {
@@ -114,21 +114,26 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
-      <IntroLoader />
-      <Navbar />
+      {/* O IntroLoader avisa quando terminar via setIsAppReady */}
+      <IntroLoader onComplete={() => setIsAppReady(true)} />
       
-      {/* Componentes da Landing Page (Renderização Síncrona) */}
-      <Hero onOpenTerminal={() => setIsTerminalOpen(true)} />
-      <ChatDemo />
-      <Solutions />
-      <BentoGrid />
-      <TechSpecs />
-      <Partners />
-      <Pricing />
-      <ImplementationJourney />
-      <About />
-      <FAQ />
-      <Footer onTermsClick={handleNavigateToTerms} onOpenTerminal={() => setIsTerminalOpen(true)} />
+      {/* Wrapper principal: Só fica visível quando isAppReady for true */}
+      <div className={`transition-opacity duration-700 ease-in-out ${isAppReady ? 'opacity-100' : 'opacity-0'}`}>
+          <Navbar />
+          
+          {/* Componentes da Landing Page */}
+          <Hero onOpenTerminal={() => setIsTerminalOpen(true)} />
+          <ChatDemo />
+          <Solutions />
+          <BentoGrid />
+          <TechSpecs />
+          <Partners />
+          <Pricing />
+          <ImplementationJourney />
+          <About />
+          <FAQ />
+          <Footer onTermsClick={handleNavigateToTerms} onOpenTerminal={() => setIsTerminalOpen(true)} />
+      </div>
 
       {/* Easter Egg Modal */}
       <TerminalModal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
