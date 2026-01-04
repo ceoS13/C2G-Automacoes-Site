@@ -8,9 +8,10 @@ import { getOptimizedImageUrl } from '../lib/utils';
 
 interface HeroProps {
   onOpenTerminal?: () => void;
+  isActive?: boolean; // Prop para controlar animação de entrada
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
+export const Hero: React.FC<HeroProps> = ({ onOpenTerminal, isActive = true }) => {
   const { scrollY } = useScroll();
   const [clickCount, setClickCount] = useState(0);
   
@@ -65,18 +66,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
         aria-hidden="true"
       />
 
+      {/* Watermark Logo Container */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[900px] z-0 pointer-events-none select-none" aria-hidden="true">
         <div className="w-full h-full [mask-image:radial-gradient(circle,black_30%,transparent_70%)]">
             <motion.div
+              // Animação Condicional: Só inicia quando isActive é true (após o IntroLoader)
               initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
-              animate={{ 
+              animate={isActive ? { 
                 opacity: 0.15, 
                 scale: 1, 
                 filter: "blur(0px)" 
+              } : { 
+                opacity: 0, 
+                scale: 0.8, 
+                filter: "blur(20px)" 
               }}
               transition={{ 
-                duration: 1.5,
-                ease: "easeOut" 
+                duration: 1.8,
+                ease: "easeOut",
+                delay: 0.2 // Pequeno delay extra para garantir que o Intro sumiu
               }}
               className="w-full h-full will-change-[opacity,filter,transform]"
             >

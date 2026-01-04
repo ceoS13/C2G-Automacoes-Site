@@ -121,8 +121,9 @@ const App: React.FC = () => {
       <div className={`transition-opacity duration-700 ease-in-out ${isAppReady ? 'opacity-100' : 'opacity-0'}`}>
           <Navbar />
           
-          {/* Componentes da Landing Page */}
-          <Hero onOpenTerminal={() => setIsTerminalOpen(true)} />
+          {/* Componentes da Landing Page - Hero recebe isAppReady para sincronizar animação interna */}
+          <Hero onOpenTerminal={() => setIsTerminalOpen(true)} isActive={isAppReady} />
+          
           <ChatDemo />
           <Solutions />
           <BentoGrid />
