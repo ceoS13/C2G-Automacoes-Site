@@ -17,7 +17,6 @@ import { About } from './components/About';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 import { TerminalModal } from './components/ui/TerminalModal'; // Easter Egg
-import { IntroLoader } from './components/ui/IntroLoader'; // Boot Sequence
 
 // Apenas páginas secundárias permanecem com Lazy Loading
 const TermsPage = React.lazy(() => import('./components/TermsPage').then(module => ({ default: module.TermsPage })));
@@ -34,33 +33,28 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<PageView>('home');
   const [targetTermsSection, setTargetTermsSection] = useState<string | undefined>(undefined);
   
-  // Controle de carregamento e animações
-  const [isAppReady, setIsAppReady] = useState(false);
-  
   // Easter Egg State
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'auto';
     
-    // Inicializa AOS apenas quando a app estiver pronta (pós-intro)
-    if (isAppReady) {
-        AOS.init({
-        duration: 1000,
-        once: true,
-        easing: 'ease-out-cubic',
-        offset: 50, 
-        });
+    // Inicializa AOS imediatamente
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out-cubic',
+      offset: 50, 
+    });
 
-        window.AOS = AOS;
-        
-        const timer = setTimeout(() => {
-            AOS.refresh();
-        }, 500);
+    window.AOS = AOS;
+    
+    const timer = setTimeout(() => {
+        AOS.refresh();
+    }, 500);
 
-        return () => clearTimeout(timer);
-    }
-  }, [isAppReady]); // Dependência isAppReady garante que animações só rodem após Intro
+    return () => clearTimeout(timer);
+  }, []);
 
   // Easter Egg do Console
   useEffect(() => {
@@ -114,27 +108,22 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
-      {/* O IntroLoader avisa quando terminar via setIsAppReady */}
-      <IntroLoader onComplete={() => setIsAppReady(true)} />
       
-      {/* Wrapper principal: Só fica visível quando isAppReady for true */}
-      <div className={`transition-opacity duration-700 ease-in-out ${isAppReady ? 'opacity-100' : 'opacity-0'}`}>
-          <Navbar />
-          
-          {/* Componentes da Landing Page - Hero recebe isAppReady para sincronizar animação interna */}
-          <Hero onOpenTerminal={() => setIsTerminalOpen(true)} isActive={isAppReady} />
-          
-          <ChatDemo />
-          <Solutions />
-          <BentoGrid />
-          <TechSpecs />
-          <Partners />
-          <Pricing />
-          <ImplementationJourney />
-          <About />
-          <FAQ />
-          <Footer onTermsClick={handleNavigateToTerms} onOpenTerminal={() => setIsTerminalOpen(true)} />
-      </div>
+      <Navbar />
+      
+      {/* Componentes da Landing Page */}
+      <Hero onOpenTerminal={() => setIsTerminalOpen(true)} />
+      
+      <ChatDemo />
+      <Solutions />
+      <BentoGrid />
+      <TechSpecs />
+      <Partners />
+      <Pricing />
+      <ImplementationJourney />
+      <About />
+      <FAQ />
+      <Footer onTermsClick={handleNavigateToTerms} onOpenTerminal={() => setIsTerminalOpen(true)} />
 
       {/* Easter Egg Modal */}
       <TerminalModal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
