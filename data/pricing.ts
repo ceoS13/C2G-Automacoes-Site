@@ -33,7 +33,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: 'standard',
     title: "Standard",
     subtitle: 'O "Filtro"',
-    price: "R$ 1.499",
+    price: "R$ 999",
     description: "Foco: Tirar o peso do atendimento humano. A IA resolve o básico.",
     features: [
       "Mensagens Ilimitadas (24/7)",
@@ -49,7 +49,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: 'plus',
     title: "Plus",
     subtitle: 'O "Engajador"',
-    price: "R$ 2.999",
+    price: "R$ 1.499",
     description: "Foco: Aquecer o lead e trazer de volta quem sumiu. Humanização.",
     features: [
       "Tudo do Standard",
@@ -66,7 +66,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: 'pro',
     title: "Pro",
     subtitle: 'O "Closer Autônomo"',
-    price: "R$ 4.999",
+    price: "R$ 2.499",
     description: "Foco: A IA executa o trabalho sujo. Ela qualifica, agenda ou fecha.",
     features: [
       "Tudo do Plus",
