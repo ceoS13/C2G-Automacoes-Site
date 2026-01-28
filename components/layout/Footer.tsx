@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Instagram, Globe, Terminal, Linkedin } from 'lucide-react';
-import { Logo } from './ui/Logo';
-import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../lib/constants';
+import { Logo } from '../ui/Logo';
+import { NAV_LINKS, SOCIAL_LINKS, COMPANY_NAME, CONTACT_EMAIL } from '../../lib/constants';
 import { scroller } from 'react-scroll';
 
 interface FooterProps {
@@ -15,10 +15,10 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
   const handleScroll = (href: string) => {
     const sectionId = href.replace('#', '');
     scroller.scrollTo(sectionId, {
-      duration: 1000,
+      duration: 200,
       delay: 0,
       smooth: true,
-      offset: 40, 
+      offset: 40,
     });
   };
 
@@ -29,11 +29,11 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          
+
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-                <Logo className="h-14 md:h-24 w-auto" showFullText={true} />
+              <Logo className="h-14 md:h-24 w-auto" showFullText={true} />
             </div>
             <p className="text-zinc-500 max-w-sm mb-6 leading-relaxed">
               Engenharia de software aplicada a inteligência artificial. Criamos o futuro do trabalho autônomo para empresas que lideram seus setores.
@@ -61,11 +61,11 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
             <h4 className="text-white font-semibold mb-6">Empresa</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
               {NAV_LINKS.filter(l => l.name === 'Sobre Nós' || l.name === 'Equipe').map(link => (
-                  <li key={link.name}>
-                    <button onClick={() => handleScroll(link.href)} className="hover:text-white transition-colors text-left">
-                      {link.name}
-                    </button>
-                  </li>
+                <li key={link.name}>
+                  <button onClick={() => handleScroll(link.href)} className="hover:text-white transition-colors text-left">
+                    {link.name}
+                  </button>
+                </li>
               ))}
               <li><span className="text-zinc-600 cursor-default">Carreiras</span></li>
               <li><span className="text-zinc-600 cursor-default">Blog (Em breve)</span></li>
@@ -83,20 +83,20 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
                 <button onClick={() => onTermsClick?.('privacy')} className="hover:text-white transition-colors text-left">Política de Privacidade</button>
               </li>
               <li>
-                 <button onClick={() => onTermsClick?.('compliance')} className="hover:text-white transition-colors text-left">Compliance</button>
+                <button onClick={() => onTermsClick?.('compliance')} className="hover:text-white transition-colors text-left">Compliance</button>
               </li>
               <li><button className="hover:text-white transition-colors flex items-center gap-2 cursor-default mt-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Status do Sistema</button></li>
             </ul>
           </nav>
 
         </div>
-        
+
         <div className="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 gap-4">
           <div className="flex items-center gap-2">
             <p>&copy; {new Date().getFullYear()} {COMPANY_NAME} Ltda. Todos os direitos reservados.</p>
-            
+
             {/* EASTER EGG TRIGGER - VERDE NEON */}
-            <button 
+            <button
               onClick={onOpenTerminal}
               className="ml-1 p-1.5 rounded-md transition-all duration-300 group relative focus:outline-none"
               aria-label="Acesso Root"
@@ -104,19 +104,19 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
             >
               {/* Glow Verde no Hover */}
               <div className="absolute inset-0 bg-emerald-500/10 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
+
               {/* Ícone Verde Pulsante */}
-              <Terminal 
-                size={14} 
+              <Terminal
+                size={14}
                 className="text-emerald-700 group-hover:text-emerald-400 transition-colors animate-[pulse_2s_ease-in-out_infinite] group-hover:drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"
-                strokeWidth={2.5} 
+                strokeWidth={2.5}
               />
             </button>
           </div>
-          
+
           <div className="flex flex-col items-center md:items-end gap-1">
-            <a 
-              href={`mailto:${CONTACT_EMAIL}`} 
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
               className="hover:text-cyan-400 transition-colors cursor-pointer"
             >
               Contato: {CONTACT_EMAIL}
