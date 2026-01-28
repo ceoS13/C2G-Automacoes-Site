@@ -6,6 +6,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          animations: ['framer-motion'],
+          ui: ['lucide-react', 'clsx', 'tailwind-merge']
+        }
+      }
+    }
   },
   server: {
     port: 3000,
