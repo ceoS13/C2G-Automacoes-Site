@@ -57,10 +57,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       onMouseEnter={updateRect}
     >
       <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
-        {/* Noise Texture Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.05] mix-blend-overlay"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
-        />
+
 
         <motion.div
           className="hidden md:block pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover/card:opacity-100 z-0"
