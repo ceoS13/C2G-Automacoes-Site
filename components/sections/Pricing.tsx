@@ -23,7 +23,7 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: delay ? parseInt(delay) / 1000 : 0 }}
     >
-      <div className="h-full w-full animate-float-subtle" style={{ animationDelay: floatDelay }}>
+      <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
         {/* Highlight Badge */}
         {highlight && (
           <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-cyan-500/30 z-30 animate-pulse">

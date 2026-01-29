@@ -74,7 +74,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: delay ? parseInt(delay) / 1000 : 0 }}
     >
-      <div className="h-full w-full animate-float-subtle" style={{ animationDelay: floatDelay }}>
+      <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
         <motion.div
           className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
           style={{
