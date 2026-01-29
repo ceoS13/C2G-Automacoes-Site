@@ -7,7 +7,7 @@ export const GrowthWidget = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     
     return (
-        <div className="h-full flex flex-col p-4 md:p-5 relative z-10 min-h-[200px] md:min-h-0">
+        <div className="h-full flex flex-col p-4 md:p-5 pb-6 relative z-10 min-h-[200px] md:min-h-0">
             <div className="flex items-start justify-between mb-6">
                 <div>
                     <div className="text-xs text-zinc-500 font-mono mb-1">RECEITA GERADA</div>
@@ -24,7 +24,7 @@ export const GrowthWidget = () => {
                 </div>
             </div>
 
-            <div className="flex-1 flex items-end justify-between gap-1.5 md:gap-2" onMouseLeave={() => setHoveredIndex(null)}>
+            <div className="flex-1 flex items-end justify-between gap-1.5 md:gap-2 pb-2" onMouseLeave={() => setHoveredIndex(null)}>
                 {bars.map((height, i) => (
                     <div key={i} className="relative w-full h-full flex items-end justify-center group">
                         {/* Tooltip */}
