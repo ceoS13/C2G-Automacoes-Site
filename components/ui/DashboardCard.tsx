@@ -56,7 +56,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={updateRect}
     >
-      <div className="h-full w-full animate-float-subtle" style={{ animationDelay: floatDelay }}>
+      <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
         {/* Noise Texture Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.05] mix-blend-overlay"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
@@ -89,7 +89,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
           </div>
         </header>
 
-        <div className="relative flex-1 p-0 overflow-hidden h-full z-10">
+        <div className="relative flex-1 p-0 overflow-hidden z-10">
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none z-0 opacity-50" aria-hidden="true" />
           {children}
         </div>
