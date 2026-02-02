@@ -196,20 +196,6 @@ export const Pricing: React.FC = () => {
 
         </div>
 
-        {/* Footer Note */}
-        <motion.div
-          className="mt-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <p className="text-zinc-500 text-sm flex items-center justify-center gap-2">
-            <Activity size={14} className="text-emerald-500" aria-hidden="true" />
-            Setup Gratuito no plano trimestral. Sem fidelidade no mensal.
-          </p>
-        </motion.div>
-
       </div>
     </section >
   );
