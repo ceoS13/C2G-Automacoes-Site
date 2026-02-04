@@ -8,6 +8,7 @@ import { HyperText } from '../ui/HyperText';
 import { PRICING_PLANS, ENTERPRISE_PLAN, PricingPlan } from '../../data/pricing';
 
 const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price, description, features, benefit, highlight, delay, floatDelay }) => {
+  const [isAnimated, setIsAnimated] = React.useState(false);
 
   const handlePlanClick = () => {
     const message = `Olá Ísis, vim pelo site! Tenho interesse no plano ${title}.`;
@@ -22,8 +23,9 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: delay ? parseInt(delay) / 1000 : 0 }}
+      onAnimationComplete={() => setTimeout(() => setIsAnimated(true), 100)}
     >
-      <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
+      <div className={`h-full w-full flex flex-col ${isAnimated ? 'animate-float-subtle' : ''}`} style={{ animationDelay: floatDelay }}>
         {/* Highlight Badge */}
         {highlight && (
           <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-cyan-500/30 z-30 animate-pulse">
@@ -157,8 +159,15 @@ export const Pricing: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
+            onAnimationComplete={() => {
+              // Delay seguro para garantir que o Framer terminou antes do CSS entrar
+              setTimeout(() => {
+                const el = document.getElementById('enterprise-card-content');
+                if (el) el.classList.add('animate-float-subtle');
+              }, 100);
+            }}
           >
-            <div className="h-full w-full flex flex-col p-5 py-8 animate-float-subtle" style={{ animationDelay: "3s" }}>
+            <div id="enterprise-card-content" className="h-full w-full flex flex-col p-5 py-8" style={{ animationDelay: "3s" }}>
               <div className="flex-1 flex flex-col">
                 <header className="mb-2 flex items-center gap-1.5">
                   <h3 className="text-xl font-bold text-white">{ENTERPRISE_PLAN.title}</h3>

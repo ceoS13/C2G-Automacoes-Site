@@ -14,11 +14,14 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
 
   const handleScroll = (href: string) => {
     const sectionId = href.replace('#', '');
+    const link = NAV_LINKS.find(l => l.href === href);
+    const offset = link ? link.offset : -50; // Fallback para -50 se não encontrar
+
     scroller.scrollTo(sectionId, {
       duration: 200,
       delay: 0,
       smooth: true,
-      offset: 40,
+      offset: offset,
     });
   };
 

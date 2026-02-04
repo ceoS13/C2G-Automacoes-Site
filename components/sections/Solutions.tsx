@@ -19,6 +19,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
   const mouseY = useMotionValue(0);
   const cardRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
+  const [isAnimated, setIsAnimated] = React.useState(false);
 
   const updateRect = useCallback(() => {
     if (cardRef.current) {
@@ -29,6 +30,8 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
   function handleMouseMove(e: React.MouseEvent) {
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
+    // Otimização: Só atualiza o Rect se ele não existir (primeira interação)
+    // O evento onMouseEnter já cuida de atualizar quando o mouse entra novamente
     if (!rectRef.current) updateRect();
 
     if (rectRef.current) {
@@ -73,8 +76,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: delay ? parseInt(delay) / 1000 : 0 }}
+      onAnimationComplete={() => setTimeout(() => setIsAnimated(true), 100)}
     >
-      <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
+      <div className={`h-full w-full flex flex-col ${isAnimated ? 'animate-float-subtle' : ''}`} style={{ animationDelay: floatDelay }}>
         <motion.div
           className="hidden md:block pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
           style={{

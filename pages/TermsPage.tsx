@@ -2,6 +2,8 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ArrowLeft, ShieldCheck, Scale, Lock, FileText, AlertTriangle, Cpu } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { scroller } from 'react-scroll';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import { Logo } from '../components/ui/Logo';
 import { WHATSAPP_LINK } from '../lib/constants';
@@ -20,6 +22,14 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener('resize', checkMobile);
+
+        // Inicializa AOS para garantir animações
+        AOS.init({
+            once: true,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
@@ -97,202 +107,179 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
 
                     {/* Header Section */}
                     <div className="mb-16 text-center" data-aos="fade-up" data-aos-duration="1000">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/20 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-widest mb-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/30 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest mb-6 shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)]">
                             <Scale size={12} />
                             <span>Jurídico & Compliance</span>
                         </div>
-                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-                            Termos de Uso e Políticas
+                        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+                            Termos de Uso <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">e Políticas</span>
                         </h1>
-                        <p className="text-zinc-500">
-                            Última atualização: Dezembro de 2025
+                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                            Transparência total sobre como operamos nossos agentes, tratamos seus dados e garantimos a segurança da sua operação.
                         </p>
                     </div>
 
                     {/* Content Divider */}
-                    <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-16" data-aos="zoom-in" data-aos-delay="200" />
+                    <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent mb-16" data-aos="zoom-in" data-aos-delay="200" />
 
-                    <div className="space-y-16">
+                    <div className="space-y-24">
 
                         {/* SECTION 1: TERMS OF USE */}
-                        <section id="terms" className="space-y-6 scroll-mt-32">
-                            <div className="flex items-center gap-3 mb-8" data-aos="fade-right">
-                                <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 border border-blue-500/20">
-                                    <FileText size={24} />
+                        <section id="terms" className="scroll-mt-32">
+                            <div className="flex items-center gap-4 mb-8" data-aos="fade-right">
+                                <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/10 rounded-xl text-blue-400 border border-blue-500/20 shadow-lg shadow-blue-500/10">
+                                    <FileText size={28} />
                                 </div>
-                                <h2 className="text-2xl font-bold text-white">Termos de Uso - C2G Automações</h2>
+                                <h2 className="text-3xl font-bold text-white">Termos de Uso</h2>
                             </div>
 
                             <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed">
-                                <p className="mb-6" data-aos="fade-up">
+                                <p className="mb-8 text-lg" data-aos="fade-up">
                                     Bem-vindo à C2G Automações. Ao contratar ou utilizar nossos ecossistemas de agentes autônomos ("Serviços"), você concorda com os termos abaixo.
                                 </p>
 
-                                <div className="space-y-8">
+                                <div className="space-y-6">
                                     <div
-                                        className="bg-[#0a0a0a] border border-white/5 p-6 rounded-2xl group hover:border-blue-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(59,130,246,0.1)]"
+                                        className="glass-panel p-6 rounded-2xl group hover:border-blue-500/30 transition-all duration-300"
                                         data-aos="fade-up"
                                         data-aos-delay="100"
                                     >
-                                        <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                                            1. Natureza dos Serviços (SaaS e IA)
+                                        <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                                            <span className="text-blue-500">01.</span> Natureza dos Serviços (SaaS e IA)
                                         </h3>
-                                        <p>
+                                        <p className="text-zinc-400">
                                             A C2G fornece infraestrutura de software baseada em Inteligência Artificial Generativa (LLMs) para automação de processos.
                                         </p>
-                                        <div className="mt-4 p-4 bg-yellow-900/10 border border-yellow-500/10 rounded-xl flex items-start gap-3 text-sm text-yellow-200/80">
-                                            <AlertTriangle size={16} className="shrink-0 mt-0.5" />
+                                        <div className="mt-4 p-4 bg-yellow-500/5 border border-yellow-500/20 rounded-xl flex items-start gap-3 text-sm text-yellow-200/90">
+                                            <AlertTriangle size={16} className="shrink-0 mt-0.5 text-yellow-500" />
                                             <span>
-                                                <strong>Importante:</strong> Embora utilizemos protocolos avançados de validação, modelos de IA são probabilísticos e podem, ocasionalmente, gerar informações imprecisas ("alucinações"). O Cliente reconhece que a supervisão final sobre decisões críticas de negócio é humana.
+                                                <strong className="text-yellow-400">Importante:</strong> Embora utilizemos protocolos avançados de validação, modelos de IA são probabilísticos e podem, ocasionalmente, gerar informações imprecisas ("alucinações"). O Cliente reconhece que a supervisão final sobre decisões críticas de negócio é humana.
                                             </span>
                                         </div>
                                     </div>
 
                                     <div
-                                        className="bg-[#0a0a0a]/50 border border-transparent p-6 rounded-2xl hover:bg-[#0a0a0a] hover:border-white/10 transition-all duration-300"
+                                        className="glass-panel p-6 rounded-2xl hover:border-white/20 transition-all duration-300"
                                         data-aos="fade-up"
                                         data-aos-delay="150"
                                     >
-                                        <h3 className="text-lg font-semibold text-white mb-3">2. Responsabilidade sobre o Canal (WhatsApp/Meta)</h3>
-                                        <p>
+                                        <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                                            <span className="text-blue-500">02.</span> Responsabilidade sobre o Canal
+                                        </h3>
+                                        <p className="text-zinc-400">
                                             A C2G fornece a tecnologia de automação, mas a titularidade e a responsabilidade pelo uso do número de telefone junto à Meta (WhatsApp) são exclusivas do Cliente.
                                         </p>
-                                        <ul className="list-disc pl-5 mt-3 space-y-2 marker:text-cyan-500">
-                                            <li><strong>Bloqueios:</strong> A C2G <strong>não se responsabiliza</strong> por bloqueios, banimentos ou suspensões de números decorrentes de denúncias de usuários, envio de spam ou violação das políticas comerciais da Meta.</li>
-                                            <li>A C2G recomenda estritamente o uso de bases de contatos "opt-in" (que aceitaram receber mensagens).</li>
+                                        <ul className="list-none pl-0 mt-4 space-y-3">
+                                            <li className="flex items-start gap-2">
+                                                <span className="block w-1.5 h-1.5 rounded-full bg-red-500 mt-2 shrink-0" />
+                                                <span><strong className="text-zinc-200">Bloqueios:</strong> A C2G <strong>não se responsabiliza</strong> por bloqueios, banimentos ou suspensões de números decorrentes de denúncias de usuários, envio de spam ou violação das políticas comerciais da Meta.</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="block w-1.5 h-1.5 rounded-full bg-green-500 mt-2 shrink-0" />
+                                                <span>Recomendamos estritamente o uso de bases de contatos "opt-in".</span>
+                                            </li>
                                         </ul>
                                     </div>
 
-                                    <div data-aos="fade-up" data-aos-delay="200">
-                                        <h3 className="text-lg font-semibold text-white mb-3">3. Propriedade Intelectual</h3>
-                                        <ul className="list-disc pl-5 space-y-2 marker:text-cyan-500">
-                                            <li><strong>Tecnologia C2G:</strong> Todos os fluxos de automação (n8n), códigos, arquitetura de agentes e "prompts de sistema" desenvolvidos pela C2G são propriedade intelectual exclusiva da C2G Automações, licenciados para uso do Cliente enquanto o contrato estiver ativo.</li>
-                                            <li><strong>Dados do Cliente:</strong> Toda a base de leads, histórico de conversas e informações do negócio pertencem exclusivamente ao Cliente.</li>
+                                    <div className="glass-panel p-6 rounded-2xl hover:border-white/20 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                                        <h3 className="text-xl font-bold text-white mb-3">
+                                            <span className="text-blue-500">03.</span> Propriedade Intelectual
+                                        </h3>
+                                        <ul className="grid md:grid-cols-2 gap-4 mt-4 list-none pl-0">
+                                            <li className="bg-white/5 p-4 rounded-xl border border-white/5">
+                                                <strong className="text-white block mb-1">Tecnologia C2G</strong>
+                                                <span className="text-sm">Fluxos n8n, códigos e prompts são propriedade exclusiva da C2G Automações.</span>
+                                            </li>
+                                            <li className="bg-white/5 p-4 rounded-xl border border-white/5">
+                                                <strong className="text-white block mb-1">Dados do Cliente</strong>
+                                                <span className="text-sm">Leads, histórico e inteligência de negócio pertencem exclusivamente ao Cliente.</span>
+                                            </li>
                                         </ul>
-                                    </div>
-
-                                    <div data-aos="fade-up" data-aos-delay="250">
-                                        <h3 className="text-lg font-semibold text-white mb-3">4. Limitação de Responsabilidade</h3>
-                                        <p>
-                                            Em nenhuma circunstância a C2G será responsável por lucros cessantes, perda de receita ou dados decorrentes de falhas de terceiros (ex: queda da API da OpenAI, instabilidade do WhatsApp ou servidores de hospedagem).
-                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </section>
-
-                        {/* Divider */}
-                        <div className="w-full h-px bg-white/5" data-aos="fade-in" />
 
                         {/* SECTION 2: PRIVACY POLICY */}
-                        <section id="privacy" className="space-y-6 scroll-mt-32">
-                            <div className="flex items-center gap-3 mb-8" data-aos="fade-right">
-                                <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400 border border-emerald-500/20">
-                                    <Lock size={24} />
+                        <section id="privacy" className="scroll-mt-32">
+                            <div className="flex items-center gap-4 mb-8" data-aos="fade-right">
+                                <div className="p-3 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 rounded-xl text-emerald-400 border border-emerald-500/20 shadow-lg shadow-emerald-500/10">
+                                    <Lock size={28} />
                                 </div>
-                                <h2 className="text-2xl font-bold text-white">Política de Privacidade e Proteção de Dados</h2>
+                                <h2 className="text-3xl font-bold text-white">Privacidade e Proteção de Dados</h2>
                             </div>
 
                             <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-8">
-                                <p data-aos="fade-up">
-                                    A C2G Automações leva a segurança dos seus dados a sério. Esta política descreve como coletamos, usamos e protegemos as informações processadas por nossos Agentes de IA.
+                                <p className="text-lg" data-aos="fade-up">
+                                    A C2G Automações atua como <strong>Operador de Dados</strong> sob a LGPD, coletando apenas o estritamente necessário para a automação.
                                 </p>
 
-                                <div data-aos="fade-up">
-                                    <h3 className="text-lg font-semibold text-white mb-3">1. Coleta e Tratamento de Dados</h3>
-                                    <p>
-                                        Atuamos como <strong>Operador de Dados</strong> sob a LGPD (Lei Geral de Proteção de Dados). Coletamos apenas os dados estritamente necessários para a execução da automação (ex: Nome, Telefone, E-mail e Histórico de Conversas do WhatsApp).
-                                    </p>
-                                </div>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div
+                                        className="glass-panel p-6 rounded-2xl group hover:border-purple-500/30 transition-all duration-300 md:col-span-2 relative overflow-hidden"
+                                        data-aos="fade-up"
+                                    >
+                                        <div className="absolute top-0 right-0 p-32 bg-purple-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
 
-                                <div
-                                    className="bg-[#0a0a0a] border border-white/5 p-6 rounded-2xl group hover:border-purple-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(168,85,247,0.1)]"
-                                    data-aos="fade-up"
-                                >
-                                    <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                                        <Cpu size={18} className="text-purple-400" />
-                                        2. Uso de Inteligência Artificial e Terceiros
-                                    </h3>
-                                    <p>
-                                        Para fornecer inteligência aos agentes, utilizamos APIs de parceiros homologados, incluindo, mas não se limitando a: <strong>OpenAI, Anthropic e Google Cloud</strong>.
-                                    </p>
-                                    <div className="mt-4 pl-4 border-l-2 border-purple-500/50">
-                                        <p className="text-sm text-zinc-300">
-                                            <strong>Privacidade de IA:</strong> Os dados do Cliente processados por nossos agentes <strong>NÃO</strong> são utilizados para o treinamento de modelos públicos dessas fornecedoras. Utilizamos configurações de API que garantem a confidencialidade (Zero Data Retention Policies, onde aplicável).
+                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2 relative z-10">
+                                            <Cpu size={20} className="text-purple-400" />
+                                            Uso de IA e Terceiros
+                                        </h3>
+                                        <p className="relative z-10">
+                                            Utilizamos APIs de parceiros homologados (<strong>OpenAI, Anthropic, Google Cloud</strong>) com configurações de privacidade empresarial.
                                         </p>
+                                        <div className="mt-4 p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg inline-block relative z-10">
+                                            <p className="text-sm text-purple-200">
+                                                <strong>Zero Retention:</strong> Seus dados <strong>NÃO</strong> são usados para treinar modelos públicos.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="glass-panel p-6 rounded-2xl hover:border-emerald-500/30 transition-all duration-300" data-aos="fade-up">
+                                        <h3 className="text-lg font-bold text-white mb-2">Armazenamento</h3>
+                                        <p className="text-sm">Bancos de dados criptografados (Supabase/PostgreSQL) com SSL/TLS.</p>
+                                    </div>
+
+                                    <div className="glass-panel p-6 rounded-2xl hover:border-emerald-500/30 transition-all duration-300" data-aos="fade-up">
+                                        <h3 className="text-lg font-bold text-white mb-2">Isolamento</h3>
+                                        <p className="text-sm">Arquitetura Multi-tenant lógica protege sua base de conhecimento (RAG).</p>
                                     </div>
                                 </div>
 
                                 <div data-aos="fade-up">
-                                    <h3 className="text-lg font-semibold text-white mb-3">3. Armazenamento e Segurança</h3>
-                                    <p>
-                                        Seus dados são armazenados em bancos de dados seguros (Supabase/PostgreSQL) com criptografia em repouso e em trânsito (SSL/TLS).
-                                    </p>
-                                    <ul className="list-disc pl-5 mt-2 marker:text-emerald-500">
-                                        <li><strong>Isolamento:</strong> Utilizamos arquitetura "Multi-tenant" lógica, garantindo que a base de conhecimento (RAG) da sua empresa nunca seja acessada pelos agentes de outro cliente.</li>
-                                    </ul>
-                                </div>
-
-                                <div data-aos="fade-up">
-                                    <h3 className="text-lg font-semibold text-white mb-3">4. Seus Direitos</h3>
-                                    <p>O Cliente pode solicitar, a qualquer momento:</p>
-                                    <ul className="list-disc pl-5 mt-2 marker:text-emerald-500">
-                                        <li>A exportação completa de seus dados (formato CSV/JSON).</li>
-                                        <li>A exclusão definitiva de dados pessoais de seus leads de nossos servidores, conforme exigido pela LGPD.</li>
-                                    </ul>
+                                    <h3 className="text-xl font-bold text-white mb-4">Seus Direitos</h3>
+                                    <div className="flex gap-4 flex-wrap">
+                                        <span className="px-4 py-2 bg-emerald-950/30 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm font-medium">Exportação de Dados</span>
+                                        <span className="px-4 py-2 bg-red-950/30 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium">Exclusão Definitiva</span>
+                                    </div>
                                 </div>
                             </div>
                         </section>
 
-                        {/* Divider */}
-                        <div className="w-full h-px bg-white/5" data-aos="fade-in" />
-
                         {/* SECTION 3: COMPLIANCE */}
-                        <section id="compliance" className="space-y-6 scroll-mt-32">
-                            <div className="flex items-center gap-3 mb-8" data-aos="fade-right">
-                                <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 border border-cyan-500/20">
-                                    <ShieldCheck size={24} />
+                        <section id="compliance" className="scroll-mt-32">
+                            <div className="glass-panel border-l-4 border-l-cyan-500 p-8 rounded-r-2xl" data-aos="fade-left">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <ShieldCheck size={32} className="text-cyan-400" />
+                                    <div>
+                                        <h2 className="text-2xl font-bold text-white">Compliance e Governança</h2>
+                                        <p className="text-zinc-500 text-sm">Segurança em primeiro lugar</p>
+                                    </div>
                                 </div>
-                                <h2 className="text-2xl font-bold text-white">Compliance e Governança de IA</h2>
-                            </div>
-
-                            <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-8">
-                                <p data-aos="fade-up">
-                                    A C2G Automações constrói sistemas desenhados para operar dentro de rigorosos padrões éticos e técnicos.
-                                </p>
-
-                                <div data-aos="fade-up">
-                                    <h3 className="text-lg font-semibold text-white mb-3">1. Conformidade com a Meta (WhatsApp)</h3>
-                                    <p>
-                                        Nossos agentes são programados com "limiter rates" (limites de velocidade) nativos para respeitar as janelas de conversação e as diretrizes de frequência da WhatsApp Business API, minimizando riscos à saúde do número.
-                                    </p>
-                                </div>
-
-                                <div data-aos="fade-up">
-                                    <h3 className="text-lg font-semibold text-white mb-3">2. Auditoria e "Human-in-the-Loop"</h3>
-                                    <p>Defendemos a IA Supervisionada. Nossos sistemas possuem gatilhos de transbordo automático:</p>
-                                    <ul className="list-disc pl-5 mt-2 marker:text-cyan-500">
-                                        <li><strong>Análise de Sentimento:</strong> Se o agente detectar irritação ou sentimento negativo no cliente final, o atendimento é imediatamente transferido para um humano (se configurado).</li>
-                                        <li><strong>Logs Auditáveis:</strong> Todas as ações tomadas pela IA (agendamentos, qualificações) geram logs acessíveis para auditoria do Cliente.</li>
-                                    </ul>
-                                </div>
-
-                                <div data-aos="fade-up">
-                                    <h3 className="text-lg font-semibold text-white mb-3">3. Segurança da Infraestrutura</h3>
-                                    <ul className="grid md:grid-cols-2 gap-4 mt-4">
-                                        <li className="bg-white/5 p-4 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-colors">
-                                            <strong className="text-white block mb-1">Autenticação</strong>
-                                            Acesso aos Dashboards protegido por autenticação segura.
-                                        </li>
-                                        <li className="bg-white/5 p-4 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-colors">
-                                            <strong className="text-white block mb-1">Segregação</strong>
-                                            Ambientes de Desenvolvimento e Produção separados para garantir estabilidade.
-                                        </li>
-                                        <li className="bg-white/5 p-4 rounded-xl border border-white/5 md:col-span-2 hover:border-cyan-500/30 transition-colors">
-                                            <strong className="text-white block mb-1">Backups</strong>
-                                            Rotinas de backup automatizadas de bases de dados vetoriais e relacionais.
-                                        </li>
-                                    </ul>
+                                <div className="grid md:grid-cols-3 gap-6">
+                                    <div>
+                                        <h4 className="text-white font-semibold mb-2">Limiter Rates</h4>
+                                        <p className="text-sm text-zinc-400">Proteção nativa contra envio excessivo de mensagens para evitar banimentos.</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-white font-semibold mb-2">Human-in-the-Loop</h4>
+                                        <p className="text-sm text-zinc-400">Transbordo automático para humanos em caso de sentimento negativo.</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-white font-semibold mb-2">Logs Auditáveis</h4>
+                                        <p className="text-sm text-zinc-400">Rastreabilidade total de todas as ações executadas pela IA.</p>
+                                    </div>
                                 </div>
                             </div>
                         </section>
