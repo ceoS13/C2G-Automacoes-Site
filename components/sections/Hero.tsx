@@ -37,15 +37,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
     }
   };
 
-  // Variantes para o Mask Reveal do Texto
+  // Variantes para o Cinematic Blur Reveal do Texto (Ajuste "Slow & Visible")
   const textRevealVariants = {
-    hidden: { y: "100%" },
+    hidden: {
+      filter: "blur(12px)",  // Aumentado para ser bem notável
+      opacity: 0,
+      scale: 1.05, // Escala um pouco maior para enfatizar o "zoom out" do foco
+      y: 5
+    },
     visible: (i: number) => ({
-      y: "0%",
+      filter: "blur(0px)",
+      opacity: 1,
+      scale: 1,
+      y: 0,
       transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: [0.215, 0.61, 0.355, 1], // Cubic Bezier para movimento "premium"
+        delay: i * 0.2, // Mais tempo entre cada palavra
+        duration: 2.5, // Bem lento para dar tempo de apreciar o blur se dissipando
+        ease: [0.2, 0.65, 0.3, 0.9], // Easing ajustado para ser suave mas constante
       }
     })
   };
@@ -110,7 +118,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
             >
               <img
                 src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)}
-                alt=""
+                alt="C2G Automações - Agentes de IA Inteligentes"
                 className="w-full h-full object-contain mix-blend-screen"
                 width="1200"
                 height="1200"
@@ -165,20 +173,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
             className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9] will-change-transform"
             style={{ y: yTitle }}
           >
-            {/* Mask Reveal Effect */}
-            <div className="overflow-hidden">
-              <motion.span custom={0} variants={textRevealVariants} className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 uppercase">
-                IA PARA O SEU
+            {/* Cinematic Blur Effect */}
+            <div className="relative">
+              <motion.span custom={0} variants={textRevealVariants} className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-400 uppercase tracking-[0.02em]">
+                IA para o seu
               </motion.span>
             </div>
 
-            <div className="overflow-hidden mt-1 md:mt-0">
+            <div className="mt-2 md:mt-0 relative">
               <motion.span custom={1} variants={textRevealVariants} className="block relative uppercase">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-white bg-[length:200%_auto] animate-text-shimmer inline-block px-2">
-                  SUCESSO
+                  Sucesso
                 </span>
                 <span className="text-cyan-500">.</span>
-                <div className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
+                <motion.div
+                  initial={{ scaleX: 0, opacity: 0 }}
+                  animate={{ scaleX: 1, opacity: 0.5 }}
+                  transition={{ delay: 1.5, duration: 1.5, ease: "circOut" }}
+                  className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent"
+                />
               </motion.span>
             </div>
           </motion.h1>
