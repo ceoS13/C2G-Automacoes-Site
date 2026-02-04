@@ -14,15 +14,22 @@ export const CONSULTANT_NUMBER = "556191300818"; // Guilherme C.
 // Link oficial da Ísis com mensagem pré-definida (Padrão do site)
 export const WHATSAPP_LINK = `https://wa.me/${ISIS_NUMBER}?text=${encodeURIComponent("Olá Ísis! Vi o site da C2G e gostaria de saber mais sobre as automações.")}`;
 
-export const NAV_LINKS = [
-  { name: 'Agentes', href: '#solutions' },
-  { name: 'Sistema', href: '#system' },
-  { name: 'Tecnologia', href: '#tech' },
-  { name: 'Preços', href: '#pricing' },
-  { name: 'Processo', href: '#process' },
-  { name: 'Sobre Nós', href: '#about' },
-  { name: 'Equipe', href: '#team' },
-  { name: 'FAQ', href: '#faq' },
+// Interface otimizada para tipagem estrita
+export interface NavLink {
+  name: string;
+  href: string;
+  offset: number;
+}
+
+export const NAV_LINKS: NavLink[] = [
+  { name: 'Agentes', href: '#solutions', offset: 0 },
+  { name: 'Sistema', href: '#system', offset: -10 },
+  { name: 'Tecnologia', href: '#tech', offset: 20 },
+  { name: 'Preços', href: '#pricing', offset: 90 },
+  { name: 'Processo', href: '#process', offset: 100 },
+  { name: 'Sobre Nós', href: '#about', offset: -30 },
+  { name: 'Equipe', href: '#team', offset: -200 },
+  { name: 'FAQ', href: '#faq', offset: -30 },
 ];
 
 export const SOCIAL_LINKS = {
