@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/aos": "^3.0.7",
     "@vercel/speed-insights": "^1.1.0",
+    "aos": "^2.3.4",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.8",
     "lucide-react": "^0.344.0",
