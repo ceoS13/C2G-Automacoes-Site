@@ -36,7 +36,8 @@ const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, descripti
       mouseX.set(e.clientX - rectRef.current.left);
       mouseY.set(e.clientY - rectRef.current.top);
     }
-  }, [updateRect, mouseX, mouseY]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateRect]);
 
   const accentTextMap: Record<string, string> = {
     "cyan-400": "text-cyan-400",

@@ -13,7 +13,7 @@ interface DashboardCardProps {
   floatDelay?: string;
 }
 
-export const DashboardCard: React.FC<DashboardCardProps> = ({
+export const DashboardCard: React.FC<DashboardCardProps> = React.memo(({
   title,
   icon,
   className = '',
@@ -95,4 +95,4 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       </div>
     </motion.article>
   );
-};
+});

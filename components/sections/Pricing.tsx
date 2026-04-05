@@ -28,7 +28,7 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
       <div className={`h-full w-full flex flex-col ${isAnimated ? 'animate-float-subtle' : ''}`} style={{ animationDelay: floatDelay }}>
         {/* Highlight Badge */}
         {highlight && (
-          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-cyan-500/30 z-30 animate-pulse">
+          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-cyan-500/30 z-30">
             Mais Popular
           </div>
         )}
@@ -43,14 +43,14 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
 
           {/* Animated Tech Grid Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
-            <div className={`absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-scroll ${highlight ? 'opacity-30' : 'opacity-10'}`} />
+            <div className={`absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] ${highlight ? 'opacity-30' : 'opacity-10'}`} />
             <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
           </div>
 
-          {/* Highlight Effects - Background Spinner */}
+          {/* Highlight Effects - Static Border Glow */}
           {highlight && (
             <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none z-0" aria-hidden="true">
-              <div className="absolute -inset-[100%] bg-[conic-gradient(from_90deg_at_50%_50%,#0000_0%,#06b6d4_50%,#0000_100%)] animate-[spin_4s_linear_infinite] opacity-10" />
+              <div className="absolute inset-0 rounded-3xl border border-cyan-500/20" />
             </div>
           )}
 
@@ -91,8 +91,6 @@ const PricingCard: React.FC<PricingPlan> = React.memo(({ title, subtitle, price,
                 }`}
               aria-label={`Escolher plano ${title}`}
             >
-              {/* Shine Effect */}
-              <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 animate-shine" />
               <span className="relative z-10">Começar</span>
             </button>
           </div>
@@ -135,7 +133,7 @@ export const Pricing: React.FC = () => {
             <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Análise de Custos: Online</span>
           </div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-32 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent blur-xl animate-[pulse_4s_ease-in-out_infinite] -z-10" aria-hidden="true" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-32 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent blur-xl -z-10" aria-hidden="true" />
 
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Realidade <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400"><HyperText text="Comercial" /></span>
