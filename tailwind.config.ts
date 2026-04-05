@@ -78,6 +78,18 @@ const config: Config = {
         'text-shimmer': {
           '0%': { 'background-position': '200% center' },
           '100%': { 'background-position': '-200% center' },
+        },
+        'connectorSlide': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'connectorSlideV': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        'scanline': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(400%)' },
         }
       }
     }

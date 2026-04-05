@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Cpu } from 'lucide-react';
+import { ArrowRight, Cpu, ChevronDown } from 'lucide-react';
 import { scroller } from 'react-scroll';
 import { LOGO_HQ_URL } from '../../lib/constants';
 import { getOptimizedImageUrl } from '../../lib/utils';
@@ -18,27 +18,28 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
   const yText = useTransform(scrollY, [0, 500], [0, 100]);
   const yButtons = useTransform(scrollY, [0, 500], [0, 150]);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     scroller.scrollTo(sectionId, {
       duration: 200,
       delay: 0,
       smooth: true,
       offset: 40,
     });
-  };
+  }, []);
 
-  const handleBadgeClick = () => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-
-    if (newCount >= 5) {
-      if (onOpenTerminal) onOpenTerminal();
-      setClickCount(0);
-    }
-  };
+  const handleBadgeClick = useCallback(() => {
+    setClickCount(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 5) {
+        if (onOpenTerminal) onOpenTerminal();
+        return 0;
+      }
+      return newCount;
+    });
+  }, [onOpenTerminal]);
 
   // Variantes para o Cinematic Blur Reveal do Texto (Ajuste "Slow & Visible")
-  const textRevealVariants = {
+  const textRevealVariants = useMemo(() => ({
     hidden: {
       filter: "blur(12px)",  // Aumentado para ser bem notável
       opacity: 0,
@@ -51,12 +52,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
       scale: 1,
       y: 0,
       transition: {
-        delay: i * 0.2, // Mais tempo entre cada palavra
-        duration: 2.5, // Bem lento para dar tempo de apreciar o blur se dissipando
-        ease: [0.2, 0.65, 0.3, 0.9], // Easing ajustado para ser suave mas constante
+        delay: i * 0.2,
+        duration: 2.5,
+        ease: [0.2, 0.65, 0.3, 0.9],
       }
     })
-  };
+  }), []);
 
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
@@ -75,7 +76,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           y: [0, -30, 30, 0],
         }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
+        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
         aria-hidden="true"
       />
       <motion.div
@@ -86,7 +87,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           y: [0, 40, -40, 0],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
+        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
         aria-hidden="true"
       />
 
@@ -105,7 +106,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
               ease: "easeOut",
               delay: 0.2
             }}
-            className="w-full h-full will-change-[opacity,filter,transform]"
+            className="w-full h-full"
           >
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
@@ -124,7 +125,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
                 height="1200"
                 fetchPriority="high"
                 loading="eager"
-                decoding="sync"
+                decoding="async"
               />
             </motion.div>
           </motion.div>
@@ -135,14 +136,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <div
-          data-aos="fade-down"
-          data-aos-duration="1500"
           className="flex justify-center mb-6 md:mb-8"
         >
           <button
             onClick={handleBadgeClick}
             className={`
-                  group inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 transition-all duration-200 active:scale-95
+                  group inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#111111] transition-all duration-200 active:scale-95
                   /* EFEITO GLITCH/HINT: Borda brilha e sombra estoura no hover */
                   hover:border-cyan-400 hover:shadow-[0_0_25px_rgba(34,211,238,0.6)] hover:bg-cyan-950/40
                   ${clickCount > 0 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]' : ''}
@@ -170,7 +169,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           <motion.h1
             initial="hidden"
             animate="visible"
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9] will-change-transform"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9]"
             style={{ y: yTitle }}
           >
             {/* Cinematic Blur Effect */}
@@ -203,21 +202,22 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           transition={{ delay: 0.4, duration: 1.5 }}
         >
           <motion.p
-            className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4 will-change-transform"
+            className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4"
             style={{ y: yText }}
           >
-            Pare de inflar sua folha de pagamento. Implementamos <span className="text-white font-medium">Ecossistemas de Receita Autônoma</span> que prospectam, vendem e atendem seus clientes 24/7. Cresça seu faturamento, não seus custos fixos.
+            Implementamos <span className="text-white font-medium">Ecossistemas de Receita Autônoma</span> que prospectam, vendem e atendem seus clientes 24/7.
           </motion.p>
         </motion.div>
 
-        <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1500">
+        <div>
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 will-change-transform"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
             style={{ y: yButtons }}
           >
             <motion.button
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
               type="button"
               className="group relative px-6 py-3.5 md:px-8 md:py-4 bg-zinc-100 text-black font-bold text-base md:text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
               onClick={() => scrollToSection('pricing')}
@@ -229,17 +229,69 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
               </span>
             </motion.button>
 
-            <button
+            <motion.button
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
               type="button"
               onClick={() => scrollToSection('tech')}
-              className="flex items-center gap-2 text-zinc-500 hover:text-cyan-400 transition-colors uppercase text-xs md:text-sm tracking-widest font-mono py-2"
+              className="flex items-center gap-2 text-zinc-300 hover:text-cyan-400 transition-all uppercase text-xs md:text-sm tracking-widest font-mono py-2.5 px-5 rounded-lg border border-white/10 bg-[#111111] hover:border-cyan-500/30 hover:bg-[#1a1a1a]"
               aria-label="Ver arquitetura técnica"
             >
               <Cpu size={16} aria-hidden="true" /> Ver Arquitetura
-            </button>
+            </motion.button>
           </motion.div>
         </div>
+
+        {/* Trust Signal */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8, ease: "easeOut" }}
+          className="mt-10 md:mt-14 flex items-center justify-center gap-6 md:gap-8 text-zinc-400"
+        >
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.6, duration: 0.5 }}
+            className="flex items-center gap-2"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
+            <span className="text-[10px] md:text-xs font-mono uppercase tracking-wider">3 Agentes Ativos</span>
+          </motion.div>
+          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1.8, duration: 0.3 }} className="w-px h-3 bg-white/10" />
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.9, duration: 0.5 }}
+            className="text-[10px] md:text-xs font-mono uppercase tracking-wider"
+          >Setup em 30 dias</motion.span>
+          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 2.1, duration: 0.3 }} className="w-px h-3 bg-white/10 hidden sm:block" />
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2.2, duration: 0.5 }}
+            className="text-[10px] md:text-xs font-mono uppercase tracking-wider hidden sm:block"
+          >ROI em 60 dias</motion.span>
+        </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1 cursor-pointer"
+        onClick={() => scrollToSection('chat-demo')}
+      >
+        <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em]">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={16} className="text-zinc-600" />
+        </motion.div>
+      </motion.div>
 
       <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" aria-hidden="true" />
     </header>

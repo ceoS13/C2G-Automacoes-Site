@@ -5,7 +5,7 @@ interface HyperTextProps {
   className?: string;
 }
 
-export const HyperText: React.FC<HyperTextProps> = ({ text, className }) => {
+export const HyperText: React.FC<HyperTextProps> = React.memo(({ text, className }) => {
   const [displayText, setDisplayText] = useState(text);
   const [isScrambling, setIsScrambling] = useState(false);
   const iterations = useRef(0);
@@ -56,4 +56,4 @@ export const HyperText: React.FC<HyperTextProps> = ({ text, className }) => {
       {displayText}
     </span>
   );
-};
+});

@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export const UptimeWidget = () => {
     const [percent, setPercent] = useState("99.98");
-    
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
     useEffect(() => {
         const interval = setInterval(() => {
             const rand = Math.random();
-            if (rand > 0.7) {
-                setPercent("99.99");
-                setTimeout(() => setPercent("99.98"), 800);
-            } else if (rand < 0.2) {
-                setPercent("99.97");
-                setTimeout(() => setPercent("99.98"), 800);
+            let next = "99.98";
+            if (rand > 0.7) next = "99.99";
+            else if (rand < 0.2) next = "99.97";
+
+            if (next !== "99.98") {
+                setPercent(next);
+                timeoutRef.current = setTimeout(() => setPercent("99.98"), 800);
             }
-        }, 4000);
-        return () => clearInterval(interval);
+        }, 5000);
+
+        return () => {
+            clearInterval(interval);
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
     }, []);
 
     return (

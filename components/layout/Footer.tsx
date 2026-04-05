@@ -111,7 +111,7 @@ export const Footer: React.FC<FooterProps> = ({ onTermsClick, onOpenTerminal }) 
               {/* Ícone Verde Pulsante */}
               <Terminal
                 size={14}
-                className="text-emerald-700 group-hover:text-emerald-400 transition-colors animate-[pulse_2s_ease-in-out_infinite] group-hover:drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                className="text-emerald-700 group-hover:text-emerald-400 transition-colors group-hover:drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"
                 strokeWidth={2.5}
               />
             </button>

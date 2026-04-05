@@ -30,14 +30,10 @@ export const IsisAnalysisWidget = () => {
               <ScanEye size={12} />
               <span>ID: <span className="text-zinc-300">#8X92-A</span></span>
            </div>
-           <motion.div 
-             animate={{ opacity: [1, 0.4, 1] }}
-             transition={{ duration: 2.0, repeat: Infinity }}
-             className="flex items-center gap-1.5 text-emerald-400 font-bold tracking-wider"
-           >
+           <div className="flex items-center gap-1.5 text-emerald-400 font-bold tracking-wider animate-pulse">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_#34d399]" />
               ANÁLISE AO VIVO
-           </motion.div>
+           </div>
         </div>
 
         {/* Grid Modular */}

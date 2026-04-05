@@ -9,16 +9,10 @@ export const SectionLoader: React.FC = () => {
             <div className="flex flex-col items-center gap-4 relative z-10">
                 <div className="w-12 h-12 rounded-full border-2 border-cyan-500/20 border-t-cyan-500 animate-spin" />
                 <div className="h-2 w-32 bg-zinc-800 rounded overflow-hidden">
-                    <div className="h-full bg-cyan-500/50 w-1/2 animate-[shimmer_1s_infinite_linear] skew-x-12" />
+                    <div className="h-full bg-cyan-500/50 w-1/2 skew-x-12 animate-[translateX_1s_infinite_linear]"
+                         style={{ animation: 'shimmer 1s infinite linear' }} />
                 </div>
             </div>
-
-            <style>{`
-                @keyframes shimmer {
-                    from { transform: translateX(-100%); }
-                    to { transform: translateX(200%); }
-                }
-            `}</style>
         </div>
     );
 };
