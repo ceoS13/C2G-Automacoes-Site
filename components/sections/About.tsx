@@ -184,15 +184,13 @@ const ManifestoCard: React.FC<{
 
 export const About: React.FC = () => {
     const containerRef = useRef(null);
-    const isInView = useInView(containerRef, { amount: 0.2, once: false });
+    const isInView = useInView(containerRef, { amount: 0.2, once: true });
     const beamProgress = useMotionValue(0);
 
     useEffect(() => {
         let controls;
 
         if (isInView) {
-            beamProgress.set(0);
-
             controls = animate(beamProgress, 100, {
                 duration: 5,
                 ease: "linear",

@@ -201,7 +201,7 @@ const JourneyCard: React.FC<JourneyCardProps> = ({ step, progress, index }) => {
 
 export const ImplementationJourney: React.FC = () => {
     const containerRef = useRef<HTMLElement>(null);
-    const isInView = useInView(containerRef, { amount: 0.2, once: false });
+    const isInView = useInView(containerRef, { amount: 0.2, once: true });
 
     // Global Progress Value (0 to 100)
     const beamProgress = useMotionValue(0);
@@ -210,8 +210,6 @@ export const ImplementationJourney: React.FC = () => {
         let controls;
 
         if (isInView) {
-            beamProgress.set(0);
-
             controls = animate(beamProgress, 100, {
                 duration: 10,
                 ease: "linear",

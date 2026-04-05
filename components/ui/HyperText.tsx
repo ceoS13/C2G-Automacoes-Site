@@ -44,7 +44,7 @@ export const HyperText: React.FC<HyperTextProps> = React.memo(({ text, className
       }
 
       iterations.current += 1 / 3;
-    }, 30);
+    }, 50);
   };
 
   return (

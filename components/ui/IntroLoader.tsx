@@ -62,7 +62,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
             const increment = Math.random() * 4 + 4; 
             return Math.min(prev + increment, 100);
         });
-    }, 100); // 100ms tick (10 FPS is enough for a progress bar)
+    }, 150); // 150ms tick (~7 FPS, sufficient for progress bar)
 
     // Saída Otimizada (Total ~2.1s)
     const exitTimer = setTimeout(() => {

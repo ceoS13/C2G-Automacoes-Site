@@ -167,15 +167,8 @@ export const Pricing: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            onAnimationComplete={() => {
-              // Delay seguro para garantir que o Framer terminou antes do CSS entrar
-              setTimeout(() => {
-                const el = document.getElementById('enterprise-card-content');
-                if (el) el.classList.add('animate-float-subtle');
-              }, 100);
-            }}
           >
-            <div id="enterprise-card-content" className="h-full w-full flex flex-col p-5 py-8" style={{ animationDelay: "3s" }}>
+            <div className="h-full w-full flex flex-col p-5 py-8 animate-float-subtle" style={{ animationDelay: "3s" }}>
               <div className="flex-1 flex flex-col">
                 <header className="mb-2 flex items-center gap-1.5">
                   <h3 className="text-xl font-bold text-white">{ENTERPRISE_PLAN.title}</h3>

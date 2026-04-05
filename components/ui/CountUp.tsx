@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 
 interface CountUpProps {
@@ -13,11 +13,11 @@ export const CountUp: React.FC<CountUpProps> = ({ value, className, prefix = '',
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-20px" });
   const motionValue = useMotionValue(0);
-  
-  // Extract numeric value (e.g. "R$ 1.499" -> 1499)
-  // Ensure value is treated as string and parsed correctly
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10);
-  const isNumeric = !isNaN(numericValue);
+
+  const { numericValue, isNumeric } = useMemo(() => {
+    const parsed = parseInt(value.replace(/[^0-9]/g, ''), 10);
+    return { numericValue: parsed, isNumeric: !isNaN(parsed) };
+  }, [value]);
 
   useEffect(() => {
     if (isInView && isNumeric) {
