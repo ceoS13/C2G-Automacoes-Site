@@ -1,4 +1,5 @@
 import React, { useState, useCallback, Suspense, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Home } from './pages/Home';
 import { TermsPage } from './pages/TermsPage';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
@@ -72,6 +73,8 @@ const App: React.FC = () => {
       <Suspense fallback={null}>
         <TerminalModal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
       </Suspense>
+
+      <Analytics />
     </div>
   );
 };
