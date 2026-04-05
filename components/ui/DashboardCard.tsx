@@ -13,6 +13,9 @@ interface DashboardCardProps {
   floatDelay?: string;
 }
 
+// Cache matchMedia result once (avoid reflow on every mousemove)
+const isCoarsePointer = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
+
 export const DashboardCard: React.FC<DashboardCardProps> = React.memo(({
   title,
   icon,
@@ -35,17 +38,16 @@ export const DashboardCard: React.FC<DashboardCardProps> = React.memo(({
     }
   }, []);
 
-  function handleMouseMove(e: React.MouseEvent) {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isCoarsePointer) return;
 
-    // Evita reflow forçado acessando rectRef em vez de chamar getBoundingClientRect no loop do mouse
     if (!rectRef.current) updateRect();
 
     if (rectRef.current) {
       mouseX.set(e.clientX - rectRef.current.left);
       mouseY.set(e.clientY - rectRef.current.top);
     }
-  }
+  }, [updateRect, mouseX, mouseY]);
 
   return (
     <motion.article

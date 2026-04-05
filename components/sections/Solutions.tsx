@@ -14,6 +14,8 @@ interface SolutionCardProps {
   floatDelay?: string;
 }
 
+const isCoarsePointer = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
+
 const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, description, icon, features, gradient, accentColor, delay, floatDelay = "0s" }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -28,7 +30,7 @@ const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, descripti
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (isCoarsePointer) return;
 
     if (!rectRef.current) updateRect();
 
