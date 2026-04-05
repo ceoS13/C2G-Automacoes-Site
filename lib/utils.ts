@@ -24,8 +24,8 @@ export const getOptimizedImageUrl = (url: string, width?: number, height?: numbe
     targetWidth = 480; // Default seguro para mobile
   }
 
-  // Parâmetros base: output webp, qualidade 80% (Sweet spot performance/qualidade)
-  let query = `?url=${url}&output=webp&q=80`;
+  // Parâmetros base: output webp, qualidade 75% (melhor compressão, visual mantido)
+  let query = `?url=${url}&output=webp&q=75`;
   
   if (targetWidth) query += `&w=${targetWidth}`;
   if (height) query += `&h=${height}`;

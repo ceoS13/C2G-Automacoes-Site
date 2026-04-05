@@ -118,11 +118,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
               className="w-full h-full"
             >
               <img
-                src={getOptimizedImageUrl(LOGO_HQ_URL, 1200)}
+                src={getOptimizedImageUrl(LOGO_HQ_URL, 800)}
                 alt="C2G Automações - Agentes de IA Inteligentes"
                 className="w-full h-full object-contain mix-blend-screen"
-                width="1200"
-                height="1200"
+                width="800"
+                height="800"
                 fetchPriority="high"
                 loading="eager"
                 decoding="async"

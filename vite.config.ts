@@ -11,6 +11,7 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        passes: 2,
       },
     },
     rollupOptions: {
@@ -21,8 +22,10 @@ export default defineConfig({
           'vendor-ui': ['lucide-react', 'clsx', 'tailwind-merge'],
           'vendor-scroll': ['react-scroll'],
         }
-      }
-    }
+      },
+    },
+    target: 'es2020',
+    cssCodeSplit: true,
   },
   server: {
     port: 3000,

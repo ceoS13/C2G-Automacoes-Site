@@ -106,14 +106,22 @@ const ManifestoCard: React.FC<{
 }> = React.memo(({ node, isLast, index, total }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const rectRef = useRef<DOMRect | null>(null);
+
+    const updateRect = React.useCallback((el: HTMLElement) => {
+        rectRef.current = el.getBoundingClientRect();
+    }, []);
 
     const handleMouseMove = React.useCallback(({ currentTarget, clientX, clientY }: React.MouseEvent) => {
         if (window.matchMedia("(pointer: coarse)").matches) return;
 
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-    }, [mouseX, mouseY]);
+        if (!rectRef.current) updateRect(currentTarget);
+
+        if (rectRef.current) {
+            mouseX.set(clientX - rectRef.current.left);
+            mouseY.set(clientY - rectRef.current.top);
+        }
+    }, [mouseX, mouseY, updateRect]);
 
     const config = COLORS_CONFIG[node.color];
 
@@ -128,6 +136,7 @@ const ManifestoCard: React.FC<{
         >
             <div
                 onMouseMove={handleMouseMove}
+                onMouseEnter={(e) => updateRect(e.currentTarget)}
                 className={`
                     h-full 
                     bg-[#0a0a0a]/60 backdrop-blur-xl
