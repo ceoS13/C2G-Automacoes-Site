@@ -2,15 +2,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { injectSpeedInsights } from '@vercel/speed-insights';
 
 // Import Global CSS (Tailwind)
 import './index.css';
 
-
-
-// Initialize Vercel Speed Insights
-injectSpeedInsights();
+// Defer Vercel Speed Insights to after page load (non-blocking)
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', () => {
+    import('@vercel/speed-insights').then(({ injectSpeedInsights }) => {
+      injectSpeedInsights();
+    });
+  });
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

@@ -11,11 +11,6 @@
 
   <!-- SECURITY HEADERS -->
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <script>
-    if (window.top !== window.self) {
-      window.top.location = window.self.location;
-    }
-  </script>
 
   <!-- SEO & META TAGS -->
   <title>C2G Automações | Agentes de IA e Soluções Autônomas</title>
@@ -48,30 +43,6 @@
       min-height: 100vh;
     }
 
-    @keyframes shine {
-      0% {
-        left: -100%;
-        opacity: 0;
-      }
-
-      5% {
-        opacity: 0.5;
-      }
-
-      20% {
-        left: 100%;
-        opacity: 0.5;
-      }
-
-      21% {
-        opacity: 0;
-      }
-
-      100% {
-        left: 100%;
-        opacity: 0;
-      }
-    }
   </style>
 
   <!-- PERFORMANCE: PRECONNECT & PRELOAD -->
@@ -79,10 +50,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
 
   <!-- PRELOAD LCP IMAGE (Watermark) -->
   <link rel="preload" as="image" type="image/webp"
-    href="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1a7v7opGKCyBswnFPse_lDUfuTKzKQhuB&output=webp&q=80&w=1200"
+    href="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1a7v7opGKCyBswnFPse_lDUfuTKzKQhuB&output=webp&q=75&w=800"
     fetchpriority="high" />
 
   <!-- OPEN GRAPH (WhatsApp, LinkedIn, Facebook) -->
@@ -138,10 +111,11 @@
   <meta name="twitter:image"
     content="https://wsrv.nl/?url=https://lh3.googleusercontent.com/d/1EglXv-1-n7OU6GwPF09GsjgWkAFk3gmk&w=1200&h=630&fit=contain&bg=050505&output=png" />
 
-  <!-- FONTS -->
+  <!-- FONTS (preload critical, defer rest) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
-    rel="stylesheet" media="print" onload="this.media='all'">
+    href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
 
   <!-- FAVICONS -->
   <!-- Optimization: Using 'fit=contain' + 'trim=10' ensures the logo uses max space without being cut off -->
