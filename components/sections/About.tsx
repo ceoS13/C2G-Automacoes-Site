@@ -98,6 +98,8 @@ const COLORS_CONFIG: Record<string, { text: string; border: string; bg: string; 
     }
 };
 
+const isCoarsePointer = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
+
 const ManifestoCard: React.FC<{
     node: typeof MANIFESTO_NODES[0];
     isLast: boolean;
@@ -113,7 +115,7 @@ const ManifestoCard: React.FC<{
     }, []);
 
     const handleMouseMove = React.useCallback(({ currentTarget, clientX, clientY }: React.MouseEvent) => {
-        if (window.matchMedia("(pointer: coarse)").matches) return;
+        if (isCoarsePointer) return;
 
         if (!rectRef.current) updateRect(currentTarget);
 

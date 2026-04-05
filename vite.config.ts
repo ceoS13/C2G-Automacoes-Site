@@ -14,6 +14,9 @@ export default defineConfig({
         passes: 2,
       },
     },
+    modulePreload: {
+      polyfill: false,
+    },
     rollupOptions: {
       output: {
         manualChunks: {
