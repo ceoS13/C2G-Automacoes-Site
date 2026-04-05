@@ -103,17 +103,17 @@ const ManifestoCard: React.FC<{
     isLast: boolean;
     index: number;
     total: number;
-}> = ({ node, isLast, index, total }) => {
+}> = React.memo(({ node, isLast, index, total }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
-    function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const handleMouseMove = React.useCallback(({ currentTarget, clientX, clientY }: React.MouseEvent) => {
         if (window.matchMedia("(pointer: coarse)").matches) return;
 
         const { left, top } = currentTarget.getBoundingClientRect();
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);
-    }
+    }, [mouseX, mouseY]);
 
     const config = COLORS_CONFIG[node.color];
 
@@ -169,7 +169,7 @@ const ManifestoCard: React.FC<{
             </div>
         </motion.div>
     );
-};
+});
 
 export const About: React.FC = () => {
     const containerRef = useRef(null);

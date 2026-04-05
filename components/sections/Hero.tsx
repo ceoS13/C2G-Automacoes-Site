@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Cpu } from 'lucide-react';
 import { scroller } from 'react-scroll';
@@ -18,27 +18,28 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
   const yText = useTransform(scrollY, [0, 500], [0, 100]);
   const yButtons = useTransform(scrollY, [0, 500], [0, 150]);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     scroller.scrollTo(sectionId, {
       duration: 200,
       delay: 0,
       smooth: true,
       offset: 40,
     });
-  };
+  }, []);
 
-  const handleBadgeClick = () => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-
-    if (newCount >= 5) {
-      if (onOpenTerminal) onOpenTerminal();
-      setClickCount(0);
-    }
-  };
+  const handleBadgeClick = useCallback(() => {
+    setClickCount(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 5) {
+        if (onOpenTerminal) onOpenTerminal();
+        return 0;
+      }
+      return newCount;
+    });
+  }, [onOpenTerminal]);
 
   // Variantes para o Cinematic Blur Reveal do Texto (Ajuste "Slow & Visible")
-  const textRevealVariants = {
+  const textRevealVariants = useMemo(() => ({
     hidden: {
       filter: "blur(12px)",  // Aumentado para ser bem notável
       opacity: 0,
@@ -51,12 +52,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
       scale: 1,
       y: 0,
       transition: {
-        delay: i * 0.2, // Mais tempo entre cada palavra
-        duration: 2.5, // Bem lento para dar tempo de apreciar o blur se dissipando
-        ease: [0.2, 0.65, 0.3, 0.9], // Easing ajustado para ser suave mas constante
+        delay: i * 0.2,
+        duration: 2.5,
+        ease: [0.2, 0.65, 0.3, 0.9],
       }
     })
-  };
+  }), []);
 
   return (
     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
@@ -75,7 +76,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           y: [0, -30, 30, 0],
         }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
+        className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
         aria-hidden="true"
       />
       <motion.div
@@ -86,7 +87,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           y: [0, 40, -40, 0],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0 will-change-transform"
+        className="hidden md:block absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none z-0"
         aria-hidden="true"
       />
 
@@ -105,7 +106,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
               ease: "easeOut",
               delay: 0.2
             }}
-            className="w-full h-full will-change-[opacity,filter,transform]"
+            className="w-full h-full"
           >
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
@@ -124,7 +125,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
                 height="1200"
                 fetchPriority="high"
                 loading="eager"
-                decoding="sync"
+                decoding="async"
               />
             </motion.div>
           </motion.div>
@@ -135,8 +136,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <div
-          data-aos="fade-down"
-          data-aos-duration="1500"
           className="flex justify-center mb-6 md:mb-8"
         >
           <button
@@ -170,7 +169,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           <motion.h1
             initial="hidden"
             animate="visible"
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9] will-change-transform"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 md:mb-8 leading-[1.1] md:leading-[0.9]"
             style={{ y: yTitle }}
           >
             {/* Cinematic Blur Effect */}
@@ -203,16 +202,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           transition={{ delay: 0.4, duration: 1.5 }}
         >
           <motion.p
-            className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4 will-change-transform"
+            className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4"
             style={{ y: yText }}
           >
             Pare de inflar sua folha de pagamento. Implementamos <span className="text-white font-medium">Ecossistemas de Receita Autônoma</span> que prospectam, vendem e atendem seus clientes 24/7. Cresça seu faturamento, não seus custos fixos.
           </motion.p>
         </motion.div>
 
-        <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1500">
+        <div>
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 will-change-transform"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
             style={{ y: yButtons }}
           >
             <motion.button

@@ -223,16 +223,9 @@ export const TechSpecs: React.FC = () => {
                     {/* CONNECTOR LINE (Desktop) */}
                     {index < WORKFLOW_NODES.length - 1 && (
                       <div className="hidden md:flex flex-1 h-[1px] bg-white/10 mx-4 relative self-start mt-10 overflow-hidden">
-                        <motion.div
-                          initial={{ x: '-100%' }}
-                          animate={{ x: '100%' }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "linear",
-                            delay: index * 0.2
-                          }}
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent w-1/2 blur-[1px]"
+                        <div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent w-1/2 blur-[1px] animate-[connectorSlide_2s_linear_infinite]"
+                          style={{ animationDelay: `${index * 0.3}s` }}
                         />
                       </div>
                     )}
@@ -240,11 +233,8 @@ export const TechSpecs: React.FC = () => {
                     {/* CONNECTOR LINE (Mobile) */}
                     {index < WORKFLOW_NODES.length - 1 && (
                       <div className="md:hidden h-12 w-[1px] bg-white/10 my-2 relative overflow-hidden">
-                        <motion.div
-                          initial={{ y: '-100%' }}
-                          animate={{ y: '100%' }}
-                          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                          className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500 to-transparent h-1/2 blur-[1px]"
+                        <div
+                          className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500 to-transparent h-1/2 blur-[1px] animate-[connectorSlideV_2s_linear_infinite]"
                         />
                       </div>
                     )}

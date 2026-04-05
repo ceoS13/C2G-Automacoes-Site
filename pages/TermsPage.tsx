@@ -2,8 +2,6 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ArrowLeft, ShieldCheck, Scale, Lock, FileText, AlertTriangle, Cpu } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { scroller } from 'react-scroll';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import { Logo } from '../components/ui/Logo';
 import { WHATSAPP_LINK } from '../lib/constants';
@@ -12,6 +10,34 @@ interface TermsPageProps {
     onBack: () => void;
     initialSection?: string;
 }
+
+const fadeUp = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: 'easeOut' },
+};
+
+const fadeRight = {
+    initial: { opacity: 0, x: -20 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: 'easeOut' },
+};
+
+const fadeLeft = {
+    initial: { opacity: 0, x: 20 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: 'easeOut' },
+};
+
+const fadeDown = {
+    initial: { opacity: 0, y: -15 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: 'easeOut' },
+};
 
 export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) => {
 
@@ -22,14 +48,6 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener('resize', checkMobile);
-
-        // Inicializa AOS para garantir animações
-        AOS.init({
-            once: true,
-            duration: 800,
-            easing: 'ease-out-cubic',
-        });
-
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
@@ -70,7 +88,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
             <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(6,182,212,0.08)_0%,transparent_50%)] pointer-events-none z-0" />
 
             {/* Simple Navbar for Terms Page */}
-            <header className="fixed top-0 left-0 w-full z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-white/5" data-aos="fade-down" data-aos-duration="800">
+            <motion.header {...fadeDown} className="fixed top-0 left-0 w-full z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-white/5">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <button
                         onClick={onBack}
@@ -97,7 +115,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                         </a>
                     </div>
                 </div>
-            </header>
+            </motion.header>
 
             <main className="flex-1 pt-32 pb-20 px-6 relative z-10">
                 <motion.article
@@ -106,7 +124,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                 >
 
                     {/* Header Section */}
-                    <div className="mb-16 text-center" data-aos="fade-up" data-aos-duration="1000">
+                    <motion.div {...fadeUp} className="mb-16 text-center">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/30 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest mb-6 shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)]">
                             <Scale size={12} />
                             <span>Jurídico & Compliance</span>
@@ -118,32 +136,37 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                         <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
                             Transparência total sobre como operamos nossos agentes, tratamos seus dados e garantimos a segurança da sua operação.
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Content Divider */}
-                    <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent mb-16" data-aos="zoom-in" data-aos-delay="200" />
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent mb-16"
+                    />
 
                     <div className="space-y-24">
 
                         {/* SECTION 1: TERMS OF USE */}
                         <section id="terms" className="scroll-mt-32">
-                            <div className="flex items-center gap-4 mb-8" data-aos="fade-right">
+                            <motion.div {...fadeRight} className="flex items-center gap-4 mb-8">
                                 <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/10 rounded-xl text-blue-400 border border-blue-500/20 shadow-lg shadow-blue-500/10">
                                     <FileText size={28} />
                                 </div>
                                 <h2 className="text-3xl font-bold text-white">Termos de Uso</h2>
-                            </div>
+                            </motion.div>
 
                             <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed">
-                                <p className="mb-8 text-lg" data-aos="fade-up">
+                                <motion.p {...fadeUp} className="mb-8 text-lg">
                                     Bem-vindo à C2G Automações. Ao contratar ou utilizar nossos ecossistemas de agentes autônomos ("Serviços"), você concorda com os termos abaixo.
-                                </p>
+                                </motion.p>
 
                                 <div className="space-y-6">
-                                    <div
+                                    <motion.div
+                                        {...fadeUp}
                                         className="glass-panel p-6 rounded-2xl group hover:border-blue-500/30 transition-all duration-300"
-                                        data-aos="fade-up"
-                                        data-aos-delay="100"
                                     >
                                         <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
                                             <span className="text-blue-500">01.</span> Natureza dos Serviços (SaaS e IA)
@@ -157,12 +180,11 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                                                 <strong className="text-yellow-400">Importante:</strong> Embora utilizemos protocolos avançados de validação, modelos de IA são probabilísticos e podem, ocasionalmente, gerar informações imprecisas ("alucinações"). O Cliente reconhece que a supervisão final sobre decisões críticas de negócio é humana.
                                             </span>
                                         </div>
-                                    </div>
+                                    </motion.div>
 
-                                    <div
+                                    <motion.div
+                                        {...fadeUp}
                                         className="glass-panel p-6 rounded-2xl hover:border-white/20 transition-all duration-300"
-                                        data-aos="fade-up"
-                                        data-aos-delay="150"
                                     >
                                         <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
                                             <span className="text-blue-500">02.</span> Responsabilidade sobre o Canal
@@ -180,9 +202,9 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                                                 <span>Recomendamos estritamente o uso de bases de contatos "opt-in".</span>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="glass-panel p-6 rounded-2xl hover:border-white/20 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                                    <motion.div {...fadeUp} className="glass-panel p-6 rounded-2xl hover:border-white/20 transition-all duration-300">
                                         <h3 className="text-xl font-bold text-white mb-3">
                                             <span className="text-blue-500">03.</span> Propriedade Intelectual
                                         </h3>
@@ -196,29 +218,29 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                                                 <span className="text-sm">Leads, histórico e inteligência de negócio pertencem exclusivamente ao Cliente.</span>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
                         </section>
 
                         {/* SECTION 2: PRIVACY POLICY */}
                         <section id="privacy" className="scroll-mt-32">
-                            <div className="flex items-center gap-4 mb-8" data-aos="fade-right">
+                            <motion.div {...fadeRight} className="flex items-center gap-4 mb-8">
                                 <div className="p-3 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 rounded-xl text-emerald-400 border border-emerald-500/20 shadow-lg shadow-emerald-500/10">
                                     <Lock size={28} />
                                 </div>
                                 <h2 className="text-3xl font-bold text-white">Privacidade e Proteção de Dados</h2>
-                            </div>
+                            </motion.div>
 
                             <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-8">
-                                <p className="text-lg" data-aos="fade-up">
+                                <motion.p {...fadeUp} className="text-lg">
                                     A C2G Automações atua como <strong>Operador de Dados</strong> sob a LGPD, coletando apenas o estritamente necessário para a automação.
-                                </p>
+                                </motion.p>
 
                                 <div className="grid md:grid-cols-2 gap-6">
-                                    <div
+                                    <motion.div
+                                        {...fadeUp}
                                         className="glass-panel p-6 rounded-2xl group hover:border-purple-500/30 transition-all duration-300 md:col-span-2 relative overflow-hidden"
-                                        data-aos="fade-up"
                                     >
                                         <div className="absolute top-0 right-0 p-32 bg-purple-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
 
@@ -234,32 +256,32 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                                                 <strong>Zero Retention:</strong> Seus dados <strong>NÃO</strong> são usados para treinar modelos públicos.
                                             </p>
                                         </div>
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="glass-panel p-6 rounded-2xl hover:border-emerald-500/30 transition-all duration-300" data-aos="fade-up">
+                                    <motion.div {...fadeUp} className="glass-panel p-6 rounded-2xl hover:border-emerald-500/30 transition-all duration-300">
                                         <h3 className="text-lg font-bold text-white mb-2">Armazenamento</h3>
                                         <p className="text-sm">Bancos de dados criptografados (Supabase/PostgreSQL) com SSL/TLS.</p>
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="glass-panel p-6 rounded-2xl hover:border-emerald-500/30 transition-all duration-300" data-aos="fade-up">
+                                    <motion.div {...fadeUp} className="glass-panel p-6 rounded-2xl hover:border-emerald-500/30 transition-all duration-300">
                                         <h3 className="text-lg font-bold text-white mb-2">Isolamento</h3>
                                         <p className="text-sm">Arquitetura Multi-tenant lógica protege sua base de conhecimento (RAG).</p>
-                                    </div>
+                                    </motion.div>
                                 </div>
 
-                                <div data-aos="fade-up">
+                                <motion.div {...fadeUp}>
                                     <h3 className="text-xl font-bold text-white mb-4">Seus Direitos</h3>
                                     <div className="flex gap-4 flex-wrap">
                                         <span className="px-4 py-2 bg-emerald-950/30 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm font-medium">Exportação de Dados</span>
                                         <span className="px-4 py-2 bg-red-950/30 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium">Exclusão Definitiva</span>
                                     </div>
-                                </div>
+                                </motion.div>
                             </div>
                         </section>
 
                         {/* SECTION 3: COMPLIANCE */}
                         <section id="compliance" className="scroll-mt-32">
-                            <div className="glass-panel border-l-4 border-l-cyan-500 p-8 rounded-r-2xl" data-aos="fade-left">
+                            <motion.div {...fadeLeft} className="glass-panel border-l-4 border-l-cyan-500 p-8 rounded-r-2xl">
                                 <div className="flex items-center gap-4 mb-6">
                                     <ShieldCheck size={32} className="text-cyan-400" />
                                     <div>
@@ -281,7 +303,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
                                         <p className="text-sm text-zinc-400">Rastreabilidade total de todas as ações executadas pela IA.</p>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </section>
 
                     </div>
@@ -289,14 +311,14 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBack, initialSection }) 
             </main>
 
             {/* Simplified Footer for Terms Page */}
-            <footer className="bg-[#020202] border-t border-white/5 py-10 px-6 relative z-10" data-aos="fade-up" data-aos-offset="0">
+            <motion.footer {...fadeUp} className="bg-[#020202] border-t border-white/5 py-10 px-6 relative z-10">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-600">
                     <p>&copy; {new Date().getFullYear()} C2G Automações Ltda. Todos os direitos reservados.</p>
                     <button onClick={onBack} className="hover:text-cyan-400 transition-colors flex items-center gap-2 group">
                         <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Voltar ao site principal
                     </button>
                 </div>
-            </footer>
+            </motion.footer>
         </div>
     );
 };

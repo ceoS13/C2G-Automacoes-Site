@@ -163,12 +163,9 @@ export const Navbar: React.FC = () => {
                 {/* Static Grid (Decoration) */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
 
-                {/* Scanline Animation (GPU efficient) */}
-                <motion.div
-                  initial={{ translateY: "-100%" }}
-                  animate={{ translateY: "400%" }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  className="absolute top-0 left-0 w-full h-[20%] bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent pointer-events-none z-0 will-change-transform"
+                {/* Scanline Animation (CSS-only for perf) */}
+                <div
+                  className="absolute top-0 left-0 w-full h-[20%] bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent pointer-events-none z-0 animate-[scanline_4s_linear_infinite]"
                 />
 
                 <div className="relative z-10 p-2">

@@ -39,7 +39,7 @@ export const SecurityWidget = () => {
                 currentIndex = 0;
                 setLines([]);
             }
-        }, 800);
+        }, 1000);
         return () => clearInterval(interval);
     }, [isInView]);
 

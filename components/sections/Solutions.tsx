@@ -14,7 +14,7 @@ interface SolutionCardProps {
   floatDelay?: string;
 }
 
-const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, features, gradient, accentColor, delay, floatDelay = "0s" }) => {
+const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, description, icon, features, gradient, accentColor, delay, floatDelay = "0s" }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -27,18 +27,16 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
     }
   }, []);
 
-  function handleMouseMove(e: React.MouseEvent) {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
-    // Otimização: Só atualiza o Rect se ele não existir (primeira interação)
-    // O evento onMouseEnter já cuida de atualizar quando o mouse entra novamente
     if (!rectRef.current) updateRect();
 
     if (rectRef.current) {
       mouseX.set(e.clientX - rectRef.current.left);
       mouseY.set(e.clientY - rectRef.current.top);
     }
-  }
+  }, [updateRect, mouseX, mouseY]);
 
   const accentTextMap: Record<string, string> = {
     "cyan-400": "text-cyan-400",
@@ -69,7 +67,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
   return (
     <motion.div
       ref={cardRef}
-      className="group relative h-full card-premium rounded-2xl overflow-hidden will-change-transform"
+      className="group relative h-full card-premium rounded-2xl overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseEnter={updateRect}
       initial={{ opacity: 0, y: 30 }}
@@ -99,14 +97,12 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
           </div>
 
           <div className="flex justify-between items-start mb-6">
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            <div
               className={`p-3 rounded-xl bg-white/5 border border-white/5 ${accentTextMap[accentColor]} relative group-hover:scale-105 transition-transform duration-500`}
             >
               <div className={`absolute inset-0 ${accentBgMap[accentColor]} opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-500 rounded-xl`} />
               <span className="relative z-10">{icon}</span>
-            </motion.div>
+            </div>
 
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/40 border border-white/10 backdrop-blur-sm group-hover:border-white/20 transition-all">
               <span className="relative flex h-2 w-2">
@@ -132,7 +128,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ title, description, icon, f
       </div>
     </motion.div>
   );
-};
+});
 
 export const Solutions: React.FC = () => {
   return (

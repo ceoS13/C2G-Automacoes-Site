@@ -66,7 +66,7 @@ export const ChatDemo: React.FC = () => {
                 });
             }, 100);
         }
-    }, [messages, isAiTyping, inputValue]); // Adicionei inputValue para scrollar enquanto digita
+    }, [messages, isAiTyping]);
 
     const wait = (ms: number, signal: AbortSignal) => new Promise<void>((resolve, reject) => {
         const timer = setTimeout(() => resolve(), ms);

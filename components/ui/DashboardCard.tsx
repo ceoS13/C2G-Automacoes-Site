@@ -1,5 +1,5 @@
 
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useMemo } from 'react';
 import { MoreHorizontal } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
@@ -27,6 +27,8 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   const cardRef = useRef<HTMLElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
 
+  const floatStyle = useMemo(() => ({ animationDelay: floatDelay }), [floatDelay]);
+
   const updateRect = useCallback(() => {
     if (cardRef.current) {
       rectRef.current = cardRef.current.getBoundingClientRect();
@@ -48,7 +50,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   return (
     <motion.article
       ref={cardRef}
-      className={`group/card relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 will-change-transform active:scale-[0.98] md:active:scale-100 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${className}`}
+      className={`group/card relative bg-[#09090b]/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-cyan-500/30 transition-all duration-500 active:scale-[0.98] md:active:scale-100 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${className}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -56,7 +58,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={updateRect}
     >
-      <div className="h-full w-full animate-float-subtle flex flex-col" style={{ animationDelay: floatDelay }}>
+      <div className="h-full w-full animate-float-subtle flex flex-col" style={floatStyle}>
 
 
         <motion.div

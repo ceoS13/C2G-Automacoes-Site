@@ -5,7 +5,7 @@ export const ProblemSection: React.FC = () => {
   return (
     <section className="py-20 md:py-32 bg-[#080808] border-y border-white/5">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             O Abismo entre Ter um Chatbot e <span className="text-cyan-400">Ter Resultado</span>
           </h2>
@@ -18,8 +18,6 @@ export const ProblemSection: React.FC = () => {
           
           <article 
             className="bg-[#0f0f0f] border border-red-500/10 rounded-2xl p-6 md:p-8 relative overflow-hidden"
-            data-aos="fade-right"
-            data-aos-delay="0"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10" aria-hidden="true">
               <XCircle size={120} className="text-red-500" />
@@ -46,8 +44,6 @@ export const ProblemSection: React.FC = () => {
 
           <article 
             className="bg-[#0f0f0f] border border-cyan-500/20 rounded-2xl p-6 md:p-8 relative overflow-hidden shadow-[0_0_50px_-20px_rgba(6,182,212,0.1)]"
-            data-aos="fade-left"
-            data-aos-delay="200"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10" aria-hidden="true">
               <TrendingUp size={120} className="text-cyan-500" />

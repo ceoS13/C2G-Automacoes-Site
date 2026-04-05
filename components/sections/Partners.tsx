@@ -61,14 +61,7 @@ const PARTNERS = [
 ];
 
 export const Partners: React.FC = () => {
-  const MARQUEE_ITEMS = useMemo(() => [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS], []);
-
-  useEffect(() => {
-    PARTNERS.forEach((partner) => {
-      const img = new Image();
-      img.src = partner.logoUrl;
-    });
-  }, []);
+  const MARQUEE_ITEMS = useMemo(() => [...PARTNERS, ...PARTNERS], []);
 
   return (
     <section className="py-12 md:py-20 bg-[#050505] relative overflow-hidden z-20 select-none critical-hide">
@@ -110,7 +103,7 @@ export const Partners: React.FC = () => {
                     className={`h-full w-auto object-contain ${partner.className}`}
                     width="128"
                     height="28"
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
                   />
                 </div>
@@ -123,7 +116,7 @@ export const Partners: React.FC = () => {
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-25%); }
+          100% { transform: translateX(-50%); }
         }
         .animate-marquee {
           animation: marquee 30s linear infinite;
