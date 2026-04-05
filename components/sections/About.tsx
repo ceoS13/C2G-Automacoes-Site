@@ -203,26 +203,37 @@ export const About: React.FC = () => {
             <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-                <motion.div
-                    className="max-w-4xl mx-auto text-center mb-20"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+                <div className="max-w-4xl mx-auto text-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#111111] mb-6 md:mb-8"
+                    >
                         <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
                         <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Sobre Nós</span>
-                    </div>
+                    </motion.div>
 
-
-                    <h2 className="text-3xl md:text-5 font-bold text-white mb-6 tracking-tight">
-                        Engenharia por trás da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Autonomia</span>
-                    </h2>
-                    <p className="text-zinc-400 text-lg">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                        className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight"
+                    >
+                        Engenharia por trás da <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Autonomia</span><span className="text-cyan-500">.</span>
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="text-zinc-400 text-lg leading-relaxed"
+                    >
                         Transformamos o caos operacional em processos estruturados via código.
-                    </p>
-                </motion.div>
+                    </motion.p>
+                </div>
             </div>
 
             <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6 relative mb-32">

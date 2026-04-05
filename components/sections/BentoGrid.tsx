@@ -28,27 +28,38 @@ export const BentoGrid: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-        <motion.div
-          className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 bg-black/50" role="status">
-              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-              <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Monitoramento: Online</span>
-            </div>
+        <div className="mb-12 md:mb-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#111111] mb-6 md:mb-8"
+            role="status"
+          >
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
+            <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Monitoramento: Online</span>
+          </motion.div>
 
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-              O Sistema Operacional da Sua Empresa
-            </h2>
-            <p className="text-zinc-400 max-w-xl text-lg">
-              Tenha visão total da eficiência e do lucro gerado pela sua operação autônoma em tempo real.
-            </p>
-          </div>
-        </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl md:text-5xl font-bold text-white mb-4"
+          >
+            O Sistema Operacional da <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Sua Empresa</span><span className="text-cyan-500">.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed"
+          >
+            Tenha visão total da eficiência e do lucro gerado pela sua operação autônoma em tempo real.
+          </motion.p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 h-auto md:h-[800px]">
 

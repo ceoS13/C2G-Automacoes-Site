@@ -121,27 +121,37 @@ export const Pricing: React.FC = () => {
       <div className="max-w-[100rem] mx-auto px-6 md:px-8 relative z-10">
 
         {/* Header */}
-        <motion.header
-          className="text-center mb-16 relative"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+        <header className="text-center mb-16 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#111111] mb-6 md:mb-8"
+          >
             <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-            <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Análise de Custos: Online</span>
-          </div>
+            <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Planos Ísis: Online</span>
+          </motion.div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-32 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent blur-xl -z-10" aria-hidden="true" />
-
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Realidade <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400"><HyperText text="Comercial" /></span>
-          </h2>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Planos desenhados para ROI imediato. Cancele ferramentas isoladas e centralize sua inteligência.
-          </p>
-        </motion.header>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-6"
+          >
+            Escolha seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"><HyperText text="Módulo" /></span><span className="text-cyan-500">.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed"
+          >
+            Cada plano desbloqueia mais capacidade do Ecossistema Ísis. Comece simples, escale quando precisar.
+          </motion.p>
+        </header>
 
         {/* Pricing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-full mx-auto">

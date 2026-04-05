@@ -1,6 +1,6 @@
 
 import React, { useRef, useCallback } from 'react';
-import { MessageSquare, Rocket, Lock, Settings, Sparkles } from 'lucide-react';
+import { MessageSquare, Rocket, Lock, Settings, Sparkles, Target } from 'lucide-react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
 interface SolutionCardProps {
@@ -45,6 +45,7 @@ const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, descripti
     "indigo-400": "text-indigo-400",
     "purple-400": "text-purple-400",
     "orange-400": "text-orange-400",
+    "rose-400": "text-rose-400",
   };
 
   const accentBgMap: Record<string, string> = {
@@ -53,6 +54,7 @@ const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, descripti
     "indigo-400": "bg-indigo-400",
     "purple-400": "bg-purple-400",
     "orange-400": "bg-orange-400",
+    "rose-400": "bg-rose-400",
   };
 
   const neonShadows: Record<string, string> = {
@@ -61,6 +63,7 @@ const SolutionCard: React.FC<SolutionCardProps> = React.memo(({ title, descripti
     "indigo-400": "shadow-[0_0_20px_2px_rgba(129,140,248,0.8)]",
     "purple-400": "shadow-[0_0_20px_2px_rgba(192,132,252,0.8)]",
     "orange-400": "shadow-[0_0_20px_2px_rgba(251,146,60,0.8)]",
+    "rose-400": "shadow-[0_0_20px_2px_rgba(251,113,133,0.8)]",
   };
 
   const shadowClass = neonShadows[accentColor] || "shadow-[0_0_20px_2px_rgba(255,255,255,0.5)]";
@@ -139,99 +142,135 @@ export const Solutions: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#050505] to-transparent z-20 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
 
-      <div className="max-w-[95rem] mx-auto px-6 md:px-8 relative z-10">
-        <motion.div
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel mb-6 md:mb-8 bg-black/50">
+      <div className="max-w-[110rem] mx-auto px-4 md:px-8 relative z-10">
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#111111] mb-6 md:mb-8"
+          >
             <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-            <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Agentes Inteligentes: Online</span>
-          </div>
+            <span className="text-[10px] md:text-xs font-mono text-cyan-200/80 uppercase tracking-widest">Ecossistema Ísis: Online</span>
+          </motion.div>
 
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Nossos Agentes
-          </h2>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Adicione inteligência autônoma ao seu ecossistema de negócios.
-          </p>
-        </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl md:text-5xl font-bold text-white mb-4"
+          >
+            Um Ecossistema<span className="text-cyan-500">.</span>
+          </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-8"
+          >
+            Seis Módulos<span className="text-cyan-500">.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed"
+          >
+            A Ísis não é só um agente de IA. É uma plataforma completa com módulos especializados que cobrem toda a sua operação.
+          </motion.p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5 xl:gap-4">
           <SolutionCard
-            title="Personal (Vida)"
-            description="Seu segundo cérebro no WhatsApp. Gerencie agenda, e-mails, contatos e pesquisas na web com um comando de voz."
+            title="Ísis Personal"
+            description="Seu segundo cérebro que mora no seu bolso. Diga o que precisa por voz e ela organiza o resto do seu dia."
             icon={<Sparkles size={28} />}
             gradient="from-orange-500 to-amber-500"
             accentColor="orange-400"
             features={[
-              "Organização de Agenda (Google/Outlook)",
-              "Resumo e Resposta de E-mails",
-              "Pesquisas de Mercado e Notícias",
-              "Anotações e Lembretes"
+              "Comando de voz no WhatsApp",
+              "Sincroniza Google e Outlook",
+              "Resumo inteligente de e-mails",
+              "Pesquisa e anota pra você"
             ]}
             delay="0"
             floatDelay="0s"
           />
           <SolutionCard
-            title="Ísis (Conversão)"
-            description="Transforme curiosos em pagantes. Atendimento imediato que nunca deixa um lead esfriar e agenda reuniões automaticamente."
+            title="Ísis Conversão"
+            description="O primeiro contato do seu cliente nunca mais fica sem resposta. Atende, filtra e direciona em segundos."
             icon={<MessageSquare size={28} />}
             gradient="from-blue-600 to-cyan-500"
             accentColor="cyan-400"
             features={[
-              "Atendimento 24/7 sem fila",
-              "Recuperação de leads inativos",
-              "Agendamento direto no Calendar",
-              "Integração total com seu CRM"
+              "Respostas instantâneas 24/7",
+              "Base de conhecimento própria (RAG)",
+              "Filtra curiosos de compradores",
+              "Conecta direto no seu CRM"
             ]}
             delay="0"
             floatDelay="1s"
           />
           <SolutionCard
-            title="Growth (Prospecção)"
-            description="Encha a agenda do seu time comercial. Prospecção ativa que busca e qualifica decisores no LinkedIn e E-mail todos os dias."
+            title="Ísis Growth"
+            description="Transforma leads frios em oportunidades quentes. Reengaja quem sumiu com abordagem que parece humana."
             icon={<Rocket size={28} />}
             gradient="from-emerald-500 to-teal-400"
             accentColor="emerald-400"
             features={[
-              "Geração de Pipeline Previsível",
-              "Enriquecimento de dados",
-              "Abordagem personalizada em massa",
-              "Nutrição automática de leads"
+              "Follow-up automático inteligente",
+              "Áudios com voz humanizada (PTT)",
+              "Envio de catálogos e portfólio",
+              "Nutrição contínua de leads"
             ]}
             delay="100"
             floatDelay="2.5s"
           />
           <SolutionCard
-            title="Ops (Eficiência)"
-            description="Elimine o gargalo administrativo. Conecte RH, Financeiro e Operações em fluxos autônomos, reduzindo o erro humano a zero."
+            title="Ísis Closer"
+            description="Sua vendedora digital que não dorme. Qualifica, negocia e agenda a reunião sem você precisar abrir o celular."
+            icon={<Target size={28} />}
+            gradient="from-rose-500 to-pink-500"
+            accentColor="rose-400"
+            features={[
+              "Qualificação autônoma por score",
+              "Agenda reuniões sozinha",
+              "Atualiza pipeline no CRM",
+              "Memória vitalícia do cliente"
+            ]}
+            delay="150"
+            floatDelay="1.5s"
+          />
+          <SolutionCard
+            title="Ísis Ops"
+            description="O back-office que roda sozinho. Elimina tarefas repetitivas do RH, Financeiro e Operações da sua empresa."
             icon={<Settings size={28} />}
             gradient="from-purple-600 to-fuchsia-500"
             accentColor="purple-400"
             features={[
-              "Onboarding de Colaboradores",
-              "Automação Financeira (NFs)",
-              "Gestão de Documentos (OCR)",
-              "Orquestração de ERP"
+              "Onboarding automático de equipe",
+              "Emissão e controle de NFs",
+              "Leitura de documentos (OCR)",
+              "Integração com ERPs e bancos"
             ]}
             delay="200"
             floatDelay="1s"
           />
           <SolutionCard
-            title="Governança (Segurança)"
-            description="Durma tranquilo. Auditoria em tempo real que garante que sua marca seja representada com perfeição e segurança jurídica."
+            title="Ísis Guard"
+            description="O escudo invisível de toda a operação. Monitora cada resposta da IA e bloqueia antes de chegar no cliente."
             icon={<Lock size={28} />}
             gradient="from-indigo-600 to-blue-500"
             accentColor="indigo-400"
             features={[
-              "Bloqueio de respostas erradas",
-              "Auditoria de qualidade (Score)",
-              "Proteção total dos seus dados",
-              "Conformidade com LGPD"
+              "Bloqueio de alucinações em tempo real",
+              "Score de confiança por resposta",
+              "Dados isolados e criptografados",
+              "Conformidade total com LGPD"
             ]}
             delay="300"
             floatDelay="1.5s"

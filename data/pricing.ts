@@ -15,9 +15,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'personal',
     title: "Personal",
-    subtitle: 'O "Concierge"',
-    price: "R$ 599",
-    description: "Foco: Produtividade individual. Sua secretária executiva digital.",
+    subtitle: 'Ísis Personal',
+    price: "R$ 199",
+    description: "Sua secretária executiva digital. Organize sua vida pelo WhatsApp.",
     features: [
       "Organização de Agenda (Google/Outlook)",
       "Resumo e Resposta de E-mails",
@@ -32,9 +32,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'standard',
     title: "Standard",
-    subtitle: 'O "Filtro"',
-    price: "R$ 999",
-    description: "Foco: Tirar o peso do atendimento humano. A IA resolve o básico.",
+    subtitle: 'Ísis Conversão',
+    price: "R$ 499",
+    description: "Tire o peso do atendimento humano. A IA resolve o básico 24/7.",
     features: [
       "Mensagens Ilimitadas (24/7)",
       "Tira-Dúvidas (RAG FAQ)",
@@ -48,9 +48,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'plus',
     title: "Plus",
-    subtitle: 'O "Engajador"',
-    price: "R$ 1.499",
-    description: "Foco: Aquecer o lead e trazer de volta quem sumiu. Humanização.",
+    subtitle: 'Ísis Growth',
+    price: "R$ 799",
+    description: "Aqueça leads, recupere quem sumiu e prospecte decisores todos os dias.",
     features: [
       "Tudo do Standard",
       "Envio de Áudio Humano (PTT)",
@@ -65,9 +65,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'pro',
     title: "Pro",
-    subtitle: 'O "Closer Autônomo"',
-    price: "R$ 2.499",
-    description: "Foco: A IA executa o trabalho sujo. Ela qualifica, agenda ou fecha.",
+    subtitle: 'Ísis Closer',
+    price: "R$ 999",
+    description: "A IA executa o trabalho pesado. Qualifica, agenda e fecha sozinha.",
     features: [
       "Tudo do Plus",
       "Autonomia Executiva",
@@ -84,13 +84,13 @@ export const PRICING_PLANS: PricingPlan[] = [
 
 export const ENTERPRISE_PLAN = {
   title: "Enterprise",
-  subtitle: 'O "ECOSSISTEMA"',
-  description: "Para operações complexas que exigem integrações profundas (API de Estoque, Logística, Banco de Dados Legado).",
+  subtitle: 'Ísis Ops',
+  description: "Todos os módulos do ecossistema com integrações profundas e engenharia dedicada sob medida.",
   features: [
-    "Engenharia de Soluções Dedicada",
+    "Ecossistema Completo (5 módulos)",
     "Integração SQL/NoSQL & ERPs",
     "SLA Garantido em Contrato",
     "Gerente de Sucesso (CS)"
   ],
-  quote: "A infraestrutura robusta para escalar sem limites"
+  quote: "A infraestrutura robusta para escalar sem limites."
 };

@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Cpu } from 'lucide-react';
+import { ArrowRight, Cpu, ChevronDown } from 'lucide-react';
 import { scroller } from 'react-scroll';
 import { LOGO_HQ_URL } from '../../lib/constants';
 import { getOptimizedImageUrl } from '../../lib/utils';
@@ -141,7 +141,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
           <button
             onClick={handleBadgeClick}
             className={`
-                  group inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full glass-panel bg-black/50 transition-all duration-200 active:scale-95
+                  group inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#111111] transition-all duration-200 active:scale-95
                   /* EFEITO GLITCH/HINT: Borda brilha e sombra estoura no hover */
                   hover:border-cyan-400 hover:shadow-[0_0_25px_rgba(34,211,238,0.6)] hover:bg-cyan-950/40
                   ${clickCount > 0 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]' : ''}
@@ -205,7 +205,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
             className="max-w-3xl mx-auto text-base md:text-lg lg:text-xl text-zinc-400 mb-8 md:mb-12 font-light leading-relaxed px-2 md:px-4"
             style={{ y: yText }}
           >
-            Pare de inflar sua folha de pagamento. Implementamos <span className="text-white font-medium">Ecossistemas de Receita Autônoma</span> que prospectam, vendem e atendem seus clientes 24/7. Cresça seu faturamento, não seus custos fixos.
+            Implementamos <span className="text-white font-medium">Ecossistemas de Receita Autônoma</span> que prospectam, vendem e atendem seus clientes 24/7.
           </motion.p>
         </motion.div>
 
@@ -215,8 +215,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
             style={{ y: yButtons }}
           >
             <motion.button
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
               type="button"
               className="group relative px-6 py-3.5 md:px-8 md:py-4 bg-zinc-100 text-black font-bold text-base md:text-lg rounded-lg overflow-hidden transition-all hover:scale-105 shadow-xl shadow-cyan-500/10 w-full sm:w-auto"
               onClick={() => scrollToSection('pricing')}
@@ -228,17 +229,69 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTerminal }) => {
               </span>
             </motion.button>
 
-            <button
+            <motion.button
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
               type="button"
               onClick={() => scrollToSection('tech')}
-              className="flex items-center gap-2 text-zinc-500 hover:text-cyan-400 transition-colors uppercase text-xs md:text-sm tracking-widest font-mono py-2"
+              className="flex items-center gap-2 text-zinc-300 hover:text-cyan-400 transition-all uppercase text-xs md:text-sm tracking-widest font-mono py-2.5 px-5 rounded-lg border border-white/10 bg-[#111111] hover:border-cyan-500/30 hover:bg-[#1a1a1a]"
               aria-label="Ver arquitetura técnica"
             >
               <Cpu size={16} aria-hidden="true" /> Ver Arquitetura
-            </button>
+            </motion.button>
           </motion.div>
         </div>
+
+        {/* Trust Signal */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8, ease: "easeOut" }}
+          className="mt-10 md:mt-14 flex items-center justify-center gap-6 md:gap-8 text-zinc-400"
+        >
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.6, duration: 0.5 }}
+            className="flex items-center gap-2"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
+            <span className="text-[10px] md:text-xs font-mono uppercase tracking-wider">3 Agentes Ativos</span>
+          </motion.div>
+          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1.8, duration: 0.3 }} className="w-px h-3 bg-white/10" />
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.9, duration: 0.5 }}
+            className="text-[10px] md:text-xs font-mono uppercase tracking-wider"
+          >Setup em 30 dias</motion.span>
+          <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 2.1, duration: 0.3 }} className="w-px h-3 bg-white/10 hidden sm:block" />
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2.2, duration: 0.5 }}
+            className="text-[10px] md:text-xs font-mono uppercase tracking-wider hidden sm:block"
+          >ROI em 60 dias</motion.span>
+        </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1 cursor-pointer"
+        onClick={() => scrollToSection('chat-demo')}
+      >
+        <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em]">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={16} className="text-zinc-600" />
+        </motion.div>
+      </motion.div>
 
       <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" aria-hidden="true" />
     </header>

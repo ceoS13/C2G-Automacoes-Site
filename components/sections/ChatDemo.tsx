@@ -1,96 +1,148 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Bot, Loader2, Database, CheckCircle2, DollarSign, Headphones, Calendar, Send, Sparkles, Zap, BrainCircuit, Lock } from 'lucide-react';
+import { CheckCheck, Database, DollarSign, Headphones, Calendar, Send, Zap, Lock, ArrowLeft, Phone, Video, MoreVertical, Smile, Paperclip, Mic, FileText, Download, Brain, Shield } from 'lucide-react';
 
 type Message = {
     id: number;
     role: 'ai' | 'user' | 'system';
     content: string;
     delay: number;
-    actionStatus?: string; // Texto que aparecerá no header durante o delay (Ex: "Consultando CRM...")
+    actionStatus?: string;
+    attachment?: {
+        name: string;
+        size: string;
+        pages: string;
+    };
 };
 
 type ScenarioKey = 'scheduling' | 'support' | 'finance';
 
 const SCENARIOS: Record<ScenarioKey, Message[]> = {
     scheduling: [
-        { id: 1, role: 'user', content: "Gostaria de agendar uma demonstração.", delay: 1000, actionStatus: "Aguardando input..." },
-        { id: 2, role: 'system', content: "Verificando disponibilidade no Google Agenda...", delay: 600, actionStatus: "Conectando API Calendar..." },
-        { id: 3, role: 'ai', content: "Amanhã a agenda está lotada, mas tenho disponibilidade na Quinta às 14h. Qual prefere?", delay: 1500, actionStatus: "Gerando resposta..." },
-        { id: 4, role: 'user', content: "Quinta às 14h.", delay: 3000, actionStatus: "Aguardando usuário..." },
-        { id: 5, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 800, actionStatus: "Processando dados..." },
-        { id: 6, role: 'ai', content: "Agendado! Vi que você é CTO na Vertex. Enviei o convite e nossa documentação técnica no seu e-mail.", delay: 1500, actionStatus: "Finalizando agendamento..." },
+        { id: 1, role: 'user', content: "Oi, boa tarde!", delay: 800, actionStatus: "Aguardando input..." },
+        { id: 2, role: 'ai', content: "Boa tarde! 👋 Sou a Ísis, assistente virtual da C2G Automações. Como posso te ajudar hoje?", delay: 1200, actionStatus: "Gerando resposta..." },
+        { id: 3, role: 'user', content: "Gostaria de agendar uma demonstração dos agentes de IA de vocês.", delay: 2500, actionStatus: "Aguardando usuário..." },
+        { id: 4, role: 'system', content: "Verificando disponibilidade no Google Agenda...", delay: 600, actionStatus: "Conectando API Calendar..." },
+        { id: 5, role: 'ai', content: "Claro! Deixa eu verificar a agenda do nosso consultor.", delay: 1000, actionStatus: "Gerando resposta..." },
+        { id: 6, role: 'ai', content: "Amanhã está lotado, mas tenho dois horários na Quinta: 10h ou 14h. Qual funciona melhor pra você?", delay: 1500, actionStatus: "Gerando resposta..." },
+        { id: 7, role: 'user', content: "Quinta às 14h por favor.", delay: 3000, actionStatus: "Aguardando usuário..." },
+        { id: 8, role: 'system', content: "Enriquecendo dados do Lead (API Clearbit)...", delay: 800, actionStatus: "Processando dados..." },
+        { id: 9, role: 'ai', content: "Perfeito, agendado! ✅", delay: 1000, actionStatus: "Finalizando..." },
+        { id: 10, role: 'ai', content: "Vi que você é CTO na Vertex — já enviei o convite pro seu e-mail com o link da call e nossa documentação técnica.", delay: 1500, actionStatus: "Finalizando agendamento..." },
+        { id: 11, role: 'user', content: "Que eficiência! Obrigado.", delay: 2500, actionStatus: "Aguardando usuário..." },
+        { id: 12, role: 'ai', content: "Imagina! Qualquer dúvida antes da reunião é só chamar aqui. Até quinta! 🚀", delay: 1200, actionStatus: "Gerando resposta..." },
     ],
     support: [
-        { id: 1, role: 'user', content: "Meu pedido #4920 ainda não chegou.", delay: 1000, actionStatus: "Aguardando input..." },
-        { id: 2, role: 'system', content: "Consultando API de Logística/ERP...", delay: 800, actionStatus: "Acessando Banco de Dados..." },
-        { id: 3, role: 'ai', content: "Consultei aqui. O pedido #4920 teve um atraso na transportadora, mas saiu para entrega hoje às 08:30.", delay: 2000, actionStatus: "Analisando rastreio..." },
-        { id: 4, role: 'user', content: "Ah, entendi. Conseguem entregar até as 18h?", delay: 3500, actionStatus: "Aguardando usuário..." },
-        { id: 5, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista priorizar sua rota.", delay: 1500, actionStatus: "Contatando motorista..." },
+        { id: 1, role: 'user', content: "Boa noite, meu pedido #4920 ainda não chegou.", delay: 1000, actionStatus: "Aguardando input..." },
+        { id: 2, role: 'ai', content: "Boa noite! Vou consultar o status do seu pedido agora mesmo.", delay: 1000, actionStatus: "Gerando resposta..." },
+        { id: 3, role: 'system', content: "Consultando API de Logística/ERP...", delay: 800, actionStatus: "Acessando Banco de Dados..." },
+        { id: 4, role: 'ai', content: "Encontrei aqui. O pedido #4920 teve um atraso na transportadora por conta da chuva, mas já saiu para entrega hoje às 08:30.", delay: 2000, actionStatus: "Analisando rastreio..." },
+        { id: 5, role: 'user', content: "Ah, entendi. Mas conseguem entregar até as 18h? Preciso pra hoje.", delay: 3000, actionStatus: "Aguardando usuário..." },
+        { id: 6, role: 'system', content: "Consultando rota do motorista...", delay: 600, actionStatus: "Processando..." },
+        { id: 7, role: 'ai', content: "Sim! A previsão atualizada é até as 16h45. Já notifiquei o motorista para priorizar sua rota. 🚚", delay: 1500, actionStatus: "Contatando motorista..." },
+        { id: 8, role: 'user', content: "Ótimo, obrigado!", delay: 2000, actionStatus: "Aguardando usuário..." },
+        { id: 9, role: 'ai', content: "Disponha! Vou te enviar uma notificação automática assim que o entregador estiver a 15 min da sua localização.", delay: 1200, actionStatus: "Gerando resposta..." },
+        { id: 10, role: 'ai', content: "Precisa de mais alguma coisa?", delay: 1000, actionStatus: "Gerando resposta..." },
+        { id: 11, role: 'user', content: "Não, era só isso. Valeu! 👍", delay: 2500, actionStatus: "Aguardando usuário..." },
     ],
     finance: [
-        { id: 1, role: 'user', content: "Preciso da 2ª via do boleto de Janeiro.", delay: 1000, actionStatus: "Aguardando input..." },
-        { id: 2, role: 'system', content: "Autenticando Usuário e Acessando Banco...", delay: 800, actionStatus: "Validando token de segurança..." },
-        { id: 3, role: 'ai', content: "Localizei. O boleto vencia dia 15/01. Deseja que eu gere um novo com data para hoje sem juros?", delay: 2000, actionStatus: "Verificando regras de negócio..." },
-        { id: 4, role: 'user', content: "Sim, por favor.", delay: 2500, actionStatus: "Aguardando usuário..." },
-        { id: 5, role: 'system', content: "Gerando PDF e Enviando para WhatsApp...", delay: 800, actionStatus: "Gerando documento..." },
-        { id: 6, role: 'ai', content: "Prontinho! Acabei de enviar o PDF aqui e no seu e-mail financeiro.", delay: 1500, actionStatus: "Enviando anexo..." },
+        { id: 1, role: 'user', content: "Oi, preciso da 2ª via do boleto de Janeiro.", delay: 1000, actionStatus: "Aguardando input..." },
+        { id: 2, role: 'ai', content: "Olá! Vou localizar seu boleto. Me dá um instante.", delay: 1000, actionStatus: "Gerando resposta..." },
+        { id: 3, role: 'system', content: "Autenticando usuário e acessando banco...", delay: 800, actionStatus: "Validando token de segurança..." },
+        { id: 4, role: 'ai', content: "Localizei. O boleto de Janeiro vencia dia 15/01 no valor de R$ 1.499,00. Deseja que eu gere um novo com data pra hoje sem juros?", delay: 2000, actionStatus: "Verificando regras de negócio..." },
+        { id: 5, role: 'user', content: "Sim, por favor.", delay: 2500, actionStatus: "Aguardando usuário..." },
+        { id: 6, role: 'system', content: "Gerando boleto atualizado...", delay: 800, actionStatus: "Gerando documento..." },
+        { id: 7, role: 'ai', content: "Prontinho! Aqui está o boleto atualizado:", delay: 1200, actionStatus: "Enviando anexo..." },
+        { id: 8, role: 'ai', content: "", delay: 800, actionStatus: "Enviando anexo...", attachment: { name: "Boleto_Jan_2025.pdf", size: "124 KB", pages: "1 página" } },
+        { id: 9, role: 'ai', content: "Também enviei uma cópia pro seu e-mail financeiro. O vencimento é hoje até 23:59, sem multa nem juros. 😊", delay: 1500, actionStatus: "Finalizando..." },
+        { id: 10, role: 'user', content: "Perfeito, muito obrigado!", delay: 2500, actionStatus: "Aguardando usuário..." },
+        { id: 11, role: 'user', content: "Vocês são rápidos demais haha", delay: 1500, actionStatus: "Aguardando usuário..." },
+        { id: 12, role: 'ai', content: "Haha, trabalhamos 24/7! Se precisar de mais alguma coisa é só chamar aqui. 💙", delay: 1200, actionStatus: "Gerando resposta..." },
     ]
 };
+
+/* WhatsApp Dark Mode Colors */
+const WA = {
+    bg: '#0b141a',
+    headerBg: '#1f2c34',
+    inputBarBg: '#1f2c34',
+    inputFieldBg: '#2a3942',
+    outgoing: '#005c4b',
+    incoming: '#202c33',
+    systemBg: '#182229',
+    textPrimary: '#e9edef',
+    textSecondary: '#8696a0',
+    timestamp: '#8696a0',
+    readReceipt: '#53bdeb',
+    green: '#00a884',
+    divider: '#222d34',
+    typing: '#53bdeb',
+};
+
+/* PDF Attachment Component */
+const PdfAttachment: React.FC<{ name: string; size: string; pages: string; time: string }> = ({ name, size, pages, time }) => (
+    <div className="w-[260px]">
+        <div className="rounded-lg overflow-hidden" style={{ backgroundColor: '#1a3a34' }}>
+            {/* PDF Preview Header */}
+            <div className="flex items-center gap-3 px-3 py-3">
+                <div className="w-10 h-12 rounded bg-red-500/90 flex items-center justify-center shrink-0">
+                    <span className="text-white text-[10px] font-bold">PDF</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                    <p className="text-[13px] font-medium truncate" style={{ color: WA.textPrimary }}>{name}</p>
+                    <p className="text-[11px] mt-0.5" style={{ color: WA.textSecondary }}>{pages} · {size}</p>
+                </div>
+                <Download size={18} style={{ color: WA.textSecondary }} className="shrink-0" />
+            </div>
+        </div>
+        {/* Timestamp under attachment */}
+        <div className="flex items-center justify-end gap-1 mt-1 pr-1">
+            <span className="text-[10px]" style={{ color: WA.timestamp }}>{time}</span>
+            <CheckCheck size={15} className="shrink-0" style={{ color: WA.readReceipt }} />
+        </div>
+    </div>
+);
 
 export const ChatDemo: React.FC = () => {
     const [activeScenario, setActiveScenario] = useState<ScenarioKey>('scheduling');
     const [messages, setMessages] = useState<Message[]>([]);
-
-    // Estados de UI
     const [isAiTyping, setIsAiTyping] = useState(false);
     const [inputValue, setInputValue] = useState("");
-    const [headerStatus, setHeaderStatus] = useState("Online");
+    const [headerStatus, setHeaderStatus] = useState("online");
     const [isSendButtonActive, setIsSendButtonActive] = useState(false);
 
     const chatRef = useRef<HTMLElement>(null);
     const isInView = useInView(chatRef, { once: true, amount: 0.2 });
-
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const abortControllerRef = useRef<AbortController | null>(null);
 
-    // Auto-scroll inteligente
     useEffect(() => {
         if (scrollAreaRef.current) {
-            const scrollContainer = scrollAreaRef.current;
-            setTimeout(() => {
-                scrollContainer.scrollTo({
-                    top: scrollContainer.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 100);
+            const sc = scrollAreaRef.current;
+            setTimeout(() => { sc.scrollTo({ top: sc.scrollHeight, behavior: 'smooth' }); }, 100);
         }
     }, [messages, isAiTyping]);
 
     const wait = (ms: number, signal: AbortSignal) => new Promise<void>((resolve, reject) => {
         const timer = setTimeout(() => resolve(), ms);
-        signal.addEventListener('abort', () => {
-            clearTimeout(timer);
-            reject(new Error('Aborted'));
-        });
+        signal.addEventListener('abort', () => { clearTimeout(timer); reject(new Error('Aborted')); });
     });
 
     const typeIntoInput = async (text: string, signal: AbortSignal) => {
-        setHeaderStatus("Digitando...");
+        setHeaderStatus("online");
         for (let i = 1; i <= text.length; i++) {
             if (signal.aborted) throw new Error('Aborted');
             setInputValue(text.substring(0, i));
             await wait(30 + Math.random() * 30, signal);
         }
-        setIsSendButtonActive(true); // Ativa brilho do botão
-        await wait(600, signal); // Pausa dramática antes de enviar
+        setIsSendButtonActive(true);
+        await wait(600, signal);
         setIsSendButtonActive(false);
     };
 
     const runScenario = async (scenario: ScenarioKey) => {
         if (abortControllerRef.current) abortControllerRef.current.abort();
-
         const controller = new AbortController();
         abortControllerRef.current = controller;
         const { signal } = controller;
@@ -99,60 +151,44 @@ export const ChatDemo: React.FC = () => {
             setMessages([]);
             setInputValue("");
             setIsAiTyping(false);
-            setHeaderStatus("Iniciando sessão...");
+            setHeaderStatus("online");
 
             const script = SCENARIOS[scenario];
-
             for (const msg of script) {
-                // Atualiza status do header baseado na próxima ação
                 if (msg.actionStatus) setHeaderStatus(msg.actionStatus);
-
                 await wait(msg.delay, signal);
 
                 if (msg.role === 'user') {
                     await typeIntoInput(msg.content, signal);
                     setInputValue("");
-                    // Adiciona mensagem do usuário
                     setMessages(prev => [...prev, msg]);
-                    setHeaderStatus("Enviado");
-                }
-                else if (msg.role === 'ai') {
+                    setHeaderStatus("online");
+                } else if (msg.role === 'ai') {
                     setIsAiTyping(true);
-                    setHeaderStatus("Ísis está digitando...");
+                    setHeaderStatus("digitando...");
                     await wait(1500, signal);
                     setIsAiTyping(false);
                     setMessages(prev => [...prev, msg]);
-                    setHeaderStatus("Online");
-                }
-                else {
-                    // Mensagens de sistema
-                    setHeaderStatus("Processando...");
+                    setHeaderStatus("online");
+                } else {
                     setMessages(prev => [...prev, msg]);
-                    // Pequeno delay para ler a msg de sistema
                     await wait(800, signal);
                 }
             }
-            setHeaderStatus("Aguardando novo comando...");
+            setHeaderStatus("online");
         } catch (error) {
             if ((error as Error).message !== 'Aborted') console.error(error);
         }
     };
 
     useEffect(() => {
-        if (isInView) {
-            runScenario(activeScenario);
-        }
-        return () => {
-            if (abortControllerRef.current) abortControllerRef.current.abort();
-        };
+        if (isInView) runScenario(activeScenario);
+        return () => { if (abortControllerRef.current) abortControllerRef.current.abort(); };
     }, [activeScenario, isInView]);
 
-    // Cores dinâmicas
-    const getStatusColor = () => {
-        if (headerStatus.includes("Digitando") || headerStatus.includes("Gerando")) return "text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse";
-        if (headerStatus.includes("Conectando") || headerStatus.includes("Processando")) return "text-purple-400";
-        if (headerStatus.includes("Online")) return "text-emerald-400";
-        return "text-zinc-400";
+    const getTime = () => {
+        const now = new Date();
+        return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     };
 
     return (
@@ -169,36 +205,74 @@ export const ChatDemo: React.FC = () => {
                         className="relative z-10 order-2 lg:order-1"
                     >
                         <div className="bg-black/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border border-white/10 md:border-none p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none">
-                            <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
+                            <motion.h2
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight"
+                            >
                                 Sua Força de <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
-                                    Trabalho Digital.
+                                    Trabalho Digital
                                 </span>
-                            </h2>
-                            <p className="text-base md:text-xl text-zinc-400 mb-8 leading-relaxed">
-                                Delegue tarefas manuais para agentes que operam 24/7. Nossos sistemas orquestram seu Financeiro, Logística e Vendas com autonomia de Nível 4.
-                            </p>
+                                <span className="text-cyan-500">.</span>
+                            </motion.h2>
+                            <motion.p
+                                initial={{ opacity: 0, y: 15 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.15 }}
+                                className="text-base md:text-xl text-zinc-400 mb-10 leading-relaxed"
+                            >
+                                Veja ao vivo como a <span className="text-white font-medium">Ísis</span> agenda reuniões, rastreia pedidos e gera boletos. Tudo pelo WhatsApp, sem intervenção humana.
+                            </motion.p>
 
-                            <ul className="space-y-4">
-                                <li className="flex items-center gap-4 text-zinc-300 group">
-                                    <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0 border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors"><Database size={24} /></div>
+                            <ul className="space-y-5">
+                                <motion.li
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: 0.2 }}
+                                    className="flex items-center gap-4 text-zinc-300 group"
+                                >
+                                    <div className="p-2.5 bg-blue-500/10 rounded-xl text-blue-400 shrink-0 border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors"><Database size={22} /></div>
                                     <div>
-                                        <h4 className="font-bold text-sm md:text-base text-white">Integração Profunda</h4>
-                                        <p className="text-xs md:text-sm text-zinc-500">Conectamos WhatsApp ao seu ERP sem gambiarras.</p>
+                                        <h4 className="font-bold text-sm md:text-base text-white">Integração Real</h4>
+                                        <p className="text-xs md:text-sm text-zinc-500">Conecta WhatsApp, ERP, CRM e APIs bancárias.</p>
                                     </div>
-                                </li>
-                                <li className="flex items-center gap-4 text-zinc-300 group">
-                                    <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400 shrink-0 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors"><Zap size={24} /></div>
+                                </motion.li>
+                                <motion.li
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                    className="flex items-center gap-4 text-zinc-300 group"
+                                >
+                                    <div className="p-2.5 bg-cyan-500/10 rounded-xl text-cyan-400 shrink-0 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors"><Brain size={22} /></div>
                                     <div>
-                                        <h4 className="font-bold text-sm md:text-base text-white">Resposta Instantânea</h4>
-                                        <p className="text-xs md:text-sm text-zinc-500">Zero fila de espera. Atendimento em milissegundos.</p>
+                                        <h4 className="font-bold text-sm md:text-base text-white">Raciocínio Autônomo</h4>
+                                        <p className="text-xs md:text-sm text-zinc-500">Decide, executa e aprende com cada interação.</p>
                                     </div>
-                                </li>
+                                </motion.li>
+                                <motion.li
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: 0.4 }}
+                                    className="flex items-center gap-4 text-zinc-300 group"
+                                >
+                                    <div className="p-2.5 bg-emerald-500/10 rounded-xl text-emerald-400 shrink-0 border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-colors"><Shield size={22} /></div>
+                                    <div>
+                                        <h4 className="font-bold text-sm md:text-base text-white">Segurança Total</h4>
+                                        <p className="text-xs md:text-sm text-zinc-500">Seus dados nunca treinam IA pública. LGPD compliant.</p>
+                                    </div>
+                                </motion.li>
                             </ul>
                         </div>
                     </motion.div>
 
-                    {/* CHAT INTERFACE (Direita) */}
+                    {/* WHATSAPP CHAT INTERFACE */}
                     <motion.article
                         ref={chatRef}
                         className="relative w-full mt-8 lg:mt-0 order-1 lg:order-2"
@@ -207,193 +281,228 @@ export const ChatDemo: React.FC = () => {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        {/* Background Glow Behind Chat */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/10 to-cyan-500/10 rounded-[3rem] blur-2xl transform rotate-3 scale-95" />
+                        {/* Glow */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/10 to-teal-500/10 rounded-[2rem] blur-2xl transform rotate-3 scale-95" />
 
-                        <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-6 h-[500px] md:h-[650px] shadow-2xl overflow-hidden flex flex-col glass-panel">
+                        <div
+                            className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden flex flex-col h-[580px] md:h-[720px] shadow-2xl border border-white/5"
+                            style={{ backgroundColor: WA.bg }}
+                        >
 
-                            {/* HEADER DO CHAT - REDESENHADO (Minimalista) */}
-                            <header className="border-b border-white/5 pb-4 mb-4 space-y-4">
-                                <div className="flex items-center justify-between">
-                                    {/* Removido Avatar e Versão conforme solicitado */}
-                                    <div className="flex items-center gap-3">
-                                        <div className="relative">
-                                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0 border border-white/10">
-                                                <Bot size={20} className="text-white" />
-                                            </div>
-                                            <div className="absolute -bottom-0.5 -right-0.5 bg-[#0a0a0a] rounded-full p-0.5">
-                                                <span className={`block w-3 h-3 rounded-full border-2 border-[#0a0a0a] ${headerStatus.includes('Online') ? 'bg-emerald-500 animate-pulse' : 'bg-cyan-500'}`} />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-white text-lg tracking-tight flex items-center gap-2">
-                                                Ísis AI
-                                                {/* Status Dot Pulsante */}
-
-                                            </h3>
-
-                                            {/* Texto "brilhando" quando digitando */}
-                                            <p className={`text-xs font-mono flex items-center gap-2 transition-all duration-300 ${getStatusColor()}`}>
-                                                {/* Ícone removido para ficar "somente o digitando" se for desejo estrito, ou mantido minimalista. Vou manter minimalista sem icone no texto se estiver brilhando */}
-                                                {headerStatus}
-                                            </p>
-                                        </div>
+                            {/* === WHATSAPP HEADER === */}
+                            <header
+                                className="px-4 py-2.5 flex items-center gap-3 shrink-0"
+                                style={{ backgroundColor: WA.headerBg }}
+                            >
+                                <ArrowLeft size={20} style={{ color: WA.textSecondary }} className="md:hidden shrink-0" />
+                                <div className="relative shrink-0">
+                                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: WA.green }}>
+                                        ÍA
                                     </div>
+                                    {headerStatus === 'online' && (
+                                        <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2" style={{ backgroundColor: WA.green, borderColor: WA.headerBg }} />
+                                    )}
                                 </div>
-
-                                {/* SCENARIO SELECTOR */}
-                                <div className="flex p-1 bg-black/40 rounded-xl border border-white/5 overflow-x-auto no-scrollbar">
-                                    {[
-                                        { id: 'scheduling', icon: Calendar, label: 'Comercial' },
-                                        { id: 'support', icon: Headphones, label: 'Logística' },
-                                        { id: 'finance', icon: DollarSign, label: 'Financeiro' }
-                                    ].map((item) => (
-                                        <button
-                                            key={item.id}
-                                            type="button"
-                                            onClick={() => setActiveScenario(item.id as ScenarioKey)}
-                                            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none ${activeScenario === item.id
-                                                ? 'bg-white/10 text-white shadow-sm border border-white/5'
-                                                : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'
-                                                }`}
-                                        >
-                                            <item.icon size={14} className={activeScenario === item.id ? "text-cyan-400" : ""} />
-                                            <span>{item.label}</span>
-                                        </button>
-                                    ))}
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-sm truncate" style={{ color: WA.textPrimary }}>Ísis AI</h3>
+                                    <p className="text-xs truncate" style={{ color: headerStatus === 'digitando...' ? WA.typing : WA.textSecondary }}>
+                                        {headerStatus}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-5">
+                                    <Video size={20} style={{ color: WA.textSecondary }} className="hidden md:block" />
+                                    <Phone size={18} style={{ color: WA.textSecondary }} className="hidden md:block" />
+                                    <MoreVertical size={20} style={{ color: WA.textSecondary }} />
                                 </div>
                             </header>
 
-                            {/* MESSAGE AREA */}
+                            {/* === SCENARIO TABS === */}
+                            <div className="flex items-center px-2 py-1.5 shrink-0" style={{ backgroundColor: WA.headerBg, borderBottom: `1px solid ${WA.divider}` }}>
+                                {[
+                                    { id: 'scheduling', icon: Calendar, label: 'Comercial' },
+                                    { id: 'support', icon: Headphones, label: 'Logística' },
+                                    { id: 'finance', icon: DollarSign, label: 'Financeiro' }
+                                ].map((item, i, arr) => (
+                                    <React.Fragment key={item.id}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setActiveScenario(item.id as ScenarioKey)}
+                                            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus:outline-none"
+                                            style={{
+                                                color: activeScenario === item.id ? WA.green : WA.textSecondary,
+                                                backgroundColor: activeScenario === item.id ? `${WA.green}15` : 'transparent',
+                                                borderBottom: activeScenario === item.id ? `2px solid ${WA.green}` : '2px solid transparent',
+                                            }}
+                                        >
+                                            <item.icon size={13} />
+                                            <span>{item.label}</span>
+                                        </button>
+                                        {i < arr.length - 1 && (
+                                            <div className="w-px h-4 shrink-0" style={{ backgroundColor: '#3b4a54' }} />
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+
+                            {/* === CHAT MESSAGES === */}
                             <div
                                 ref={scrollAreaRef}
-                                className="flex-1 overflow-y-auto space-y-5 pr-2 custom-scrollbar relative pb-4 px-1"
+                                className="relative flex-1 overflow-y-auto px-3 md:px-5 py-4 space-y-2"
+                                style={{ backgroundColor: WA.bg }}
                                 aria-live="polite"
                             >
+                                {/* Grid wallpaper */}
+                                <div
+                                    className="pointer-events-none absolute inset-0 opacity-[0.04]"
+                                    style={{
+                                        backgroundImage: `linear-gradient(${WA.green}22 1px, transparent 1px), linear-gradient(90deg, ${WA.green}22 1px, transparent 1px)`,
+                                        backgroundSize: '32px 32px',
+                                    }}
+                                />
+
                                 <AnimatePresence mode="popLayout" initial={false}>
-                                    {messages.map((msg) => (
-                                        <motion.div
-                                            layout
-                                            key={`${activeScenario}-${msg.id}`}
-                                            initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                            className={`flex w-full ${msg.role === 'user' ? 'justify-end' :
-                                                msg.role === 'ai' ? 'justify-start' : 'justify-center'
-                                                }`}
-                                        >
-                                            {msg.role === 'system' ? (
-                                                <div className="w-full text-center my-2">
-                                                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-black/40 border-cyan-900/30 text-cyan-500 text-[10px] md:text-xs font-mono shadow-[0_0_15px_-5px_rgba(6,182,212,0.15)]">
-                                                        <CheckCircle2 size={10} className="text-cyan-400" />
-                                                        {msg.content}
-                                                    </span>
-                                                </div>
-                                            ) : (
-                                                <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                                                    {/* Avatar for AI */}
-                                                    {msg.role === 'ai' && (
-                                                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center shrink-0 mt-1">
-                                                            <Bot size={14} className="text-zinc-400" />
-                                                        </div>
-                                                    )}
+                                    {messages.map((msg, idx) => {
+                                        const prevMsg = messages[idx - 1];
+                                        const isFirstInGroup = !prevMsg || prevMsg.role !== msg.role;
 
-                                                    <div
-                                                        className={`
-                                relative p-3 md:p-4 rounded-2xl text-xs md:text-sm leading-relaxed shadow-md
-                                ${msg.role === 'user'
-                                                                ? 'bg-gradient-to-br from-white to-zinc-200 text-black rounded-tr-sm font-medium'
-                                                                : 'bg-white/5 text-zinc-100 border border-white/5 rounded-tl-sm backdrop-blur-sm'
-                                                            }
-                              `}
-                                                    >
-                                                        {msg.content}
-
-                                                        {/* Timestamp tiny */}
-                                                        <div className={`text-[9px] mt-1.5 opacity-50 flex items-center gap-1 ${msg.role === 'user' ? 'justify-end text-black/60' : 'text-white/40'}`}>
-                                                            {msg.role === 'ai' && <Sparkles size={8} />}
-                                                            Agora
-                                                        </div>
+                                        return (
+                                            <motion.div
+                                                layout
+                                                key={`${activeScenario}-${msg.id}`}
+                                                initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                                className={`flex w-full ${msg.role === 'user' ? 'justify-end' : msg.role === 'ai' ? 'justify-start' : 'justify-center'}`}
+                                            >
+                                                {msg.role === 'system' ? (
+                                                    <div className="my-1">
+                                                        <span
+                                                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] shadow-sm"
+                                                            style={{ backgroundColor: WA.systemBg, color: WA.textSecondary }}
+                                                        >
+                                                            <Lock size={9} />
+                                                            {msg.content}
+                                                        </span>
                                                     </div>
-                                                </div>
-                                            )}
-                                        </motion.div>
-                                    ))}
+                                                ) : msg.attachment ? (
+                                                    /* PDF Attachment bubble */
+                                                    <div className={`${isFirstInGroup ? 'mt-2' : 'mt-[2px]'} ${isFirstInGroup ? 'wa-tail-left' : ''} rounded-lg ${isFirstInGroup ? 'rounded-tl-none' : ''} p-1.5 shadow-sm`} style={{ backgroundColor: WA.incoming }}>
+                                                        <PdfAttachment name={msg.attachment.name} size={msg.attachment.size} pages={msg.attachment.pages} time={getTime()} />
+                                                    </div>
+                                                ) : (
+                                                    /* Regular bubble */
+                                                    <div
+                                                        className={`relative max-w-[80%] px-3 pt-2 pb-2 rounded-lg text-[13px] md:text-sm leading-relaxed shadow-sm ${
+                                                            isFirstInGroup ? 'mt-2' : 'mt-[2px]'
+                                                        } ${
+                                                            msg.role === 'user'
+                                                                ? isFirstInGroup ? 'rounded-tr-none wa-tail-right' : ''
+                                                                : isFirstInGroup ? 'rounded-tl-none wa-tail-left' : ''
+                                                        }`}
+                                                        style={{
+                                                            backgroundColor: msg.role === 'user' ? WA.outgoing : WA.incoming,
+                                                            color: WA.textPrimary,
+                                                        }}
+                                                    >
+                                                        <span className="pr-[70px]">{msg.content}</span>
+                                                        <span className="absolute bottom-[5px] right-[8px] flex items-center gap-1" style={{ color: WA.timestamp }}>
+                                                            <span className="text-[10px]">{getTime()}</span>
+                                                            {msg.role === 'user' && (
+                                                                <CheckCheck size={15} className="shrink-0" style={{ color: WA.readReceipt }} />
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </motion.div>
+                                        );
+                                    })}
                                 </AnimatePresence>
 
+                                {/* Typing Indicator */}
                                 {isAiTyping && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 10, x: -10 }}
-                                        animate={{ opacity: 1, y: 0, x: 0 }}
-                                        exit={{ opacity: 0, scale: 0.9 }}
-                                        className="flex justify-start w-full gap-3"
+                                        initial={{ opacity: 0, y: 8 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="flex justify-start"
                                     >
-                                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center shrink-0 mt-1">
-                                            <Bot size={14} className="text-zinc-500" />
-                                        </div>
-                                        <div className="bg-white/5 px-4 py-3 rounded-2xl rounded-tl-none flex gap-1 border border-white/5 items-center">
-                                            <span className="text-[10px] text-zinc-500 font-mono mr-2">Thinking</span>
-                                            <span className="w-1 h-1 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                                            <span className="w-1 h-1 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                                            <span className="w-1 h-1 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                                        <div
+                                            className="px-4 py-2.5 rounded-lg rounded-tl-none wa-tail-left flex items-center gap-1.5 shadow-sm"
+                                            style={{ backgroundColor: WA.incoming }}
+                                        >
+                                            <span className="flex gap-1 items-center">
+                                                <span className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: WA.textSecondary, animationDelay: '0ms' }} />
+                                                <span className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: WA.textSecondary, animationDelay: '150ms' }} />
+                                                <span className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: WA.textSecondary, animationDelay: '300ms' }} />
+                                            </span>
                                         </div>
                                     </motion.div>
                                 )}
-
                             </div>
 
-                            {/* INPUT AREA SIMULADA - COM GLOW */}
-                            <div className="pt-3 md:pt-4 border-t border-white/5 mt-auto shrink-0">
-                                <div className={`
-                    bg-white/[0.03] rounded-xl h-12 md:h-14 flex items-center justify-between px-4 border transition-all duration-300 relative overflow-hidden
-                    ${inputValue ? 'border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.1)]' : 'border-white/5'}
-                `}>
-
-                                    {/* Texto digitado */}
-                                    <div className="flex-1 truncate mr-2 font-light flex items-center">
-                                        {inputValue ? (
-                                            <span className="text-white text-xs md:text-sm font-mono tracking-tight">
-                                                {inputValue}
-                                                {/* Cursor Piscante Cyan */}
-                                                <span className="inline-block w-[2px] h-4 bg-cyan-400 ml-0.5 align-middle animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                                            </span>
-                                        ) : (
-                                            <span className="text-zinc-600 text-xs md:text-sm italic">Digite uma mensagem...</span>
-                                        )}
-                                    </div>
-
-                                    {/* Botão de Enviar Reativo */}
-                                    <div
-                                        className={`
-                            p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center
-                            ${isSendButtonActive
-                                                ? 'bg-cyan-500 text-white scale-110 shadow-[0_0_15px_rgba(6,182,212,0.6)] rotate-12'
-                                                : inputValue
-                                                    ? 'bg-white/10 text-cyan-400'
-                                                    : 'bg-transparent text-zinc-700'
-                                            }
-                        `}
-                                    >
-                                        <Send size={18} className={isSendButtonActive ? "fill-white" : ""} />
-                                    </div>
+                            {/* === INPUT BAR === */}
+                            <div className="px-3 py-3 flex items-center gap-2.5 shrink-0" style={{ backgroundColor: WA.bg }}>
+                                <div className="flex items-center gap-1">
+                                    <Smile size={22} style={{ color: WA.textSecondary }} className="shrink-0" />
+                                    <Paperclip size={22} style={{ color: WA.textSecondary }} className="shrink-0 hidden md:block" />
                                 </div>
-
-                                {/* Footer info text */}
-                                <div className="flex justify-center mt-3 gap-4">
-                                    <span className="text-[9px] text-zinc-600 flex items-center gap-1">
-                                        <Lock size={8} /> End-to-end Encrypted
-                                    </span>
-                                    <span className="text-[9px] text-zinc-600 flex items-center gap-1">
-                                        <Zap size={8} /> Powered by n8n
-                                    </span>
+                                <div
+                                    className="flex-1 rounded-full px-4 py-2.5 flex items-center min-h-[42px]"
+                                    style={{ backgroundColor: WA.inputFieldBg }}
+                                >
+                                    {inputValue ? (
+                                        <span className="text-sm" style={{ color: WA.textPrimary }}>
+                                            {inputValue}
+                                            <span className="inline-block w-[2px] h-4 ml-0.5 align-middle animate-pulse" style={{ backgroundColor: WA.green }} />
+                                        </span>
+                                    ) : (
+                                        <span className="text-sm" style={{ color: WA.textSecondary }}>Mensagem</span>
+                                    )}
+                                </div>
+                                <div
+                                    className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-200"
+                                    style={{
+                                        backgroundColor: WA.green,
+                                        transform: isSendButtonActive ? 'scale(1.15)' : 'scale(1)',
+                                    }}
+                                >
+                                    {inputValue || isSendButtonActive ? (
+                                        <Send size={18} className="text-[#111b21] fill-[#111b21]" style={{ transform: 'rotate(-45deg) translateX(1px)' }} />
+                                    ) : (
+                                        <Mic size={20} className="text-[#111b21]" />
+                                    )}
                                 </div>
                             </div>
+
                         </div>
                     </motion.article>
                 </div>
             </div>
-            {/* Bottom Gradient for Smooth Transition */}
+
+            {/* Bottom Gradient */}
             <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent z-20 pointer-events-none" />
-        </section >
+
+            <style>{`
+                .wa-tail-right::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: -8px;
+                    width: 8px;
+                    height: 13px;
+                    background: ${WA.outgoing};
+                    clip-path: polygon(0 0, 0 100%, 100% 0);
+                }
+                .wa-tail-left::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -8px;
+                    width: 8px;
+                    height: 13px;
+                    background: ${WA.incoming};
+                    clip-path: polygon(100% 0, 0 0, 100% 100%);
+                }
+            `}</style>
+        </section>
     );
 };

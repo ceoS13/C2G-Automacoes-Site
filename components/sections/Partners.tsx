@@ -4,6 +4,11 @@ import { motion } from 'framer-motion';
 
 const PARTNERS = [
   {
+    name: 'Claude',
+    logoUrl: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/claude-ai.svg',
+    className: 'hover:drop-shadow-[0_0_15px_rgba(212,162,127,0.4)] transition-all duration-500'
+  },
+  {
     name: 'OpenAI',
     logoUrl: 'https://cdn.jsdelivr.net/gh/pheralb/svgl@main/static/library/openai.svg',
     className: 'invert hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500'
